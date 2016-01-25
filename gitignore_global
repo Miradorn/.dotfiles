@@ -1,0 +1,10 @@
+*~
+.DS_Store
+Pods
+Breakpoints_v2.xcbkptlist
+contents.xcworkspacedata
+.idea/
+*.iml
+core
+modules
+.rbenv-gemsets
