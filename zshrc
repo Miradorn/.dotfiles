@@ -5,6 +5,8 @@ export XDG_CONFIG_HOME=~/.config
 export ZSH_TMUX_AUTOSTART=true
 export ZSH_TMUX_AUTOCONNECT=false
 
+export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+
 # Powerline Theme
 
 ZSH_THEME="powerlevel9k/powerlevel9k"
@@ -40,7 +42,7 @@ export EDITOR=vim
 
 alias vi=vim
 
-plugins=(git bundler osx rake ruby brew tmux mvn rbenv gem thefuck vagrant)
+plugins=(git bundler osx rake ruby brew tmux mvn rbenv gem thefuck vagrant rails)
 
 source $ZSH/oh-my-zsh.sh
 
