@@ -1,8 +1,10 @@
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/Alex/.oh-my-zsh
 
+export TERM="xterm-256color"
+
 export XDG_CONFIG_HOME=~/.config
-export ZSH_TMUX_AUTOSTART=true
+export ZSH_TMUX_AUTOSTART=false
 export ZSH_TMUX_AUTOCONNECT=false
 
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
