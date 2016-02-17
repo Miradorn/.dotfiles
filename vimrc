@@ -7,6 +7,9 @@ syntax enable
 
 set term=xterm-256color
 set ttymouse=xterm2
+set t_Co=256
+set t_ut=
+
 
 let mapleader = ","
 
@@ -101,6 +104,8 @@ Plugin 'mattn/emmet-vim'
 
 Plugin 'scrooloose/syntastic'
 
+Plugin 'majutsushi/tagbar'
+
 Plugin 'elzr/vim-json'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'kchmck/vim-coffee-script'
@@ -115,20 +120,26 @@ Plugin 'edkolev/tmuxline.vim'
 Plugin 'editorconfig/editorconfig-vim'
 
 Plugin 'rking/ag.vim'
+Plugin 'NLKNguyen/papercolor-theme'
+
 
 "Plugin 'nathanaelkane/vim-indent-guides'
 
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
-Plugin 'ervandew/supertab'
-
+"Plugin 'ervandew/supertab'
+Plugin 'Shougo/neocomplete.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-colorscheme onedark
 syntax on
+set background=dark
+colorscheme PaperColor
+"highlight Normal ctermbg=NONE
+"highlight nonText ctermbg=NONE
 
 autocmd StdinReadPre * let s:std_in=1
 " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
@@ -138,15 +149,23 @@ map <Leader>n <plug>NERDTreeTabsToggle<CR>
 """ Plugin Settings
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme="base16"
+let g:airline_theme="PaperColor"
 
 :nmap <silent> K <Plug>DashSearch
 
+"TagBar
+
+map <Leader>t :TagbarToggle<CR>
+autocmd VimEnter * nested :call tagbar#autoopen(1)
+autocmd FileType * nested :call tagbar#autoopen(0)
+
+"CTRLP
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 let g:ctrlp_match_window_bottom = 0
-let g:ctrlp_match_window_reversed = 0
+"CTRLP
 let g:ctrlp_working_path_mode = 0
 
+"SYNTASTIC
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -155,3 +174,17 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+"NeoComplete
+
+let g:acp_enableAtStartup = 0
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'"
+let g:neocomplete#auto_completion_start_length = 2
+
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
