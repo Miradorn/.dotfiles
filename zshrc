@@ -11,26 +11,26 @@ export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
 # Powerline Theme
 
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="lambda"
 
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(time battery background_jobs rbenv)
+#POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs)
+#POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(time battery background_jobs rbenv)
 
-POWERLEVEL9K_MODE='awesome-patched'
+#POWERLEVEL9K_MODE='awesome-patched'
 
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+#POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 
-POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND='black'
-POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND='green'
+#POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND='black'
+#POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND='green'
 
-POWERLEVEL9K_SHORTEN_DIR_LENGTH=5
-POWERLEVEL9K_SHORTEN_DELIMITER=""
-POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
+#POWERLEVEL9K_SHORTEN_DIR_LENGTH=5
+#POWERLEVEL9K_SHORTEN_DELIMITER=""
+#POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
 
-POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX="%{%F{249}%}\u250f"
-POWERLEVEL9K_MULTILINE_SECOND_PROMPT_PREFIX="%{%F{249}%}\u2517%{%F{default}%} "
+#POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX="%{%F{249}%}\u250f"
+#POWERLEVEL9K_MULTILINE_SECOND_PROMPT_PREFIX="%{%F{249}%}\u2517%{%F{default}%} "
 
-POWERLEVEL9K_TIME_FORMAT='%D{%H:%M} \UE12E'
+#POWERLEVEL9K_TIME_FORMAT='%D{%H:%M} \UE12E'
 
 # GitHub
 
@@ -44,7 +44,7 @@ export EDITOR=vim
 
 alias vi=vim
 
-plugins=(git bundler osx rake ruby brew tmux mvn rbenv gem thefuck vagrant rails)
+plugins=(git bundler osx rake ruby brew tmux rbenv gem rails mix elixir ember-cli zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -55,3 +55,5 @@ alias l="ls -lFah"
 test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/9.5/bin

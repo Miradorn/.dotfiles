@@ -80,7 +80,7 @@ Plugin 'chriskempson/base16-vim'
 
 " NerdTree
 Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
+"Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'jistr/vim-nerdtree-tabs'
 
 " Ruby
@@ -123,12 +123,12 @@ Plugin 'rking/ag.vim'
 Plugin 'NLKNguyen/papercolor-theme'
 
 
-"Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'nathanaelkane/vim-indent-guides'
 
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
-"Plugin 'ervandew/supertab'
+Plugin 'ervandew/supertab'
 Plugin 'Shougo/neocomplete.vim'
 
 " All of your Plugins must be added before the following line
@@ -156,8 +156,6 @@ let g:airline_theme="PaperColor"
 "TagBar
 
 map <Leader>t :TagbarToggle<CR>
-autocmd VimEnter * nested :call tagbar#autoopen(1)
-autocmd FileType * nested :call tagbar#autoopen(0)
 
 "CTRLP
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
@@ -176,15 +174,27 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 "NeoComplete
+set omnifunc=syntaxcomplete#Complete
+let g:SuperTabDefaultCompletionType = "context"
 
 let g:acp_enableAtStartup = 0
 let g:neocomplete#enable_at_startup = 1
 " Use smartcase.
 let g:neocomplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#sources#syntax#min_keyword_length = 2
 let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'"
-let g:neocomplete#auto_completion_start_length = 2
+let g:neocomplete#auto_completion_start_length = 0
+if !exists('g:neocomplete#force_omni_input_patterns')
+    let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_omni_input_patterns.ruby = 
+            \'[^. *\t]\.\w*\|\h\w*::'
+
+"autocmd FileType ruby setlocal set omnifunc=rubycomplete#Complete
+autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1 
+autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 
 " <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
