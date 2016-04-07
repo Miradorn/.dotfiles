@@ -9,30 +9,7 @@ export ZSH_TMUX_AUTOCONNECT=false
 
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
-# Powerline Theme
-
-ZSH_THEME="lambda"
-
-#POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs)
-#POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(time battery background_jobs rbenv)
-
-#POWERLEVEL9K_MODE='awesome-patched'
-
-#POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-
-#POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND='black'
-#POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND='green'
-
-#POWERLEVEL9K_SHORTEN_DIR_LENGTH=5
-#POWERLEVEL9K_SHORTEN_DELIMITER=""
-#POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
-
-#POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX="%{%F{249}%}\u250f"
-#POWERLEVEL9K_MULTILINE_SECOND_PROMPT_PREFIX="%{%F{249}%}\u2517%{%F{default}%} "
-
-#POWERLEVEL9K_TIME_FORMAT='%D{%H:%M} \UE12E'
-
-# GitHub
+ZSH_THEME="af-magic"
 
 eval "$(hub alias -s)"
 
@@ -42,18 +19,24 @@ eval "$(hub alias -s)"
 #eval "$(thefuck --alias)"
 export EDITOR=vim
 
-alias vi=vim
-
-plugins=(git bundler osx rake ruby brew tmux rbenv gem rails mix elixir ember-cli zsh-autosuggestions)
+plugins=(git bundler osx rake ruby brew brew-cask tmux rbenv gem rails mix elixir ember-cli thefuck zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
-
-export RBENV_VERSION=$(rbenv global)
-
-alias l="ls -lFah"
 
 test -e ${HOME}/.iterm2_shell_integration.zsh && source ${HOME}/.iterm2_shell_integration.zsh
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/9.5/bin
+export PATH=/usr/local/opt/coreutils/libexec/gnubin:/usr/local/sbin:$PATH:/Applications/Postgres.app/Contents/Versions/9.5/bin
+
+eval "$(dircolors)"
+alias l="ls -lah --color"
+alias ta="tmux attach -d -t"
+
+alias vi='NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim'
+alias vim='NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim'
+
+setopt HUP
+
+# OPAM configuration
+#. /Users/Alex/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
