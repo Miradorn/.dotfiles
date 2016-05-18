@@ -8,3 +8,6 @@ contents.xcworkspacedata
 core
 modules
 .rbenv-gemsets
+coverage
+tags
+tmp
