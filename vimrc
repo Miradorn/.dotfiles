@@ -44,7 +44,7 @@ set undofile
 set number              " precede each line with its line number
 set numberwidth=3       " number of culumns for line numbers
 set textwidth=0         " Do not wrap words (insert)
-" set relativenumber
+set relativenumber
 
 set wrap
 
@@ -57,7 +57,7 @@ set laststatus=2        " always show the status lines
 set list
 set listchars=tab:→\ ,trail:·,nbsp:·
 
-set colorcolumn=120
+set colorcolumn=80
 
 set shell=$SHELL        " use current shell for shell commands
 
@@ -72,7 +72,7 @@ set sw=4                " number of spaces for indent
 set et                  " expand tabs into spaces
 
 if has("mouse")
-  set mouse=a
+    set mouse=a
 endif
 set mousehide           " Hide mouse pointer on insert mode."
 
@@ -109,6 +109,7 @@ Plugin 'chriskempson/base16-vim'
 
 " NerdTree
 Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 " Ruby
 Plugin 'tpope/vim-rbenv'
@@ -127,12 +128,12 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'airblade/vim-gitgutter'
 
 " other
-Plugin 'zenorocha/dracula-theme', {'rtp': 'vim/'}
+Plugin 'dracula/vim'
 
 Plugin 'tpope/vim-commentary'
 Plugin 'kana/vim-textobj-user'
 Plugin 'kana/vim-textobj-entire'
-
+Plugin 'wellle/targets.vim'
 Plugin 'mattn/emmet-vim'
 
 
@@ -175,6 +176,7 @@ Plugin 'powerman/vim-plugin-AnsiEsc'
 Plugin 'mattreduce/vim-mix'
 Plugin 'mhinz/vim-startify'
 
+Plugin 'lervag/vimtex'
 Plugin 'Shougo/deoplete.nvim'
 
 Plugin 'terryma/vim-expand-region'
@@ -187,7 +189,6 @@ filetype plugin indent on    " required
 syntax enable
 set background=dark
 colorscheme dracula
-hi Search ctermfg=17 ctermbg=228 cterm=NONE guifg=#282a36 guibg=#f1fa8c gui=NONE
 
 autocmd StdinReadPre * let s:std_in=1
 let g:NERDTreeShowHidden=1
@@ -195,8 +196,8 @@ autocmd User Startified setlocal buftype=
 
 " NERDTress File highlighting
 function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
-exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
-exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+    exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+    exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
 endfunction
 
 call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
@@ -232,7 +233,7 @@ let g:airline_theme="dracula"
 let airline#extensions#default#section_use_groupitems = 0
 let g:airline#extensions#tabline#enabled = 1
 
-nnoremap <silent> D <Plug>DashSearch
+nmap <silent> <leader>d <Plug>DashSearch
 
 "TagBar
 noremap <Leader>t :TagbarToggle<CR>
@@ -284,6 +285,22 @@ autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 au BufNewFile,BufRead *.json.jbuilder set ft=ruby
 
+" Latex
+let g:tex_flavor = 'latex'
+if !exists('g:deoplete#omni_patterns')
+    let g:deoplete#omni_patterns = {}
+endif
+let g:deoplete#omni_patterns.tex =
+            \ '\v\\%('
+            \ . '\a*cite\a*%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+            \ . '|\a*ref%(\s*\{[^}]*|range\s*\{[^,}]*%(}\{)?)'
+            \ . '|hyperref\s*\[[^]]*'
+            \ . '|includegraphics\*?%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+            \ . '|%(include%(only)?|input)\s*\{[^}]*'
+            \ . '|\a*(gls|Gls|GLS)(pl)?\a*%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+            \ . '|includepdf%(\s*\[[^]]*\])?\s*\{[^}]*'
+            \ . '|includestandalone%(\s*\[[^]]*\])?\s*\{[^}]*'
+            \ . ')\m'
 
 " Easier Split Navigation
 " noremap <C-J> <C-W><C-J>
@@ -296,6 +313,7 @@ au BufNewFile,BufRead *.json.jbuilder set ft=ruby
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
+nnoremap <leader>ez :vsplit ~/.zshrc<cr>
 
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :q<CR>
@@ -309,6 +327,10 @@ onoremap p i(
 
 nnoremap <CR> G
 nnoremap <BS> gg
+
+" cycle windows with tab
+" nnoremap <Tab> <C-W>w
+" nnoremap <S-Tab> <C-W>W
 
 
 " move by screen line
@@ -328,24 +350,22 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 let g:startify_change_to_dir = 0
-hi Normal guibg=none
-highlight NonText guibg=none
+hi Search ctermfg=17 ctermbg=228 cterm=NONE guifg=#282a36 guibg=#f1fa8c gui=NONE
 
 let g:tagbar_type_elixir = {
-    \ 'ctaghlight NonText guibg=nonegstype' : 'elixir',
-    \ 'kinds' : [
-        \ 'f:functions',
-        \ 'functions:functions',
-        \ 'c:callbacks',
-        \ 'd:delegates',
-        \ 'e:exceptions',
-        \ 'i:implementations',
-        \ 'a:macros',
-        \ 'o:operators',
-        \ 'm:modules',
-        \ 'p:protocols',
-        \ 'r:records',
-        \ 't:tests'
-    \ ]
-\ }
-
+            \ 'ctaghlight NonText guibg=nonegstype' : 'elixir',
+            \ 'kinds' : [
+            \ 'f:functions',
+            \ 'functions:functions',
+            \ 'c:callbacks',
+            \ 'd:delegates',
+            \ 'e:exceptions',
+            \ 'i:implementations',
+            \ 'a:macros',
+            \ 'o:operators',
+            \ 'm:modules',
+            \ 'p:protocols',
+            \ 'r:records',
+            \ 't:tests'
+            \ ]
+            \ }

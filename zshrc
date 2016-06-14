@@ -10,19 +10,24 @@ export ZSH_TMUX_AUTOCONNECT=false
 
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
+export RBENV_ROOT='/usr/local/opt/rbenv'
+
 ZSH_THEME="spaceship"
 export SPACESHIP_PROMPT_SYMBOL=λ
 export SPACESHIP_NVM_SHOW=false
 export SPACESHIP_VENV_SHOW=false
 
 eval "$(hub alias -s)"
+eval "$(rbenv init -)"
+eval $(thefuck --alias)
 
 # Other
+# skip_global_compinit=1
 
-[[ -s $(brew --prefix)/etc/profile.d/autojump.sh  ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
-export EDITOR=vim
+# [[ -s $(brew --prefix)/etc/profile.d/autojump.sh  ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+export EDITOR='NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim'
 
-plugins=(git bundler osx rake ruby brew brew-cask tmux rbenv gem rails mix elixir ember-cli thefuck zsh-autosuggestions)
+plugins=(autojump git bundler osx rake ruby brew brew-cask tmux gem rails mix elixir ember-cli zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
