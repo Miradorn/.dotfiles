@@ -20,6 +20,7 @@ filetype off                  " required
 runtime macros/matchit.vim
 
 set guifont=Fira\ Code:h12
+let base16colorspace=256  " Access colors present in 256 colorspace
 
 if has("gui_running")
     set guioptions=egmrt
@@ -28,7 +29,7 @@ endif
 
 "set term=xterm-256color
 "set ttymouse=xterm2
-"set t_Co=256
+set t_Co=256
 "set t_ut=
 
 let mapleader = ","
@@ -109,7 +110,8 @@ Plugin 'chriskempson/base16-vim'
 
 " NerdTree
 Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
+" Plugin 'Xuyuanp/nerdtree-git-plugin' # Screws up syntastic because of
+" autocmd madness
 
 " Ruby
 Plugin 'tpope/vim-rbenv'
@@ -153,16 +155,18 @@ Plugin 'haya14busa/incsearch.vim'
 
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'tpope/vim-surround'
+Plugin 'AndrewRadev/splitjoin.vim'
 
 Plugin 'edkolev/tmuxline.vim'
 Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'tmux-plugins/vim-tmux-focus-events'
 Plugin 'editorconfig/editorconfig-vim'
 "
-Plugin 'rking/ag.vim'
 Plugin 'NLKNguyen/papercolor-theme'
 
 Plugin 'tpope/vim-repeat'
 
+Plugin 'Konfekt/FastFold'
 
 Plugin 'nathanaelkane/vim-indent-guides'
 
@@ -188,7 +192,7 @@ filetype plugin indent on    " required
 
 syntax enable
 set background=dark
-colorscheme dracula
+colorscheme base16-tomorrow-night
 
 autocmd StdinReadPre * let s:std_in=1
 let g:NERDTreeShowHidden=1
@@ -228,7 +232,7 @@ autocmd vimenter * NERDTree | wincmd p
 """ Plugin Settings
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme="dracula"
+let g:airline_theme="base16_tomorrow"
 
 let airline#extensions#default#section_use_groupitems = 0
 let g:airline#extensions#tabline#enabled = 1
@@ -287,26 +291,21 @@ au BufNewFile,BufRead *.json.jbuilder set ft=ruby
 
 " Latex
 let g:tex_flavor = 'latex'
-if !exists('g:deoplete#omni_patterns')
-    let g:deoplete#omni_patterns = {}
+let g:vimtex_fold_enabled = 1
+let g:vimtex_complete_recursive_bib = 1
+if !exists('g:deoplete#omni#input_patterns')
+     let g:deoplete#omni#input_patterns = {}
 endif
-let g:deoplete#omni_patterns.tex =
-            \ '\v\\%('
-            \ . '\a*cite\a*%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-            \ . '|\a*ref%(\s*\{[^}]*|range\s*\{[^,}]*%(}\{)?)'
-            \ . '|hyperref\s*\[[^]]*'
-            \ . '|includegraphics\*?%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-            \ . '|%(include%(only)?|input)\s*\{[^}]*'
-            \ . '|\a*(gls|Gls|GLS)(pl)?\a*%(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-            \ . '|includepdf%(\s*\[[^]]*\])?\s*\{[^}]*'
-            \ . '|includestandalone%(\s*\[[^]]*\])?\s*\{[^}]*'
-            \ . ')\m'
-
-" Easier Split Navigation
-" noremap <C-J> <C-W><C-J>
-" noremap <C-K> <C-W><C-K>
-" noremap <C-L> <C-W><C-L>
-" noremap <C-H> <C-W><C-H>
+let g:deoplete#omni#input_patterns.tex = '\\(?:'
+        \ .  '\w*cite\w*(?:\s*\[[^]]*\]){0,2}\s*{[^}]*'
+        \ . '|\w*ref(?:\s*\{[^}]*|range\s*\{[^,}]*(?:}{)?)'
+        \ . '|hyperref\s*\[[^]]*'
+        \ . '|includegraphics\*?(?:\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+        \ . '|(?:include(?:only)?|input)\s*\{[^}]*'
+        \ . '|\w*(gls|Gls|GLS)(pl)?\w*(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+        \ . '|includepdf(\s*\[[^]]*\])?\s*\{[^}]*'
+        \ . '|includestandalone(\s*\[[^]]*\])?\s*\{[^}]*'
+        \ .')'
 
 " custom
 
@@ -350,7 +349,11 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 let g:startify_change_to_dir = 0
-hi Search ctermfg=17 ctermbg=228 cterm=NONE guifg=#282a36 guibg=#f1fa8c gui=NONE
+" hi Search ctermfg=17 ctermbg=228 cterm=NONE guifg=#282a36 guibg=#f1fa8c gui=NONE
+" hi Pmenu ctermfg=NONE ctermbg=246 cterm=NONE guifg=NONE guibg=NONE gui=NONE
+" hi PmenuSel ctermfg=NONE ctermbg=141 cterm=NONE guifg=NONE guibg=#44475a gui=NONE
+hi Normal ctermbg=NONE
+hi NonText ctermbg=NONE
 
 let g:tagbar_type_elixir = {
             \ 'ctaghlight NonText guibg=nonegstype' : 'elixir',
@@ -369,3 +372,21 @@ let g:tagbar_type_elixir = {
             \ 't:tests'
             \ ]
             \ }
+
+" Airline setup
+call airline#parts#define('mymode', {
+        \ 'function': 'airline#parts#mode',
+        \ })
+call airline#parts#define('mylinenr', {
+        \ 'raw': '%{g:airline_symbols.linenr}%4l',
+        \ })
+call airline#parts#define('mymaxlinenr', {
+        \ 'raw': '/%L%{g:airline_symbols.maxlinenr}',
+        \ })
+
+function! AirlineInit()
+    let spc = g:airline_symbols.space
+    let g:airline_section_a = airline#section#create_left(['mymode', 'crypt', 'paste', 'spell', 'capslock', 'iminsert'])
+    let g:airline_section_z = airline#section#create(['windowswap', 'obsession', '%3p%%'.spc, 'mylinenr', 'mymaxlinenr', spc.':%3v'])
+endfunction
+autocmd VimEnter * call AirlineInit()
