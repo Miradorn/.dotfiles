@@ -12,31 +12,19 @@ inoremap <Right> <Esc>
 nnoremap <Right> <Esc>
 
 
-set nocompatible
 set lazyredraw
-filetype on                   " without this vim emits a zero exit status, later, because of :ft off"
-filetype off                  " required
 
 runtime macros/matchit.vim
 
-set guifont=Fira\ Code:h12
 let base16colorspace=256  " Access colors present in 256 colorspace
 
 if has("gui_running")
     set guioptions=egmrt
 endif
-"set clipboard=unnamed
 
-"set term=xterm-256color
-"set ttymouse=xterm2
-set t_Co=256
-"set t_ut=
-
-let mapleader = ","
 let mapleader = "\<Space>"
 noremap \ ,
 
-"set encoding=utf-8
 set binary
 
 set undofile
@@ -97,97 +85,92 @@ set foldlevelstart=20
 
 """ Plugins
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim " path to dein.vim
 
-" Vundle itself
-Plugin 'VundleVim/Vundle.vim'
+call dein#begin(expand('~/.vim/dein')) " plugins' root path
 
+call dein#add('Shougo/dein.vim')
 
 " Required for settings
-Plugin 'chriskempson/base16-vim'
+call dein#add('chriskempson/base16-vim')
 
 
 " NerdTree
-Plugin 'scrooloose/nerdtree'
-" Plugin 'Xuyuanp/nerdtree-git-plugin' # Screws up syntastic because of
-" autocmd madness
+call dein#add('scrooloose/nerdtree')
 
 " Ruby
-Plugin 'tpope/vim-rbenv'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'tpope/vim-rails'
-Plugin 'tpope/vim-haml'
-Plugin 'slim-template/vim-slim'
-Plugin 'tpope/vim-endwise'
-Plugin 'tpope/vim-bundler'
+call dein#add('tpope/vim-rbenv')
+call dein#add('vim-ruby/vim-ruby')
+call dein#add('tpope/vim-rails')
+call dein#add('tpope/vim-haml')
+call dein#add('slim-template/vim-slim')
+call dein#add('tpope/vim-endwise')
+call dein#add('tpope/vim-bundler')
 
-Plugin 'janko-m/vim-test'
-Plugin 'tpope/vim-dispatch.git'
+call dein#add('janko-m/vim-test')
+call dein#add('tpope/vim-dispatch.git')
 
 " Git
-Plugin 'tpope/vim-fugitive'
-Plugin 'airblade/vim-gitgutter'
+call dein#add('tpope/vim-fugitive')
+call dein#add('airblade/vim-gitgutter')
 
 " other
-Plugin 'dracula/vim'
 
-Plugin 'tpope/vim-commentary'
-Plugin 'kana/vim-textobj-user'
-Plugin 'kana/vim-textobj-entire'
-Plugin 'wellle/targets.vim'
-Plugin 'mattn/emmet-vim'
+call dein#add('tpope/vim-commentary')
+call dein#add('kana/vim-textobj-user')
+call dein#add('kana/vim-textobj-entire')
+call dein#add('wellle/targets.vim')
+call dein#add('mattn/emmet-vim')
 
 
-Plugin 'scrooloose/syntastic'
+call dein#add('scrooloose/syntastic')
 
-Plugin 'majutsushi/tagbar'
+call dein#add('majutsushi/tagbar')
 
-Plugin 'elzr/vim-json'
-Plugin 'jelera/vim-javascript-syntax'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'rizzatti/dash.vim'
-Plugin 'ctrlpvim/ctrlp.vim'
+call dein#add('elzr/vim-json')
+call dein#add('jelera/vim-javascript-syntax')
+call dein#add('kchmck/vim-coffee-script')
+call dein#add('rizzatti/dash.vim')
+call dein#add('ctrlpvim/ctrlp.vim')
 
-Plugin 'yssl/QFEnter'
+call dein#add('yssl/QFEnter')
 
-Plugin 'haya14busa/incsearch.vim'
+call dein#add('haya14busa/incsearch.vim')
+call dein#add('jiangmiao/auto-pairs')
+call dein#add('tpope/vim-surround')
+call dein#add('AndrewRadev/splitjoin.vim')
+call dein#add('edkolev/tmuxline.vim')
+call dein#add('christoomey/vim-tmux-navigator')
+call dein#add('tmux-plugins/vim-tmux-focus-events')
+call dein#add('editorconfig/editorconfig-vim')
 
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'tpope/vim-surround'
-Plugin 'AndrewRadev/splitjoin.vim'
+call dein#add('NLKNguyen/papercolor-theme')
+call dein#add('tpope/vim-repeat')
+call dein#add('Konfekt/FastFold')
+call dein#add('nathanaelkane/vim-indent-guides')
 
-Plugin 'edkolev/tmuxline.vim'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'tmux-plugins/vim-tmux-focus-events'
-Plugin 'editorconfig/editorconfig-vim'
-"
-Plugin 'NLKNguyen/papercolor-theme'
+call dein#add('vim-airline/vim-airline')
+call dein#add('vim-airline/vim-airline-themes')
+call dein#add('jeetsukumaran/vim-buffergator')
+call dein#add('elixir-lang/vim-elixir')
+call dein#add('slashmili/alchemist.vim')
+call dein#add('powerman/vim-plugin-AnsiEsc')
+call dein#add('mattreduce/vim-mix')
+call dein#add('mhinz/vim-startify')
 
-Plugin 'tpope/vim-repeat'
+call dein#add('lervag/vimtex')
+call dein#add('Shougo/deoplete.nvim')
+call dein#add('fishbullet/deoplete-ruby')
+call dein#add('terryma/vim-expand-region')
+call dein#add('ryanoasis/vim-devicons')
 
-Plugin 'Konfekt/FastFold'
+call dein#end()
 
-Plugin 'nathanaelkane/vim-indent-guides'
+let g:dein#enable_notification=1
 
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-" Plugin 'ervandew/supertab'
-Plugin 'jeetsukumaran/vim-buffergator'
-Plugin 'elixir-lang/vim-elixir'
-Plugin 'slashmili/alchemist.vim'
-Plugin 'powerman/vim-plugin-AnsiEsc'
-Plugin 'mattreduce/vim-mix'
-Plugin 'mhinz/vim-startify'
+nnoremap <leader>u :call dein#update()<cr>
+nnoremap <leader>i :call dein#install()<cr>
 
-Plugin 'lervag/vimtex'
-Plugin 'Shougo/deoplete.nvim'
-
-Plugin 'terryma/vim-expand-region'
-
-Plugin 'ryanoasis/vim-devicons'"
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
 filetype plugin indent on    " required
 
 syntax enable
@@ -244,7 +227,7 @@ noremap <Leader>t :TagbarToggle<CR>
 
 "CTRLP
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/_build/*
-let g:ctrlp_user_command = 'ag %s -i -l --nocolor --hidden -g ""'
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 let g:ctrlp_match_window = 'top'
 let g:ctrlp_use_caching = 0
 nnoremap <Leader>o :CtrlP<CR>
@@ -258,7 +241,7 @@ nnoremap <silent> <leader>g :TestVisit<CR>
 
 let test#strategy = "dispatch"
 
-"SYNTASTIC
+" "SYNTASTIC
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -287,25 +270,27 @@ nnoremap <silent> <Leader>B :BuffergatorClose<CR>
 autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
 autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+autocmd FileType ruby,eruby set iskeyword+=?,!
 au BufNewFile,BufRead *.json.jbuilder set ft=ruby
 
 " Latex
+autocmd FileType tex set iskeyword+=:,_
 let g:tex_flavor = 'latex'
 let g:vimtex_fold_enabled = 1
 let g:vimtex_complete_recursive_bib = 1
 if !exists('g:deoplete#omni#input_patterns')
-     let g:deoplete#omni#input_patterns = {}
+    let g:deoplete#omni#input_patterns = {}
 endif
 let g:deoplete#omni#input_patterns.tex = '\\(?:'
-        \ .  '\w*cite\w*(?:\s*\[[^]]*\]){0,2}\s*{[^}]*'
-        \ . '|\w*ref(?:\s*\{[^}]*|range\s*\{[^,}]*(?:}{)?)'
-        \ . '|hyperref\s*\[[^]]*'
-        \ . '|includegraphics\*?(?:\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-        \ . '|(?:include(?:only)?|input)\s*\{[^}]*'
-        \ . '|\w*(gls|Gls|GLS)(pl)?\w*(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-        \ . '|includepdf(\s*\[[^]]*\])?\s*\{[^}]*'
-        \ . '|includestandalone(\s*\[[^]]*\])?\s*\{[^}]*'
-        \ .')'
+            \ .  '\w*cite\w*(?:\s*\[[^]]*\]){0,2}\s*{[^}]*'
+            \ . '|\w*ref(?:\s*\{[^}]*|range\s*\{[^,}]*(?:}{)?)'
+            \ . '|hyperref\s*\[[^]]*'
+            \ . '|includegraphics\*?(?:\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+            \ . '|(?:include(?:only)?|input)\s*\{[^}]*'
+            \ . '|\w*(gls|Gls|GLS)(pl)?\w*(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+            \ . '|includepdf(\s*\[[^]]*\])?\s*\{[^}]*'
+            \ . '|includestandalone(\s*\[[^]]*\])?\s*\{[^}]*'
+            \ .')'
 
 " custom
 
@@ -344,7 +329,6 @@ end
 let g:EditorConfig_core_mode = 'external_command'
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" let g:deoplete#disable_auto_complete = 1
 
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
@@ -375,14 +359,14 @@ let g:tagbar_type_elixir = {
 
 " Airline setup
 call airline#parts#define('mymode', {
-        \ 'function': 'airline#parts#mode',
-        \ })
+            \ 'function': 'airline#parts#mode',
+            \ })
 call airline#parts#define('mylinenr', {
-        \ 'raw': '%{g:airline_symbols.linenr}%4l',
-        \ })
+            \ 'raw': '%{g:airline_symbols.linenr}%4l',
+            \ })
 call airline#parts#define('mymaxlinenr', {
-        \ 'raw': '/%L%{g:airline_symbols.maxlinenr}',
-        \ })
+            \ 'raw': '/%L%{g:airline_symbols.maxlinenr}',
+            \ })
 
 function! AirlineInit()
     let spc = g:airline_symbols.space

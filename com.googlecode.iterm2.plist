@@ -6688,7 +6688,7 @@
 	<key>NSFontPanelAttributes</key>
 	<string>1, 0</string>
 	<key>NSNavLastRootDirectory</key>
-	<string>~/.dotfiles</string>
+	<string>~/Downloads</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
 	<string>{712, 459}</string>
 	<key>NSNavPanelExpandedSizeForSaveMode</key>
@@ -6732,7 +6732,7 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>650 601 620 392 0 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 73 1914 1101 0 0 1920 1177 </string>
+	<string>0 49 1914 1128 0 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>930 511 990 627 0 0 1920 1177 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
@@ -6940,7 +6940,7 @@
 			<key>Background Image Is Tiled</key>
 			<false/>
 			<key>Background Image Location</key>
-			<string></string>
+			<string>/Users/Alex/Pictures/minimalizm-gradient-background.jpg</string>
 			<key>Badge Color</key>
 			<dict>
 				<key>Alpha Component</key>
@@ -6955,7 +6955,7 @@
 				<real>1</real>
 			</dict>
 			<key>Blend</key>
-			<real>0.30000001192092896</real>
+			<real>0.28225411849144177</real>
 			<key>Blink Allowed</key>
 			<false/>
 			<key>Blinking Cursor</key>
@@ -6963,7 +6963,7 @@
 			<key>Blur</key>
 			<true/>
 			<key>Blur Radius</key>
-			<real>6.0664663461538435</real>
+			<real>6.420312499999997</real>
 			<key>Bold Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -7533,7 +7533,7 @@
 			<key>Thin Strokes</key>
 			<integer>2</integer>
 			<key>Transparency</key>
-			<real>0.06636002218934911</real>
+			<real>0.072850406804733731</real>
 			<key>Triggers</key>
 			<array/>
 			<key>Unlimited Scrollback</key>
@@ -7580,6 +7580,10 @@
 	<string>2F4D60C7-2C87-4465-9B2B-F13E00F3C673</string>
 	<key>NoSyncLastTipTime</key>
 	<real>472327161.38134497</real>
+	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
+	<true/>
+	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
+	<integer>0</integer>
 	<key>NoSyncNewWindowOrTabFromTmuxOpensTmux</key>
 	<true/>
 	<key>NoSyncNewWindowOrTabFromTmuxOpensTmux_selection</key>
@@ -7667,6 +7671,8 @@
 	</dict>
 	<key>PrefsCustomFolder</key>
 	<string>/Users/Alex/.dotfiles</string>
+	<key>Print In Black And White</key>
+	<true/>
 	<key>PromptOnQuit</key>
 	<false/>
 	<key>QuitWhenAllWindowsClosed</key>
@@ -7684,7 +7690,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-06-30T09:01:44Z</date>
+	<date>2016-07-13T14:49:42Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
