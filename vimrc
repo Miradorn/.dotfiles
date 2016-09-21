@@ -16,11 +16,12 @@ set lazyredraw
 
 runtime macros/matchit.vim
 
-let base16colorspace=256  " Access colors present in 256 colorspace
+" let base16colorspace=256  " Access colors present in 256 colorspace
 
 if has("gui_running")
     set guioptions=egmrt
 endif
+set termguicolors
 
 let mapleader = "\<Space>"
 noremap \ ,
@@ -91,16 +92,18 @@ call dein#begin(expand('~/.vim/dein')) " plugins' root path
 
 call dein#add('Shougo/dein.vim')
 
+call dein#local("~/.vim/custom/")
+
 " Required for settings
-call dein#add('chriskempson/base16-vim')
 
 
 " NerdTree
 call dein#add('scrooloose/nerdtree')
+call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
 
 " Ruby
 call dein#add('tpope/vim-rbenv')
-call dein#add('vim-ruby/vim-ruby')
+" call dein#add('vim-ruby/vim-ruby')
 call dein#add('tpope/vim-rails')
 call dein#add('tpope/vim-haml')
 call dein#add('slim-template/vim-slim')
@@ -108,9 +111,8 @@ call dein#add('tpope/vim-endwise')
 call dein#add('tpope/vim-bundler')
 
 call dein#add('janko-m/vim-test')
-call dein#add('tpope/vim-dispatch.git')
 
-" Git
+" " Git
 call dein#add('tpope/vim-fugitive')
 call dein#add('airblade/vim-gitgutter')
 
@@ -123,7 +125,7 @@ call dein#add('wellle/targets.vim')
 call dein#add('mattn/emmet-vim')
 
 
-call dein#add('scrooloose/syntastic')
+" call dein#add('scrooloose/syntastic')
 
 call dein#add('majutsushi/tagbar')
 
@@ -167,46 +169,32 @@ call dein#add('ryanoasis/vim-devicons')
 call dein#end()
 
 let g:dein#enable_notification=1
+let g:dein#install_progress_type='none'
 
 nnoremap <leader>u :call dein#update()<cr>
 nnoremap <leader>i :call dein#install()<cr>
+nnoremap <leader>cc :call map(dein#check_clean(), "delete(v:val, 'rf')")<cr>
 
 filetype plugin indent on    " required
 
 syntax enable
 set background=dark
-colorscheme base16-tomorrow-night
+colorscheme base-16-tomorrow-custom
 
 autocmd StdinReadPre * let s:std_in=1
 let g:NERDTreeShowHidden=1
 autocmd User Startified setlocal buftype=
 
-" NERDTress File highlighting
-function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
-    exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
-    exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-endfunction
+let g:NERDTreeFileExtensionHighlightFullName = 1
+let g:NERDTreeExactMatchHighlightFullName = 1
+let g:NERDTreePatternMatchHighlightFullName = 1
 
-call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
-call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
-call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
-call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
-call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
-call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
-call NERDTreeHighlightFile('ex', 'Red', 'none', '#ffa500', '#151515')
-call NERDTreeHighlightFile('exs', 'Red', 'none', '#ffa500', '#151515')
-call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
-call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
+let g:NERDTreeExtensionHighlightColor = {}
+let g:NERDTreeExtensionHighlightColor['ex'] = 'cc6666'
+let g:NERDTreeExtensionHighlightColor['eex'] = 'cc6666'
+let g:NERDTreeExtensionHighlightColor['exs'] = 'cc6666'
+
+call dein#add('scrooloose/nerdtree')
 
 noremap <Leader>n :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -239,17 +227,22 @@ nnoremap <silent> <leader>a :TestSuite<CR>
 nnoremap <silent> <leader>l :TestLast<CR>
 nnoremap <silent> <leader>g :TestVisit<CR>
 
-let test#strategy = "dispatch"
+" let test#strategy = "dispatch"
 
 " "SYNTASTIC
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" let g:syntastic_c_include_dirs = ['/usr/local/opt/llvm/include/']
+" let g:syntastic_cpp_include_dirs = ['/usr/local/opt/llvm/include/']
+" let g:syntastic_cpp_compiler = '/usr/local/opt/llvm/bin/clang++'
+" let g:syntastic_cpp_compiler_options = ' -std=c++14 -stdlib=libc++'
+" let g:syntastic_c_compiler = '/usr/local/opt/llvm/bin/clang'
 
 
 " incsearch
@@ -277,6 +270,7 @@ au BufNewFile,BufRead *.json.jbuilder set ft=ruby
 autocmd FileType tex set iskeyword+=:,_
 let g:tex_flavor = 'latex'
 let g:vimtex_fold_enabled = 1
+let g:vimtex_latexmk_progname = 'nvr'
 let g:vimtex_complete_recursive_bib = 1
 if !exists('g:deoplete#omni#input_patterns')
     let g:deoplete#omni#input_patterns = {}
@@ -333,11 +327,6 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 let g:startify_change_to_dir = 0
-" hi Search ctermfg=17 ctermbg=228 cterm=NONE guifg=#282a36 guibg=#f1fa8c gui=NONE
-" hi Pmenu ctermfg=NONE ctermbg=246 cterm=NONE guifg=NONE guibg=NONE gui=NONE
-" hi PmenuSel ctermfg=NONE ctermbg=141 cterm=NONE guifg=NONE guibg=#44475a gui=NONE
-hi Normal ctermbg=NONE
-hi NonText ctermbg=NONE
 
 let g:tagbar_type_elixir = {
             \ 'ctaghlight NonText guibg=nonegstype' : 'elixir',
