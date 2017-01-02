@@ -16,8 +16,6 @@ set lazyredraw
 
 runtime macros/matchit.vim
 
-" let base16colorspace=256  " Access colors present in 256 colorspace
-
 if has("gui_running")
     set guioptions=egmrt
 endif
@@ -47,12 +45,15 @@ set laststatus=2        " always show the status lines
 set list
 set listchars=tab:→\ ,trail:·,nbsp:·
 
-set colorcolumn=80
+" Cursor shape
+:let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+
+set colorcolumn=100
 
 set shell=$SHELL        " use current shell for shell commands
 
 set history=1000
-set autoread            " automatically read feil that has been changed on disk and doesn't have changes in vim
+set autoread            " automatically read file that has been changed on disk and doesn't have changes in vim
 set backspace=indent,eol,start
 
 set autoindent          " automatically indent new line
@@ -95,6 +96,18 @@ call dein#add('Shougo/dein.vim')
 call dein#local("~/.vim/custom/")
 
 " Required for settings
+"
+"
+" Languages
+call dein#add('sheerun/vim-polyglot')
+
+" Compile/Test
+
+call dein#add('neomake/neomake')
+call dein#add('kassio/neoterm')
+
+" Tags
+call dein#add('ludovicchabant/vim-gutentags')
 
 
 " NerdTree
@@ -103,14 +116,9 @@ call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
 
 " Ruby
 call dein#add('tpope/vim-rbenv')
-" call dein#add('vim-ruby/vim-ruby')
 call dein#add('tpope/vim-rails')
-call dein#add('tpope/vim-haml')
-call dein#add('slim-template/vim-slim')
 call dein#add('tpope/vim-endwise')
 call dein#add('tpope/vim-bundler')
-
-call dein#add('janko-m/vim-test')
 
 " " Git
 call dein#add('tpope/vim-fugitive')
@@ -118,35 +126,34 @@ call dein#add('airblade/vim-gitgutter')
 
 " other
 
+call dein#add('c-brenn/phoenix.vim')
+call dein#add('tpope/vim-projectionist')
+
 call dein#add('tpope/vim-commentary')
 call dein#add('kana/vim-textobj-user')
 call dein#add('kana/vim-textobj-entire')
 call dein#add('wellle/targets.vim')
-call dein#add('mattn/emmet-vim')
-
+call dein#add('chriskempson/base16-vim')
 
 " call dein#add('scrooloose/syntastic')
 
 call dein#add('majutsushi/tagbar')
 
-call dein#add('elzr/vim-json')
-call dein#add('jelera/vim-javascript-syntax')
-call dein#add('kchmck/vim-coffee-script')
 call dein#add('rizzatti/dash.vim')
-call dein#add('ctrlpvim/ctrlp.vim')
+call dein#add('junegunn/fzf', { 'merged': 0 })
+call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 
 call dein#add('yssl/QFEnter')
 
-call dein#add('haya14busa/incsearch.vim')
+" call dein#add('haya14busa/incsearch.vim')
 call dein#add('jiangmiao/auto-pairs')
 call dein#add('tpope/vim-surround')
 call dein#add('AndrewRadev/splitjoin.vim')
-call dein#add('edkolev/tmuxline.vim')
+" call dein#add('edkolev/tmuxline.vim')
 call dein#add('christoomey/vim-tmux-navigator')
 call dein#add('tmux-plugins/vim-tmux-focus-events')
 call dein#add('editorconfig/editorconfig-vim')
 
-call dein#add('NLKNguyen/papercolor-theme')
 call dein#add('tpope/vim-repeat')
 call dein#add('Konfekt/FastFold')
 call dein#add('nathanaelkane/vim-indent-guides')
@@ -154,9 +161,7 @@ call dein#add('nathanaelkane/vim-indent-guides')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
 call dein#add('jeetsukumaran/vim-buffergator')
-call dein#add('elixir-lang/vim-elixir')
 call dein#add('slashmili/alchemist.vim')
-call dein#add('powerman/vim-plugin-AnsiEsc')
 call dein#add('mattreduce/vim-mix')
 call dein#add('mhinz/vim-startify')
 
@@ -167,6 +172,8 @@ call dein#add('terryma/vim-expand-region')
 call dein#add('ryanoasis/vim-devicons')
 
 call dein#end()
+
+let g:polyglot_disabled = ['latex']
 
 let g:dein#enable_notification=1
 let g:dein#install_progress_type='none'
@@ -179,8 +186,15 @@ filetype plugin indent on    " required
 
 syntax enable
 set background=dark
-colorscheme base-16-tomorrow-custom
+colorscheme base16-tomorrow-night
 
+" NeoMake
+" On every open and save
+autocmd! BufEnter * Neomake
+autocmd! BufWritePost * Neomake
+let g:neomake_elixir_enabled_makers = ['mix', 'credo']
+
+" NERDTree
 autocmd StdinReadPre * let s:std_in=1
 let g:NERDTreeShowHidden=1
 autocmd User Startified setlocal buftype=
@@ -194,13 +208,17 @@ let g:NERDTreeExtensionHighlightColor['ex'] = 'cc6666'
 let g:NERDTreeExtensionHighlightColor['eex'] = 'cc6666'
 let g:NERDTreeExtensionHighlightColor['exs'] = 'cc6666'
 
-call dein#add('scrooloose/nerdtree')
-
 noremap <Leader>n :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-autocmd vimenter * NERDTree | wincmd p
 
-""" Plugin Settings
+" Exit if NERDTree is only open window
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Open NERDTree automatically on start but keep focus on mainwindow
+autocmd StdinReadPre * let s:std_in=1
+autocmd vimenter * NERDTree
+autocmd vimenter * wincmd p
+
+""" AirLine
 
 let g:airline_powerline_fonts = 1
 let g:airline_theme="base16_tomorrow"
@@ -208,48 +226,37 @@ let g:airline_theme="base16_tomorrow"
 let airline#extensions#default#section_use_groupitems = 0
 let g:airline#extensions#tabline#enabled = 1
 
+""" Dash
 nmap <silent> <leader>d <Plug>DashSearch
 
-"TagBar
+
+""" Tags
+let g:gutentags_cache_dir = '~/.tags_cache'
 noremap <Leader>t :TagbarToggle<CR>
 
-"CTRLP
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/_build/*
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-let g:ctrlp_match_window = 'top'
-let g:ctrlp_use_caching = 0
-nnoremap <Leader>o :CtrlP<CR>
+""" FZF
+nnoremap <Leader>o :Files<CR>
+nnoremap <C-p> :Files<CR>
+inoremap <C-p> :Files<CR>
+
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit' }
+let g:fzf_layout = { 'up': '~30%' }
 
 "Test
-nnoremap <silent> <leader>s :TestNearest<CR>
-nnoremap <silent> <leader>S :TestFile<CR>
-nnoremap <silent> <leader>a :TestSuite<CR>
-nnoremap <silent> <leader>l :TestLast<CR>
-nnoremap <silent> <leader>g :TestVisit<CR>
+nnoremap <silent> <leader>s :call neoterm#test#run('current')<cr>
+nnoremap <silent> <leader>S :call neoterm#test#run('file')<cr>
+nnoremap <silent> <leader>a :call neoterm#test#run('all')<cr>
 
-" let test#strategy = "dispatch"
-
-" "SYNTASTIC
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-" let g:syntastic_c_include_dirs = ['/usr/local/opt/llvm/include/']
-" let g:syntastic_cpp_include_dirs = ['/usr/local/opt/llvm/include/']
-" let g:syntastic_cpp_compiler = '/usr/local/opt/llvm/bin/clang++'
-" let g:syntastic_cpp_compiler_options = ' -std=c++14 -stdlib=libc++'
-" let g:syntastic_c_compiler = '/usr/local/opt/llvm/bin/clang'
-
+let g:neoterm_size='15'
 
 " incsearch
 
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
+" map /  <Plug>(incsearch-forward)
+" map ?  <Plug>(incsearch-backward)
+" map g/ <Plug>(incsearch-stay)
 
 " Buffergator
 
@@ -269,7 +276,6 @@ au BufNewFile,BufRead *.json.jbuilder set ft=ruby
 " Latex
 autocmd FileType tex set iskeyword+=:,_
 let g:tex_flavor = 'latex'
-let g:vimtex_fold_enabled = 1
 let g:vimtex_latexmk_progname = 'nvr'
 let g:vimtex_complete_recursive_bib = 1
 if !exists('g:deoplete#omni#input_patterns')
@@ -345,6 +351,21 @@ let g:tagbar_type_elixir = {
             \ 't:tests'
             \ ]
             \ }
+
+let g:alchemist_tag_disable = 1
+
+" Tmuxline
+
+let g:tmuxline_preset = {
+      \ 'a'    : ['#h', '#S'],
+      \ 'win'  : '#I #W',
+      \ 'cwin' : '#I #W',
+      \ 'y'    : ['%R', '%a'],
+      \ 'z'    : '#{battery_status_bg}#{battery_icon} #{battery_percentage}',
+      \ 'options': {
+      \   'status-justify': 'left',
+      \   'status-bg': 'colour234'}
+      \}
 
 " Airline setup
 call airline#parts#define('mymode', {
