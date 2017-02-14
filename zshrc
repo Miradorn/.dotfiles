@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/Alex/.oh-my-zsh
+export ZSH=~/.oh-my-zsh
 
 # export TERM="xterm-256color"
 
@@ -22,12 +22,18 @@ eval "$(hub alias -s)"
 eval "$(rbenv init -)"
 # eval $(thefuck --alias)
 
+# autojump #Duh
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+
 # Other
-# skip_global_compinit=1
 
 export EDITOR='nvim'
 
-plugins=(autojump npm git bundler osx rake ruby brew brew-cask tmux gem rails mix elixir ember-cli zsh-autosuggestions)
+plugins=(npm git docker bundler osx rake ruby brew brew-cask tmux gem rails mix elixir ember-cli zsh-autosuggestions zsh-completions)
+
+# completion setup
+
+autoload -U compinit && compinit
 
 source $ZSH/oh-my-zsh.sh
 
@@ -38,20 +44,23 @@ alias l="ls -lah --color"
 alias ls='gls --color=tty'
 alias ta="tmux attach -d -t"
 
-# export FZF_DEFAULT_COMMAND='ag -g ""'
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# alias vi='NVIM_LISTEN_ADDRESS=/tmp/nvimsocket nvim'
-# alias vim='NVIM_LISTEN_ADDRESS=/tmp/nvimsocket nvim'
 alias vi=nvim
 alias vim=nvim
+alias pryr="pry -r ./config/environment"
 
-setopt HUP
+# FZF
 
-if [ ${TMUX} ]; then
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_OPTS='--height 40%'
+
+
+setopt HUP # Fix reattach for tmux
+
+if [ ${TMUX} ]; then # fixes paste fuckup in some cases
  unset zle_bracketed_paste
 fi
 
+# colored man pages
 man() {
     env \
         LESS_TERMCAP_mb=$(printf "\e[1;31m") \

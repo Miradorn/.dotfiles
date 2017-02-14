@@ -43,12 +43,12 @@ set wildmode=longest,list,full
 set wildmenu            " enhanced command completion
 set laststatus=2        " always show the status lines
 set list
-set listchars=tab:→\ ,trail:·,nbsp:·
+set listchars=tab:→\ ,trail:·
 
 " Cursor shape
 :let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
-set colorcolumn=100
+set colorcolumn=120
 
 set shell=$SHELL        " use current shell for shell commands
 
@@ -58,9 +58,9 @@ set backspace=indent,eol,start
 
 set autoindent          " automatically indent new line
 
-set ts=4                " number of spaces in a tab
-set sw=4                " number of spaces for indent
-set et                  " expand tabs into spaces
+set tabstop=2           " number of spaces in a tab
+set shiftwidth=2        " number of spaces for indent
+set expandtab           " expand tabs into spaces
 
 if has("mouse")
     set mouse=a
@@ -105,6 +105,7 @@ call dein#add('sheerun/vim-polyglot')
 
 call dein#add('neomake/neomake')
 call dein#add('kassio/neoterm')
+call dein#add('janko-m/vim-test')
 
 " Tags
 call dein#add('ludovicchabant/vim-gutentags')
@@ -115,6 +116,7 @@ call dein#add('scrooloose/nerdtree')
 call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
 
 " Ruby
+call dein#add('vim-ruby/vim-ruby')
 call dein#add('tpope/vim-rbenv')
 call dein#add('tpope/vim-rails')
 call dein#add('tpope/vim-endwise')
@@ -165,7 +167,7 @@ call dein#add('slashmili/alchemist.vim')
 call dein#add('mattreduce/vim-mix')
 call dein#add('mhinz/vim-startify')
 
-call dein#add('lervag/vimtex')
+" call dein#add('lervag/vimtex')
 call dein#add('Shougo/deoplete.nvim')
 call dein#add('fishbullet/deoplete-ruby')
 call dein#add('terryma/vim-expand-region')
@@ -193,6 +195,9 @@ colorscheme base16-tomorrow-night
 autocmd! BufEnter * Neomake
 autocmd! BufWritePost * Neomake
 let g:neomake_elixir_enabled_makers = ['mix', 'credo']
+let g:neomake_ruby_enabled_makers = ['mri', 'rubocop']
+let g:neomake_haml_enabled_makers = ['hamllint']
+let g:neomake_scss_enabled_makers = ['scsslint']
 
 " NERDTree
 autocmd StdinReadPre * let s:std_in=1
@@ -244,11 +249,18 @@ let g:fzf_action = {
   \ 'ctrl-s': 'split',
   \ 'ctrl-v': 'vsplit' }
 let g:fzf_layout = { 'up': '~30%' }
+let $FZF_DEFAULT_COMMAND = 'ag --hidden -U -g ""'
 
 "Test
-nnoremap <silent> <leader>s :call neoterm#test#run('current')<cr>
-nnoremap <silent> <leader>S :call neoterm#test#run('file')<cr>
-nnoremap <silent> <leader>a :call neoterm#test#run('all')<cr>
+let test#strategy = "neoterm"
+
+nnoremap <silent> <leader>s :TestNearest<CR>
+nnoremap <silent> <leader>S :TestFile<CR>
+nnoremap <silent> <leader>a :TestSuite<CR>
+nnoremap <silent> <leader>l :TestLast<CR>
+nnoremap <silent> <leader>g :TestVisit<CR>
+
+nnoremap <silent> <leader>tq :call neoterm#close()<cr>
 
 let g:neoterm_size='15'
 
@@ -269,28 +281,28 @@ nnoremap <silent> <Leader>B :BuffergatorClose<CR>
 
 autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
 autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
-autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
+" autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 autocmd FileType ruby,eruby set iskeyword+=?,!
 au BufNewFile,BufRead *.json.jbuilder set ft=ruby
 
 " Latex
-autocmd FileType tex set iskeyword+=:,_
-let g:tex_flavor = 'latex'
-let g:vimtex_latexmk_progname = 'nvr'
-let g:vimtex_complete_recursive_bib = 1
-if !exists('g:deoplete#omni#input_patterns')
-    let g:deoplete#omni#input_patterns = {}
-endif
-let g:deoplete#omni#input_patterns.tex = '\\(?:'
-            \ .  '\w*cite\w*(?:\s*\[[^]]*\]){0,2}\s*{[^}]*'
-            \ . '|\w*ref(?:\s*\{[^}]*|range\s*\{[^,}]*(?:}{)?)'
-            \ . '|hyperref\s*\[[^]]*'
-            \ . '|includegraphics\*?(?:\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-            \ . '|(?:include(?:only)?|input)\s*\{[^}]*'
-            \ . '|\w*(gls|Gls|GLS)(pl)?\w*(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-            \ . '|includepdf(\s*\[[^]]*\])?\s*\{[^}]*'
-            \ . '|includestandalone(\s*\[[^]]*\])?\s*\{[^}]*'
-            \ .')'
+" autocmd FileType tex set iskeyword+=:,_
+" let g:tex_flavor = 'latex'
+" let g:vimtex_latexmk_progname = 'nvr'
+" let g:vimtex_complete_recursive_bib = 1
+" if !exists('g:deoplete#omni#input_patterns')
+"     let g:deoplete#omni#input_patterns = {}
+" endif
+" let g:deoplete#omni#input_patterns.tex = '\\(?:'
+"             \ .  '\w*cite\w*(?:\s*\[[^]]*\]){0,2}\s*{[^}]*'
+"             \ . '|\w*ref(?:\s*\{[^}]*|range\s*\{[^,}]*(?:}{)?)'
+"             \ . '|hyperref\s*\[[^]]*'
+"             \ . '|includegraphics\*?(?:\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+"             \ . '|(?:include(?:only)?|input)\s*\{[^}]*'
+"             \ . '|\w*(gls|Gls|GLS)(pl)?\w*(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+"             \ . '|includepdf(\s*\[[^]]*\])?\s*\{[^}]*'
+"             \ . '|includestandalone(\s*\[[^]]*\])?\s*\{[^}]*'
+"             \ .')'
 
 " custom
 
@@ -327,8 +339,12 @@ if has("nvim")
 end
 
 let g:EditorConfig_core_mode = 'external_command'
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+
+
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
