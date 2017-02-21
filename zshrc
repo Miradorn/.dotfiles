@@ -48,6 +48,8 @@ alias vi=nvim
 alias vim=nvim
 alias pryr="pry -r ./config/environment"
 
+alias gitsh="gitsh --git $(which hub)"
+
 # FZF
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
