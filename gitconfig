@@ -1,27 +1,34 @@
 [core]
-	excludesfile = ~/.gitignore_global
+  excludesfile = ~/.gitignore_global
+  pager = diff-so-fancy | less --tabs=4 -RFX
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path = 
 [mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+  cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
 [user]
-	name = Alexander Schramm
-	email = alex@schram.me
-	signingkey = 7DDD9CE2
+  name = Alexander Schramm
+  email = alex@schram.me
+  signingkey = 7DDD9CE2
 [push]
-	default = current
+  default = current
 [alias]
-    llog = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
-	bd = branch -d
-	bD = branch -D
-	co = checkout
-	cb = checkout -b
+  llog = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+  bd = branch -d
+  bD = branch -D
+  co = checkout
+  cb = checkout -b
+  fetchmaster = fetch origin master:master
+  fm = fetch origin master:master
+  rbi = rebase -i master
+  up = pull --rebase --autostash
+  rbm = rebase
+  pr = pull-request
 [color]
-	ui = auto
+  ui = auto
 [gitsh]
-	prompt = "%D %c%b%#%w"
+  prompt = "%D %c%b%#%w"
 [commit]
-	template = /Users/alsc/.stCommitMsg
-	gpgsign = true
+  template = /Users/alsc/.stCommitMsg
+  gpgsign = true

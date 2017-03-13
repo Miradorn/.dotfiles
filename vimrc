@@ -32,7 +32,6 @@ set undofile
 set number              " precede each line with its line number
 set numberwidth=3       " number of culumns for line numbers
 set textwidth=0         " Do not wrap words (insert)
-set relativenumber
 
 set wrap
 
@@ -87,93 +86,95 @@ set foldlevelstart=20
 
 """ Plugins
 
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim " path to dein.vim
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim" path to dein.vim
 
-call dein#begin(expand('~/.vim/dein')) " plugins' root path
+if dein#load_state(expand('~/.vim/dein')) " plugins' root path
+  call dein#begin(expand('~/.vim/dein')) " plugins' root path
 
-call dein#add('Shougo/dein.vim')
+  call dein#add('~/.vim/dein/repos/github.com/Shougo/dein.vim')
 
-call dein#local("~/.vim/custom/")
+  call dein#local("~/.vim/custom/")
 
-" Required for settings
-"
-"
-" Languages
-call dein#add('sheerun/vim-polyglot')
+  " Required for settings
+  "
+  "
+  " Languages
+  call dein#add('sheerun/vim-polyglot')
 
-" Compile/Test
+  " Compile/Test
 
-call dein#add('neomake/neomake')
-call dein#add('kassio/neoterm')
-call dein#add('janko-m/vim-test')
+  call dein#add('neomake/neomake')
+  call dein#add('kassio/neoterm')
+  call dein#add('janko-m/vim-test')
 
-" Tags
-call dein#add('ludovicchabant/vim-gutentags')
+  " Tags
+  call dein#add('ludovicchabant/vim-gutentags')
 
 
-" NerdTree
-call dein#add('scrooloose/nerdtree')
-call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
+  " NerdTree
+  call dein#add('scrooloose/nerdtree')
+  call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
 
-" Ruby
-call dein#add('vim-ruby/vim-ruby')
-call dein#add('tpope/vim-rbenv')
-call dein#add('tpope/vim-rails')
-call dein#add('tpope/vim-endwise')
-call dein#add('tpope/vim-bundler')
+  " Ruby
+  call dein#add('vim-ruby/vim-ruby')
+  call dein#add('tpope/vim-rbenv')
+  call dein#add('tpope/vim-rails')
+  call dein#add('tpope/vim-endwise')
+  call dein#add('tpope/vim-bundler')
 
-" " Git
-call dein#add('tpope/vim-fugitive')
-call dein#add('airblade/vim-gitgutter')
+  " " Git
+  call dein#add('tpope/vim-fugitive')
+  call dein#add('airblade/vim-gitgutter')
 
-" other
+  " other
 
-call dein#add('c-brenn/phoenix.vim')
-call dein#add('tpope/vim-projectionist')
+  call dein#add('tpope/vim-projectionist')
 
-call dein#add('tpope/vim-commentary')
-call dein#add('kana/vim-textobj-user')
-call dein#add('kana/vim-textobj-entire')
-call dein#add('wellle/targets.vim')
-call dein#add('chriskempson/base16-vim')
+  call dein#add('tpope/vim-commentary')
+  call dein#add('kana/vim-textobj-user')
+  call dein#add('kana/vim-textobj-entire')
+  call dein#add('wellle/targets.vim')
+  call dein#add('chriskempson/base16-vim')
 
-" call dein#add('scrooloose/syntastic')
+  " call dein#add('scrooloose/syntastic')
 
-call dein#add('majutsushi/tagbar')
+  call dein#add('majutsushi/tagbar')
 
-call dein#add('rizzatti/dash.vim')
-call dein#add('junegunn/fzf', { 'merged': 0 })
-call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
+  call dein#add('rizzatti/dash.vim')
+  call dein#add('junegunn/fzf', { 'merged': 0 })
+  call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 
-call dein#add('yssl/QFEnter')
+  call dein#add('yssl/QFEnter')
 
-" call dein#add('haya14busa/incsearch.vim')
-call dein#add('jiangmiao/auto-pairs')
-call dein#add('tpope/vim-surround')
-call dein#add('AndrewRadev/splitjoin.vim')
-" call dein#add('edkolev/tmuxline.vim')
-call dein#add('christoomey/vim-tmux-navigator')
-call dein#add('tmux-plugins/vim-tmux-focus-events')
-call dein#add('editorconfig/editorconfig-vim')
+  " call dein#add('haya14busa/incsearch.vim')
+  call dein#add('jiangmiao/auto-pairs')
+  call dein#add('tpope/vim-surround')
+  call dein#add('AndrewRadev/splitjoin.vim')
+  " call dein#add('edkolev/tmuxline.vim')
+  call dein#add('christoomey/vim-tmux-navigator')
+  call dein#add('tmux-plugins/vim-tmux-focus-events')
+  call dein#add('editorconfig/editorconfig-vim')
 
-call dein#add('tpope/vim-repeat')
-call dein#add('Konfekt/FastFold')
-call dein#add('nathanaelkane/vim-indent-guides')
+  call dein#add('tpope/vim-repeat')
+  call dein#add('Konfekt/FastFold')
+  call dein#add('nathanaelkane/vim-indent-guides')
 
-call dein#add('vim-airline/vim-airline')
-call dein#add('vim-airline/vim-airline-themes')
-call dein#add('jeetsukumaran/vim-buffergator')
-call dein#add('slashmili/alchemist.vim')
-call dein#add('mattreduce/vim-mix')
-call dein#add('mhinz/vim-startify')
+  call dein#add('vim-airline/vim-airline')
+  call dein#add('vim-airline/vim-airline-themes')
+  call dein#add('jeetsukumaran/vim-buffergator')
+  call dein#add('slashmili/alchemist.vim')
+  call dein#add('mattreduce/vim-mix')
+  call dein#add('mhinz/vim-startify')
 
-" call dein#add('lervag/vimtex')
-call dein#add('Shougo/deoplete.nvim')
-call dein#add('fishbullet/deoplete-ruby')
-call dein#add('terryma/vim-expand-region')
-call dein#add('ryanoasis/vim-devicons')
+  " call dein#add('lervag/vimtex')
+  call dein#add('Shougo/deoplete.nvim')
+  call dein#add('fishbullet/deoplete-ruby')
+  call dein#add('terryma/vim-expand-region')
+  call dein#add('ryanoasis/vim-devicons')
 
-call dein#end()
+  call dein#end()
+  call dein#save_state()
+endif
 
 let g:polyglot_disabled = ['latex']
 
@@ -219,9 +220,9 @@ noremap <Leader>n :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " Open NERDTree automatically on start but keep focus on mainwindow
-autocmd StdinReadPre * let s:std_in=1
-autocmd vimenter * NERDTree
-autocmd vimenter * wincmd p
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd vimenter * NERDTree
+" autocmd vimenter * wincmd p
 
 """ AirLine
 
@@ -285,25 +286,6 @@ autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 autocmd FileType ruby,eruby set iskeyword+=?,!
 au BufNewFile,BufRead *.json.jbuilder set ft=ruby
 
-" Latex
-" autocmd FileType tex set iskeyword+=:,_
-" let g:tex_flavor = 'latex'
-" let g:vimtex_latexmk_progname = 'nvr'
-" let g:vimtex_complete_recursive_bib = 1
-" if !exists('g:deoplete#omni#input_patterns')
-"     let g:deoplete#omni#input_patterns = {}
-" endif
-" let g:deoplete#omni#input_patterns.tex = '\\(?:'
-"             \ .  '\w*cite\w*(?:\s*\[[^]]*\]){0,2}\s*{[^}]*'
-"             \ . '|\w*ref(?:\s*\{[^}]*|range\s*\{[^,}]*(?:}{)?)'
-"             \ . '|hyperref\s*\[[^]]*'
-"             \ . '|includegraphics\*?(?:\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-"             \ . '|(?:include(?:only)?|input)\s*\{[^}]*'
-"             \ . '|\w*(gls|Gls|GLS)(pl)?\w*(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
-"             \ . '|includepdf(\s*\[[^]]*\])?\s*\{[^}]*'
-"             \ . '|includestandalone(\s*\[[^]]*\])?\s*\{[^}]*'
-"             \ .')'
-
 " custom
 
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
@@ -343,6 +325,8 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#auto_complete_delay = 100
+" let g:deoplete#disable_auto_complete = 1
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
