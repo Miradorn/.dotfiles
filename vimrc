@@ -214,6 +214,12 @@ let g:NERDTreeExtensionHighlightColor['ex'] = 'cc6666'
 let g:NERDTreeExtensionHighlightColor['eex'] = 'cc6666'
 let g:NERDTreeExtensionHighlightColor['exs'] = 'cc6666'
 
+let g:NERDTreeExtensionHighlightColor['ex'] = 'cc6666'
+let g:NERDTreeExtensionHighlightColor['eex'] = 'cc6666'
+let g:NERDTreeExtensionHighlightColor['exs'] = 'cc6666'
+
+let g:NERDTreeExtensionHighlightColor['haml'] = 'b5bd68'
+
 noremap <Leader>n :NERDTreeToggle<CR>
 
 " Exit if NERDTree is only open window

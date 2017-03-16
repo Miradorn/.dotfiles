@@ -25,6 +25,9 @@
   up = pull --rebase --autostash
   rbm = rebase
   pr = pull-request
+  amend = commit --amend --no-edit
+  pushf = push -f
+  force = push -f
 [color]
   ui = auto
 [gitsh]
