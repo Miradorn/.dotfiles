@@ -50,6 +50,8 @@ alias pryr="pry -r ./config/environment"
 
 alias gitsh="gitsh --git $(which hub)"
 
+alias wetter="curl wttr.in/hamburg"
+
 # FZF
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
