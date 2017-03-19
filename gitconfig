@@ -10,7 +10,7 @@
 [user]
   name = Alexander Schramm
   email = alex@schram.me
-  signingkey = 7DDD9CE2
+  ; signingkey = 7DDD9CE2
 [push]
   default = current
 [alias]
@@ -34,4 +34,4 @@
   prompt = "%D %c%b%#%w"
 [commit]
   template = /Users/alsc/.stCommitMsg
-  gpgsign = true
+  ; gpgsign = true

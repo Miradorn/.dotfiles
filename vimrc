@@ -43,6 +43,7 @@ set wildmenu            " enhanced command completion
 set laststatus=2        " always show the status lines
 set list
 set listchars=tab:→\ ,trail:·
+set cursorline
 
 " Cursor shape
 :let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
