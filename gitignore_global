@@ -11,3 +11,4 @@ modules
 coverage
 tags
 tmp
+.byebug_history
