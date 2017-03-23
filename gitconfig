@@ -1,12 +1,6 @@
 [core]
   excludesfile = ~/.gitignore_global
   pager = diff-so-fancy | less --tabs=4 -RFX
-[difftool "sourcetree"]
-  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-  path = 
-[mergetool "sourcetree"]
-  cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-  trustExitCode = true
 [user]
   name = Alexander Schramm
   email = alex@schram.me
@@ -19,11 +13,13 @@
   bD = branch -D
   co = checkout
   cb = checkout -b
+  cm = commit -m
   fetchmaster = fetch origin master:master
   fm = fetch origin master:master
   rbi = rebase -i master
   up = pull --rebase --autostash
-  rbm = rebase
+  rbm = rebase master
+  rb = rebase
   pr = pull-request
   amend = commit --amend --no-edit
   pushf = push -f
@@ -34,4 +30,4 @@
   prompt = "%D %c%b%#%w"
 [commit]
   template = /Users/alsc/.stCommitMsg
-  ; gpgsign = true
+  gpgsign = true

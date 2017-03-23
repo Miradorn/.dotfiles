@@ -96,9 +96,6 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
 
   call dein#local("~/.vim/custom/")
 
-  " Required for settings
-  "
-  "
   " Languages
   call dein#add('sheerun/vim-polyglot')
 
@@ -123,9 +120,12 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('tpope/vim-endwise')
   call dein#add('tpope/vim-bundler')
 
-  " " Git
+  " Git
   call dein#add('tpope/vim-fugitive')
   call dein#add('airblade/vim-gitgutter')
+
+  " visual undo tree
+  call dein#add('sjl/gundo.vim')
 
   " other
 
@@ -266,11 +266,15 @@ nnoremap <silent> <leader>s :TestNearest<CR>
 nnoremap <silent> <leader>S :TestFile<CR>
 nnoremap <silent> <leader>a :TestSuite<CR>
 nnoremap <silent> <leader>l :TestLast<CR>
-nnoremap <silent> <leader>g :TestVisit<CR>
 
+let test#ruby#minitest#executable = 'be rake test'
 nnoremap <silent> <leader>tq :call neoterm#close()<cr>
 
 let g:neoterm_size='15'
+
+" gundo
+
+nnoremap <leader>g :GundoToggle<CR>
 
 " incsearch
 
@@ -332,7 +336,7 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#auto_complete_delay = 100
+let g:deoplete#auto_complete_delay = 150
 " let g:deoplete#disable_auto_complete = 1
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"

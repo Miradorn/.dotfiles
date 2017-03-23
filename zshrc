@@ -29,7 +29,7 @@ eval "$(rbenv init -)"
 
 export EDITOR='nvim'
 
-plugins=(npm git docker bundler osx rake ruby brew brew-cask tmux gem rails mix elixir ember-cli zsh-autosuggestions zsh-completions)
+plugins=(npm git docker bundler osx rake ruby thefuck brew brew-cask tmux gem rails mix elixir zsh-autosuggestions zsh-completions)
 
 # completion setup
 
