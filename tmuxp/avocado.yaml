@@ -1,0 +1,21 @@
+session_name: avocado
+start_directory: ~/projekte/avocado/app
+windows:
+  - window_name: vi
+    focus: true
+    panes:
+      - nvim
+  - window_name: rc
+    panes:
+      - rc
+  - window_name: zsh
+    layout: even-horizontal
+    panes:
+      - blank
+      - blank
+  - window_name: rs
+    panes:
+      - foreman start
+  - window_name: git
+    panes:
+      - gitsh

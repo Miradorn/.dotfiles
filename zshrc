@@ -6,6 +6,7 @@ export ZSH=~/.oh-my-zsh
 export XDG_CONFIG_HOME=~/.config
 export ZSH_TMUX_AUTOSTART=false
 export ZSH_TMUX_AUTOCONNECT=false
+export DISABLE_AUTO_TITLE=true
 
 export EVENT_NOKQUEUE=1
 
@@ -29,11 +30,11 @@ eval "$(rbenv init -)"
 
 export EDITOR='nvim'
 
-plugins=(npm git docker bundler osx rake ruby thefuck brew brew-cask tmux gem rails mix elixir zsh-autosuggestions zsh-completions)
+plugins=(git tmux docker bundler osx rake ruby thefuck brew brew-cask gem rails mix elixir zsh-autosuggestions)
 
 # completion setup
 
-autoload -U compinit && compinit
+autoload -Uz compinit && compinit
 
 source $ZSH/oh-my-zsh.sh
 
@@ -43,6 +44,7 @@ eval "$(dircolors)"
 alias l="ls -lah --color"
 alias ls='gls --color=tty'
 alias ta="tmux attach -d -t"
+alias tp='tmuxp load'
 
 alias vi=nvim
 alias vim=nvim
