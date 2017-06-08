@@ -3,12 +3,10 @@
 Pods
 Breakpoints_v2.xcbkptlist
 contents.xcworkspacedata
-.idea/
+/.idea/
 *.iml
-core
-modules
 .rbenv-gemsets
-coverage
+/coverage
 tags
-tmp
+/tmp
 .byebug_history

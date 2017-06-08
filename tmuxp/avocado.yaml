@@ -6,7 +6,9 @@ windows:
     panes:
       - nvim
   - window_name: rc
+    layout: even-horizontal
     panes:
+      - rc
       - rc
   - window_name: zsh
     layout: even-horizontal
@@ -14,8 +16,10 @@ windows:
       - blank
       - blank
   - window_name: rs
+    layout: even-vertical
     panes:
       - foreman start
+      - tail -f log/*
   - window_name: git
     panes:
       - gitsh

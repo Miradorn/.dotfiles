@@ -250,7 +250,7 @@ noremap <Leader>t :TagbarToggle<CR>
 """ FZF
 nnoremap <Leader>o :Files<CR>
 nnoremap <C-p> :Files<CR>
-inoremap <C-p> :Files<CR>
+inoremap <C-p> <ESC>:Files<CR>
 
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
@@ -258,6 +258,8 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit' }
 let g:fzf_layout = { 'up': '~30%' }
 let $FZF_DEFAULT_COMMAND = 'ag --hidden -U -g ""'
+
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--color-path "0;34" --color-line-number "0;31"', <bang>0)
 
 "Test
 let test#strategy = "neoterm"
@@ -269,8 +271,11 @@ nnoremap <silent> <leader>l :TestLast<CR>
 
 let test#ruby#minitest#executable = 'be rake test'
 nnoremap <silent> <leader>tq :call neoterm#close()<cr>
+nnoremap <silent> <leader>to :call neoterm#open()<cr>
 
-let g:neoterm_size='15'
+let g:neoterm_size = 15
+let g:neoterm_fixedsize = 1
+let g:neoterm_autoscroll = 1
 
 " gundo
 
@@ -305,6 +310,7 @@ nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
 nnoremap <leader>ez :vsplit ~/.zshrc<cr>
 
 nnoremap <Leader>w :w<CR>
+nnoremap <Leader>W :Gwrite<CR>
 nnoremap <Leader>q :q<CR>
 map q: :q
 nnoremap <Leader><Leader> V
@@ -316,11 +322,6 @@ onoremap p i(
 
 nnoremap <CR> G
 nnoremap <BS> gg
-
-" cycle windows with tab
-" nnoremap <Tab> <C-W>w
-" nnoremap <S-Tab> <C-W>W
-
 
 " move by screen line
 nnoremap j gj
@@ -370,7 +371,7 @@ let g:alchemist_tag_disable = 1
 let g:tmuxline_preset = {
       \ 'a'    : ['#h', '#S'],
       \ 'win'  : '#I #W',
-      \ 'cwin' : '#I #W',
+      \ 'cwin' : '#I #{?window_zoomed_flag,#[fg=red](,}#W#{?window_zoomed_flag,#[fg=red]),}',
       \ 'y'    : ['%R', '%a'],
       \ 'z'    : '#{battery_status_bg}#{battery_icon} #{battery_percentage}',
       \ 'options': {

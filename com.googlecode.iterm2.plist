@@ -775,13 +775,13 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame SUStatusFrame</key>
-	<string>760 708 400 129 0 0 1920 1057 </string>
+	<string>520 591 400 129 0 0 1440 900 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>650 511 620 392 0 0 1920 1057 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>526 195 918 495 0 0 1920 1080 </string>
+	<string>219 259 918 512 0 0 1280 800 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 340 1130 707 0 0 1920 1057 </string>
+	<string>310 350 1130 707 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>247 107 1130 667 0 0 1920 1080 </string>
 	<key>New Bookmarks</key>
@@ -1706,13 +1706,15 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-03-02T14:40:08Z</date>
+	<date>2017-04-22T11:48:59Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
 	<false/>
+	<key>ShowFullScreenTabBar</key>
+	<true/>
 	<key>ShowNewOutputIndicator</key>
 	<true/>
 	<key>ShowPaneTitles</key>
@@ -1742,7 +1744,12 @@
 	<key>TripleClickSelectsFullWrappedLines</key>
 	<false/>
 	<key>URLHandlersByGuid</key>
-	<dict/>
+	<dict>
+		<key>ssh</key>
+		<string>1DF7B85F-E404-4605-8B91-1990744BC417</string>
+		<key>telnet</key>
+		<string>1DF7B85F-E404-4605-8B91-1990744BC417</string>
+	</dict>
 	<key>UseBorder</key>
 	<false/>
 	<key>UseCompactLabel</key>
@@ -1760,7 +1767,7 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.14</string>
+	<string>3.0.15</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>7</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

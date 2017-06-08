@@ -16,8 +16,9 @@ export RBENV_ROOT='/usr/local/opt/rbenv'
 
 ZSH_THEME="spaceship"
 export SPACESHIP_PROMPT_SYMBOL=λ
-export SPACESHIP_NVM_SHOW=false
+export SPACESHIP_NODE_SHOW=false
 export SPACESHIP_VENV_SHOW=false
+export SPACESHIP_DOCKER_SHOW=false
 
 eval "$(hub alias -s)"
 eval "$(rbenv init -)"
@@ -30,11 +31,13 @@ eval "$(rbenv init -)"
 
 export EDITOR='nvim'
 
-plugins=(git tmux docker bundler osx rake ruby thefuck brew brew-cask gem rails mix elixir zsh-autosuggestions)
+plugins=(git tmux docker bundler osx rake ruby thefuck brew brew-cask gem rails mix elixir)
 
 # completion setup
 
 autoload -Uz compinit && compinit
+
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 source $ZSH/oh-my-zsh.sh
 
@@ -52,7 +55,11 @@ alias pryr="pry -r ./config/environment"
 
 alias gitsh="gitsh --git $(which hub)"
 
+alias bil="bi --local"
+
 alias wetter="curl wttr.in/hamburg"
+
+alias drops=ds
 
 # FZF
 
