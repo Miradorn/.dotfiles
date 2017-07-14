@@ -51,7 +51,6 @@ alias tp='tmuxp load'
 
 alias vi=nvim
 alias vim=nvim
-alias pryr="pry -r ./config/environment"
 
 alias gitsh="gitsh --git $(which hub)"
 

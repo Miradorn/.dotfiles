@@ -32,7 +32,7 @@
 [gitsh]
   prompt = "%D %c%b%#%w"
 [commit]
-  template = /Users/alsc/.stCommitMsg
+  template = ~/.gitCommitMsg
   gpgsign = true
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"

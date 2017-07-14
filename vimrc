@@ -34,6 +34,8 @@ set numberwidth=3       " number of culumns for line numbers
 set textwidth=0         " Do not wrap words (insert)
 
 set wrap
+set breakindent
+set breakindentopt=shift:2
 
 set showcmd             " Show (partial) command in status line.
 set showmatch           " Show matching brackets.
@@ -85,6 +87,11 @@ set foldcolumn=3
 set foldmethod=syntax
 set foldlevelstart=20
 
+""" Dein
+let g:dein#install_log_filename = '~/dein.log'
+let g:dein#install_progress_type = 'title' " else maybe tabline
+let g:dein#enable_notification = 1
+
 """ Plugins
 
 set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim" path to dein.vim
@@ -125,7 +132,7 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('airblade/vim-gitgutter')
 
   " visual undo tree
-  call dein#add('sjl/gundo.vim')
+  call dein#add('simnalamburt/vim-mundo')
 
   " other
 
@@ -222,6 +229,7 @@ let g:NERDTreeExtensionHighlightColor['exs'] = 'cc6666'
 let g:NERDTreeExtensionHighlightColor['haml'] = 'b5bd68'
 
 noremap <Leader>n :NERDTreeToggle<CR>
+noremap <Leader>N :NERDTreeFind<CR>
 
 " Exit if NERDTree is only open window
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -241,6 +249,10 @@ let g:airline#extensions#tabline#enabled = 1
 
 """ Dash
 nmap <silent> <leader>d <Plug>DashSearch
+let g:dash_map = {
+        \ 'haml' : ['ruby', 'rails', 'haml'],
+        \ 'eruby' : ['ruby', 'rails']
+        \ }
 
 
 """ Tags
@@ -277,9 +289,9 @@ let g:neoterm_size = 15
 let g:neoterm_fixedsize = 1
 let g:neoterm_autoscroll = 1
 
-" gundo
+" mundo
 
-nnoremap <leader>g :GundoToggle<CR>
+nnoremap <leader>g :MundoToggle<CR>
 
 " incsearch
 
