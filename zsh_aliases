@@ -1,0 +1,66 @@
+# ----------------
+# common
+# ----------------
+alias l="ls -lah --color"
+alias ls='gls --color=tty'
+
+# ----------------
+# tmux
+# ----------------
+alias ta="tmux attach -d -t"
+alias tp='tmuxp load'
+
+# ----------------
+# vi
+# ----------------
+alias vi=nvim
+alias vim=nvim
+
+# ----------------
+# git
+# ----------------
+alias gitsh="gitsh --git $(which hub)"
+
+# ----------------
+# docker
+# ----------------
+function dsel {
+  docker container ls --all | fzf --header-lines=1 --query "${1}" --multi | awk '{ print $1 }'
+}
+
+# localhost for lazy docker people
+function dopen {
+  # get and count all published port mappings
+  published=$(docker container ls | fzf --header-lines=1 --query "${1}" | awk '{print $1}' | xargs docker container port)
+
+  # choose published port; will autochoose if there's only one port; will exit if there are none
+  port=$(echo "${published}" | fzf --exit-0 --select-1 | grep -oE '(\d+)$')
+
+  [ -n "${port}" ] && open "http://localhost:${port}"
+}
+
+# docker shell
+function dsh {
+  ID=$(docker container ls | fzf --header-lines=1 --query "${1}" | awk '{print $1}')
+  docker exec -it "${ID}" /bin/sh
+}
+
+# ----------------
+# Kubernetes
+# ----------------
+# select pod and get its ID
+function ksel {
+  kubectl get pods --all-namespaces | fzf --header-lines=1 --query "${1}" | awk '{ print $2,"--namespace " $1 }'
+}
+
+# ----------------
+# ruby
+# ----------------
+alias bil="bi --local"
+
+# ----------------
+# other
+# ----------------
+alias wetter="curl wttr.in/hamburg"
+alias drops=ds
+

@@ -10,3 +10,6 @@ contents.xcworkspacedata
 tags
 /tmp
 .byebug_history
+node_modules
+packs
+packs-test

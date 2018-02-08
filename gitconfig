@@ -26,14 +26,26 @@
   pf = push -f
   force = push -f
   prune = fetch --prune
-	diffs = diff --staged
+  diffs = diff --staged
 [color]
-  ui = auto
+  ui = true
 [gitsh]
   prompt = "%D %c%b%#%w"
 [commit]
   template = ~/.gitCommitMsg
   gpgsign = true
+[color "diff-highlight"]
+  oldNormal = red bold
+  oldHighlight = red bold 52
+  newNormal = green bold
+  newHighlight = green bold 22
+[color "diff"]
+  meta = 227
+  frag = magenta bold
+  commit = 227 bold
+  old = red bold
+  new = green bold
+  whitespace = red reverse
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 

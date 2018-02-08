@@ -15,11 +15,11 @@ windows:
     panes:
       - blank
       - blank
-  - window_name: rs
-    layout: even-vertical
+  - window_name: server
+    layout: even-horizontal
     panes:
-      - foreman start
-      - tail -f log/*
+      - hivemind
+      - mitmproxy
   - window_name: git
     panes:
       - gitsh

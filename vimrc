@@ -87,6 +87,8 @@ set foldcolumn=3
 set foldmethod=syntax
 set foldlevelstart=20
 
+autocmd FileType haml setlocal foldmethod=indent
+
 """ Dein
 let g:dein#install_log_filename = '~/dein.log'
 let g:dein#install_progress_type = 'title' " else maybe tabline
@@ -121,14 +123,24 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
 
   " Ruby
-  call dein#add('vim-ruby/vim-ruby')
   call dein#add('tpope/vim-rbenv')
   call dein#add('tpope/vim-rails')
   call dein#add('tpope/vim-endwise')
   call dein#add('tpope/vim-bundler')
+  call dein#add('slim-template/vim-slim.git')
+
+  """ Completions
+  call dein#add('Shougo/deoplete.nvim')
+  call dein#add('fishbullet/deoplete-ruby')
+  call dein#add('mhartington/nvim-typescript')
+  call dein#add('autozimu/LanguageClient-neovim')
+
+  " HTML
+  call dein#add('mattn/emmet-vim')
 
   " Git
   call dein#add('tpope/vim-fugitive')
+  call dein#add('tpope/vim-rhubarb')
   call dein#add('airblade/vim-gitgutter')
 
   " visual undo tree
@@ -144,17 +156,13 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('wellle/targets.vim')
   call dein#add('chriskempson/base16-vim')
 
-  " call dein#add('scrooloose/syntastic')
-
-  call dein#add('majutsushi/tagbar')
-
   call dein#add('rizzatti/dash.vim')
   call dein#add('junegunn/fzf', { 'merged': 0 })
   call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 
   call dein#add('yssl/QFEnter')
 
-  " call dein#add('haya14busa/incsearch.vim')
+  call dein#add('haya14busa/incsearch.vim')
   call dein#add('jiangmiao/auto-pairs')
   call dein#add('tpope/vim-surround')
   call dein#add('AndrewRadev/splitjoin.vim')
@@ -169,14 +177,10 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
 
   call dein#add('vim-airline/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
-  call dein#add('jeetsukumaran/vim-buffergator')
   call dein#add('slashmili/alchemist.vim')
   call dein#add('mattreduce/vim-mix')
   call dein#add('mhinz/vim-startify')
 
-  " call dein#add('lervag/vimtex')
-  call dein#add('Shougo/deoplete.nvim')
-  call dein#add('fishbullet/deoplete-ruby')
   call dein#add('terryma/vim-expand-region')
   call dein#add('ryanoasis/vim-devicons')
 
@@ -203,10 +207,20 @@ colorscheme base16-tomorrow-night
 " On every open and save
 autocmd! BufEnter * Neomake
 autocmd! BufWritePost * Neomake
+
+let g:neomake_vue_eslint_maker = {
+        \ 'exe': 'eslint',
+        \ 'append_file': 1,
+        \ 'args': ['-f', 'compact'],
+        \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,%W%f: line %l\, col %c\, Warning - %m,%-G,%-G%*\d problems%#',
+        \ }
+
 let g:neomake_elixir_enabled_makers = ['mix', 'credo']
 let g:neomake_ruby_enabled_makers = ['mri', 'rubocop']
 let g:neomake_haml_enabled_makers = ['hamllint']
 let g:neomake_scss_enabled_makers = ['scsslint']
+let g:neomake_vue_enabled_makers = ['eslint']
+let g:neomake_javascript_jsx_enabled_makers = ['eslint']
 
 " NERDTree
 autocmd StdinReadPre * let s:std_in=1
@@ -257,29 +271,41 @@ let g:dash_map = {
 
 """ Tags
 let g:gutentags_cache_dir = '~/.tags_cache'
-noremap <Leader>t :TagbarToggle<CR>
 
 """ FZF
 nnoremap <Leader>o :Files<CR>
 nnoremap <C-p> :Files<CR>
 inoremap <C-p> <ESC>:Files<CR>
+nnoremap <Leader>b :Buffers<CR>
+nnoremap <Leader>c :Commits<CR>
+nnoremap <Leader>m :Maps<CR>
+nnoremap <Leader>t :BTags<CR>
 
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-s': 'split',
   \ 'ctrl-v': 'vsplit' }
 let g:fzf_layout = { 'up': '~30%' }
-let $FZF_DEFAULT_COMMAND = 'ag --hidden -U -g ""'
+let $FZF_DEFAULT_COMMAND = 'ag --hidden -g ""'
 
-command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, '--color-path "0;34" --color-line-number "0;31"', <bang>0)
+command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>, '--color-path "0;34" --color-line-number "0;31"', <bang>0)
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 "Test
 let test#strategy = "neoterm"
 
-nnoremap <silent> <leader>s :TestNearest<CR>
-nnoremap <silent> <leader>S :TestFile<CR>
-nnoremap <silent> <leader>a :TestSuite<CR>
-nnoremap <silent> <leader>l :TestLast<CR>
+function! RunTest(cmd)
+  call neoterm#open() " Opens the neoterm window
+  call neoterm#normal('G') " Scroll to the end of the neoterm window
+  exec a:cmd
+endfunction
+
+nnoremap <silent> <leader>s :call RunTest('TestNearest')<CR>
+nnoremap <silent> <leader>S :call RunTest('TestFile')<CR>
+nnoremap <silent> <leader>a :call RunTest('TestSuite')<CR>
+nnoremap <silent> <leader>l :call RunTest('TestLast')<CR>
 
 let test#ruby#minitest#executable = 'be rake test'
 nnoremap <silent> <leader>tq :call neoterm#close()<cr>
@@ -295,18 +321,9 @@ nnoremap <leader>g :MundoToggle<CR>
 
 " incsearch
 
-" map /  <Plug>(incsearch-forward)
-" map ?  <Plug>(incsearch-backward)
-" map g/ <Plug>(incsearch-stay)
-
-" Buffergator
-
-let g:buffergator_viewport_split_policy = "T"
-let g:buffergator_suppress_keymaps = 1
-nnoremap <silent> <Leader>b :BuffergatorOpen<CR>
-nnoremap <silent> <Leader>B :BuffergatorClose<CR>
-
-" let g:SuperTabDefaultCompletionType = "context"
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
 
 autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
 autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
@@ -347,6 +364,15 @@ end
 let g:EditorConfig_core_mode = 'external_command'
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
+" Required for operations modifying multiple buffers like rename.
+set hidden
+
+let g:LanguageClient_serverCommands = {
+    \ 'vue': ['vls']
+    \ }
+
+" Automatically start language servers.
+let g:LanguageClient_autoStart = 1
 
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#auto_complete_delay = 150
@@ -357,24 +383,6 @@ inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 let g:startify_change_to_dir = 0
-
-let g:tagbar_type_elixir = {
-            \ 'ctaghlight NonText guibg=nonegstype' : 'elixir',
-            \ 'kinds' : [
-            \ 'f:functions',
-            \ 'functions:functions',
-            \ 'c:callbacks',
-            \ 'd:delegates',
-            \ 'e:exceptions',
-            \ 'i:implementations',
-            \ 'a:macros',
-            \ 'o:operators',
-            \ 'm:modules',
-            \ 'p:protocols',
-            \ 'r:records',
-            \ 't:tests'
-            \ ]
-            \ }
 
 let g:alchemist_tag_disable = 1
 
