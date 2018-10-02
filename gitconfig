@@ -1,10 +1,10 @@
 [core]
-  excludesfile = ~/.gitignore_global
+	excludesfile = /Users/alsc/.gitignore_global
   pager = diff-so-fancy | less --tabs=4 -RFX
 [user]
-  name = Alexander Schramm
-  email = alex@schram.me
-  ; signingkey = 7DDD9CE2
+	name = Alexander Schramm
+	email = alex@schram.me
+  signingkey = 2B591E707DDD9CE2
 [push]
   default = current
 [alias]
@@ -32,7 +32,7 @@
 [gitsh]
   prompt = "%D %c%b%#%w"
 [commit]
-  template = ~/.gitCommitMsg
+	template = ~/.gitCommitMsg
   gpgsign = true
 [color "diff-highlight"]
   oldNormal = red bold
@@ -52,3 +52,5 @@
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+[merge]
+  ff = only

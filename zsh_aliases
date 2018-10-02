@@ -3,6 +3,10 @@
 # ----------------
 alias l="ls -lah --color"
 alias ls='gls --color=tty'
+alias e='exa --long --header --git --all'
+alias et='exa --tree --long'
+alias ping=prettyping
+alias kraken='open -a "GitKraken" --args -p $(pwd)'
 
 # ----------------
 # tmux
@@ -53,14 +57,43 @@ function ksel {
   kubectl get pods --all-namespaces | fzf --header-lines=1 --query "${1}" | awk '{ print $2,"--namespace " $1 }'
 }
 
+# Run shell on pod which remians to be selected
+function kpsh {
+  keti $(ksel) sh
+}
+
+# Get logs off pod which remians to be selected
+function kplog {
+  kubectl logs -f $(ksel)
+}
+
 # ----------------
 # ruby
 # ----------------
 alias bil="bi --local"
+alias pry='/usr/local/Cellar/rbenv/1.1.1/shims/pry'
+alias pryr='pry -r ./config/environment'
+
+# ----------------
+# puma-dev
+# ----------------
+alias pd="puma-dev link"
+alias pdl="tail -f ~/Library/Logs/puma-dev.log"
 
 # ----------------
 # other
 # ----------------
 alias wetter="curl wttr.in/hamburg"
 alias drops=ds
+alias ag="ag --hidden"
 
+function update {
+  bubu
+  upgrade_oh_my_zsh
+  gem update --system
+  gem update neovim coderay pry awesome-print byebug pry-byebug html2haml rubocop haml_lint scss_lint
+  pip3 freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip3 install -U
+  pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U
+  yarn global upgrade
+  gcloud components update --quiet
+}

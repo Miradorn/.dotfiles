@@ -13,3 +13,6 @@ tags
 node_modules
 packs
 packs-test
+/.vscode
+/.elixir_ls
+/bin

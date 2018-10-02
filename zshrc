@@ -22,6 +22,9 @@ export SPACESHIP_PROMPT_DEFAULT_PREFIX=''
 export SPACESHIP_TIME_SHOW=true
 export SPACESHIP_PACKAGE_SHOW=false
 export SPACESHIP_DOCKER_PREFIX=''
+export SPACESHIP_ELIXIR_SHOW=false
+
+export ERL_AFLAGS="-kernel shell_history enabled"
 
 eval "$(hub alias -s)"
 eval "$(rbenv init -)"
@@ -33,19 +36,29 @@ eval "$(rbenv init -)"
 
 export EDITOR='nvim'
 
-plugins=(git tmux docker bundler osx brew brew-cask gem rails mix elixir)
+plugins=(asdf git tmux docker yarn kubectl helm bundler osx brew brew-cask gem rails mix)
 
 # completion setup
 
 fpath=(/usr/local/share/zsh-completions $fpath)
 
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
 
 source $ZSH/oh-my-zsh.sh
 
-export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/sbin:$PATH"
+# gcloud
+source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
+source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
 
+
+# gnu coreutils
+export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/share/istio/bin:/usr/local/sbin:$PATH"
+
+# dircolors
 eval "$(dircolors)"
+
+# aliases
 source "$HOME/.zsh_aliases"
 
 # beginning/end of line/word navigation
@@ -60,26 +73,26 @@ bindkey "^[e" end-of-line
 
 _gen_fzf_default_opts() {
 
-  local color00='#1d1f21'
-  local color01='#282a2e'
-  local color02='#373b41'
-  local color03='#969896'
-  local color04='#b4b7b4'
-  local color05='#c5c8c6'
-  local color06='#e0e0e0'
-  local color07='#ffffff'
-  local color08='#cc6666'
-  local color09='#de935f'
-  local color0A='#f0c674'
-  local color0B='#b5bd68'
-  local color0C='#8abeb7'
-  local color0D='#81a2be'
-  local color0E='#b294bb'
-  local color0F='#a3685a'
+  local color00='#282828'
+  local color01='#f43753'
+  local color02='#c9d05c'
+  local color03='#ffc24b'
+  local color04='#b3deef'
+  local color05='#d3b987'
+  local color06='#73cef4'
+  local color07='#eeeeee'
+  local color08='#1d1d1d'
+  local color09='#f43753'
+  local color0A='#c9d05c'
+  local color0B='#ffc24b'
+  local color0C='#b3deef'
+  local color0D='#d3b987'
+  local color0E='#73cef4'
+  local color0F='#ffffff'
 
   export FZF_DEFAULT_OPTS="
   --height 40% --border
-  --color=bg+:$color01,bg:$color00,spinner:$color0C,hl:$color0D
+  --color=bg+:$color08,bg:$color00,spinner:$color0C,hl:$color0D
   --color=fg:$color04,header:$color0D,info:$color0A,pointer:$color0C
   --color=marker:$color0C,fg+:$color06,prompt:$color0A,hl+:$color0D
   "
@@ -109,4 +122,32 @@ man() {
 }
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+###-begin-graphql-completions-###
+#
+# yargs command completion script
+#
+# Installation: /usr/local/bin/graphql completion >> ~/.bashrc
+#    or /usr/local/bin/graphql completion >> ~/.bash_profile on OSX.
+#
+_yargs_completions()
+{
+    local cur_word args type_list
+
+    cur_word="${COMP_WORDS[COMP_CWORD]}"
+    args=("${COMP_WORDS[@]}")
+
+    # ask yargs to generate completions.
+    type_list=$(/usr/local/bin/graphql --get-yargs-completions "${args[@]}")
+
+    COMPREPLY=( $(compgen -W "${type_list}" -- ${cur_word}) )
+
+    # if no match was found, fall back to filename completion
+    if [ ${#COMPREPLY[@]} -eq 0 ]; then
+      COMPREPLY=( $(compgen -f -- "${cur_word}" ) )
+    fi
+
+    return 0
+}
+complete -F _yargs_completions graphql
+###-end-graphql-completions-###
 
