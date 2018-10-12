@@ -2,8 +2,6 @@
 export ZSH=~/.oh-my-zsh
 
 export XDG_CONFIG_HOME=~/.config
-export ZSH_TMUX_AUTOSTART=false
-export ZSH_TMUX_AUTOCONNECT=false
 export DISABLE_AUTO_TITLE=true
 
 # export EVENT_NOKQUEUE=1
@@ -16,12 +14,12 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 ZSH_THEME="spaceship"
-export SPACESHIP_CHAR_SYMBOL='λ'
-export SPACESHIP_CHAR_SUFFIX=' '
-export SPACESHIP_PROMPT_DEFAULT_PREFIX=''
+export SPACESHIP_CHAR_SYMBOL='λ '
+# export SPACESHIP_CHAR_SUFFIX=' '
+# export SPACESHIP_PROMPT_DEFAULT_PREFIX=''
 export SPACESHIP_TIME_SHOW=true
-export SPACESHIP_PACKAGE_SHOW=false
-export SPACESHIP_DOCKER_PREFIX=''
+export SPACESHIP_PACKAGE_SHOW=true
+# export SPACESHIP_DOCKER_PREFIX=''
 export SPACESHIP_ELIXIR_SHOW=false
 
 export ERL_AFLAGS="-kernel shell_history enabled"
@@ -36,14 +34,14 @@ eval "$(rbenv init -)"
 
 export EDITOR='nvim'
 
-plugins=(asdf git tmux docker yarn kubectl helm bundler osx brew brew-cask gem rails mix)
+plugins=(asdf git docker yarn kubectl helm bundler osx brew brew-cask gem rails mix)
 
 # completion setup
 
 fpath=(/usr/local/share/zsh-completions $fpath)
 
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
+# export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
 
 source $ZSH/oh-my-zsh.sh
 
@@ -102,7 +100,8 @@ _gen_fzf_default_opts() {
 _gen_fzf_default_opts
 
 # tmux
-setopt HUP # Fix reattach for tmux
+# Fix reattach for tmux
+setopt HUP
 
 if [ ${TMUX} ]; then # fixes paste fuckup in some cases
   unset zle_bracketed_paste
@@ -129,25 +128,25 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # Installation: /usr/local/bin/graphql completion >> ~/.bashrc
 #    or /usr/local/bin/graphql completion >> ~/.bash_profile on OSX.
 #
-_yargs_completions()
-{
-    local cur_word args type_list
+# _yargs_completions()
+# {
+#     local cur_word args type_list
 
-    cur_word="${COMP_WORDS[COMP_CWORD]}"
-    args=("${COMP_WORDS[@]}")
+#     cur_word="${COMP_WORDS[COMP_CWORD]}"
+#     args=("${COMP_WORDS[@]}")
 
-    # ask yargs to generate completions.
-    type_list=$(/usr/local/bin/graphql --get-yargs-completions "${args[@]}")
+#     # ask yargs to generate completions.
+#     type_list=$(/usr/local/bin/graphql --get-yargs-completions "${args[@]}")
 
-    COMPREPLY=( $(compgen -W "${type_list}" -- ${cur_word}) )
+#     COMPREPLY=( $(compgen -W "${type_list}" -- ${cur_word}) )
 
-    # if no match was found, fall back to filename completion
-    if [ ${#COMPREPLY[@]} -eq 0 ]; then
-      COMPREPLY=( $(compgen -f -- "${cur_word}" ) )
-    fi
+#     # if no match was found, fall back to filename completion
+#     if [ ${#COMPREPLY[@]} -eq 0 ]; then
+#       COMPREPLY=( $(compgen -f -- "${cur_word}" ) )
+#     fi
 
-    return 0
-}
-complete -F _yargs_completions graphql
+#     return 0
+# }
+# complete -F _yargs_completions graphql
 ###-end-graphql-completions-###
 

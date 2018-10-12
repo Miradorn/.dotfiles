@@ -39,9 +39,9 @@ set listchars=tab:→\ ,trail:·,nbsp:+
 set cursorline
 
 " Cursor shape
-" :set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
-      " \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
-      " \,sm:block-blinkwait175-blinkoff150-blinkon175
+:set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+      \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+      \,sm:block-blinkwait175-blinkoff150-blinkon175
 
 set colorcolumn=120
 
@@ -257,7 +257,7 @@ inoremap <C-p> <ESC>:Files<CR>
 nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>c :Commits<CR>
 nnoremap <Leader>m :Maps<CR>
-nnoremap <Leader>t :BTags<CR>
+nnoremap <Leader>tt :BTags<CR>
 nnoremap <silent> <Leader>* :Ag <C-R><C-W><CR>
 vnoremap <Leader>* y:Ag <C-r>=fnameescape(@")<CR><CR>
 
