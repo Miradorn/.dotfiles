@@ -18,11 +18,13 @@ export SPACESHIP_CHAR_SYMBOL='λ '
 # export SPACESHIP_CHAR_SUFFIX=' '
 # export SPACESHIP_PROMPT_DEFAULT_PREFIX=''
 export SPACESHIP_TIME_SHOW=true
-export SPACESHIP_PACKAGE_SHOW=true
+export SPACESHIP_PACKAGE_SHOW=false
 # export SPACESHIP_DOCKER_PREFIX=''
 export SPACESHIP_ELIXIR_SHOW=false
 
 export ERL_AFLAGS="-kernel shell_history enabled"
+
+export BAT_THEME=OneHalfDark
 
 eval "$(hub alias -s)"
 eval "$(rbenv init -)"
@@ -34,16 +36,20 @@ eval "$(rbenv init -)"
 
 export EDITOR='nvim'
 
-plugins=(asdf git docker yarn kubectl helm bundler osx brew brew-cask gem rails mix)
+plugins=(git docker yarn kubectl helm bundler osx brew brew-cask gem rails mix)
 
+source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
+source /usr/local/opt/asdf/asdf.sh
+
+source $ZSH/oh-my-zsh.sh
+#
 # completion setup
 
 fpath=(/usr/local/share/zsh-completions $fpath)
 
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-# export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
-
-source $ZSH/oh-my-zsh.sh
+autoload -U +X compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
 
 # gcloud
 source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
@@ -71,22 +77,22 @@ bindkey "^[e" end-of-line
 
 _gen_fzf_default_opts() {
 
-  local color00='#282828'
-  local color01='#f43753'
-  local color02='#c9d05c'
-  local color03='#ffc24b'
-  local color04='#b3deef'
-  local color05='#d3b987'
-  local color06='#73cef4'
-  local color07='#eeeeee'
-  local color08='#1d1d1d'
-  local color09='#f43753'
-  local color0A='#c9d05c'
-  local color0B='#ffc24b'
-  local color0C='#b3deef'
-  local color0D='#d3b987'
-  local color0E='#73cef4'
-  local color0F='#ffffff'
+  local color00='#282c34'
+  local color01='#e06c75'
+  local color02='#98c379'
+  local color03='#e5c07b'
+  local color04='#61afef'
+  local color05='#c678dd'
+  local color06='#56b6c2'
+  local color07='#dcdfe3'
+  local color08='#3d4452'
+  local color09='#be5046'
+  local color0A='#98c379'
+  local color0B='#ffdb99'
+  local color0C='#61afef'
+  local color0D='#eba8ff'
+  local color0E='#e06c75'
+  local color0F='#f7f8f9'
 
   export FZF_DEFAULT_OPTS="
   --height 40% --border

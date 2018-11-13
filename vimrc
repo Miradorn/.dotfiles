@@ -15,7 +15,11 @@ nnoremap <Right> <Esc>
 set lazyredraw
 set regexpengine=1
 
-set termguicolors
+if exists('+termguicolors')
+  " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
 
 let mapleader = "\<Space>"
 
@@ -39,9 +43,9 @@ set listchars=tab:→\ ,trail:·,nbsp:+
 set cursorline
 
 " Cursor shape
-:set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
-      \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
-      \,sm:block-blinkwait175-blinkoff150-blinkon175
+" :set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+"       \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+"       \,sm:block-blinkwait175-blinkoff150-blinkon175
 
 set colorcolumn=120
 
@@ -133,6 +137,7 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('chriskempson/base16-vim')
   call dein#add('jacoborus/tender.vim')
   call dein#add('morhetz/gruvbox')
+  call dein#add('joshdick/onedark.vim')
 
   " other
 
@@ -179,11 +184,12 @@ filetype plugin indent on    " required
 
 syntax enable
 set background=dark
-colorscheme gruvbox
+colorscheme onedark
 
 " ALE Linter/formatter
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 1
+let g:ale_virtualtext_cursor = 1
 
 nnoremap <leader>f :ALEFix<cr>
 let g:ale_fixers = {
@@ -237,7 +243,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 """ AirLine
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme="gruvbox"
+let g:airline_theme="onedark"
 
 let airline#extensions#default#section_use_groupitems = 0
 let g:airline#extensions#tabline#enabled = 1
