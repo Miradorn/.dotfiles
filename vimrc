@@ -39,7 +39,7 @@ set breakindentopt=shift:2
 set showmatch           " Show matching brackets.
 set wildmode=longest,list,full
 set list
-set listchars=tab:→\ ,trail:·,nbsp:+
+set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
 set cursorline
 
 " Cursor shape

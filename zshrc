@@ -27,7 +27,7 @@ export ERL_AFLAGS="-kernel shell_history enabled"
 export BAT_THEME=OneHalfDark
 
 eval "$(hub alias -s)"
-eval "$(rbenv init -)"
+# eval "$(rbenv init -)"
 
 # autojump #Duh
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
@@ -55,6 +55,7 @@ autoload -U +X bashcompinit && bashcompinit
 source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
 source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
 
+source /usr/local/etc/bash_completion.d/asdf.bash
 
 # gnu coreutils
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/share/istio/bin:/usr/local/sbin:$PATH"
@@ -80,7 +81,7 @@ _fzf_compgen_path() {
 }
 # Use fd to generate the list for directory completion
 _fzf_compgen_dir() {
-  fd --type d --hidden --follow --exclude ".git" . "$1" 
+  fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
 
@@ -136,32 +137,3 @@ man() {
 }
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-###-begin-graphql-completions-###
-#
-# yargs command completion script
-#
-# Installation: /usr/local/bin/graphql completion >> ~/.bashrc
-#    or /usr/local/bin/graphql completion >> ~/.bash_profile on OSX.
-#
-# _yargs_completions()
-# {
-#     local cur_word args type_list
-
-#     cur_word="${COMP_WORDS[COMP_CWORD]}"
-#     args=("${COMP_WORDS[@]}")
-
-#     # ask yargs to generate completions.
-#     type_list=$(/usr/local/bin/graphql --get-yargs-completions "${args[@]}")
-
-#     COMPREPLY=( $(compgen -W "${type_list}" -- ${cur_word}) )
-
-#     # if no match was found, fall back to filename completion
-#     if [ ${#COMPREPLY[@]} -eq 0 ]; then
-#       COMPREPLY=( $(compgen -f -- "${cur_word}" ) )
-#     fi
-
-#     return 0
-# }
-# complete -F _yargs_completions graphql
-###-end-graphql-completions-###
-
