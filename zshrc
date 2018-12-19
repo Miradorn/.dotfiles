@@ -21,6 +21,7 @@ export SPACESHIP_TIME_SHOW=true
 export SPACESHIP_PACKAGE_SHOW=false
 # export SPACESHIP_DOCKER_PREFIX=''
 export SPACESHIP_ELIXIR_SHOW=false
+export SPACESHIP_KUBECONTEXT_SYMBOL="☸️"
 
 export ERL_AFLAGS="-kernel shell_history enabled"
 

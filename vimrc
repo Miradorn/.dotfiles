@@ -15,7 +15,7 @@ nnoremap <Right> <Esc>
 set lazyredraw
 set regexpengine=1
 
-if exists('+termguicolors')
+if (has('termguicolors'))
   " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
@@ -80,7 +80,7 @@ set foldlevelstart=20
 
 """ Dein
 let g:dein#install_log_filename = '~/.dein.log'
-let g:dein#install_progress_type = 'tabline' " else maybe tabline
+" let g:dein#install_progress_type = 'tabline' " else maybe tabline
 let g:dein#enable_notification = 1
 
 """ Plugins
@@ -91,6 +91,7 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#begin(expand('~/.vim/dein')) " plugins' root path
 
   call dein#add('~/.vim/bundles/repos/github.com/Shougo/dein.vim/')
+  call dein#add('wsdjeg/dein-ui.vim')
 
   " Languages
   call dein#add('sheerun/vim-polyglot')
@@ -113,7 +114,6 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   """ Completions
   call dein#add('Shougo/deoplete.nvim')
   " call dein#add('fishbullet/deoplete-ruby')
-
 
   " HTML
   call dein#add('mattn/emmet-vim')
@@ -139,6 +139,8 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('morhetz/gruvbox')
   call dein#add('joshdick/onedark.vim')
 
+
+  call dein#add('lilydjwg/colorizer')
   " other
 
   call dein#add('tpope/vim-projectionist')
@@ -176,7 +178,7 @@ endif
 let g:polyglot_disabled = ['latex']
 let g:vue_disable_pre_processors = 1
 
-nnoremap <leader>u :call dein#update()<cr>
+nnoremap <leader>u :DeinUpdate<cr>
 nnoremap <leader>i :call dein#install()<cr>
 nnoremap <leader>cc :call map(dein#check_clean(), "delete(v:val, 'rf')")<cr>
 
@@ -187,7 +189,7 @@ set background=dark
 colorscheme onedark
 
 " ALE Linter/formatter
-let g:ale_fix_on_save = 1
+" let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 1
 let g:ale_virtualtext_cursor = 1
 
@@ -245,7 +247,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 let g:airline_powerline_fonts = 1
 let g:airline_theme="onedark"
 
-let airline#extensions#default#section_use_groupitems = 0
+" let airline#extensions#default#section_use_groupitems = 0
 let g:airline#extensions#tabline#enabled = 1
 
 """ Dash

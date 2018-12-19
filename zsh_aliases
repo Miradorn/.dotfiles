@@ -4,6 +4,7 @@
 alias e='exa --long --header --git --all'
 alias et='exa --tree --long'
 alias l=e
+alias t=tree
 alias cat=bat
 alias ping=prettyping
 alias kraken='open -a "GitKraken" --args -p $(pwd)'
