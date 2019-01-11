@@ -27,6 +27,9 @@
   force = push -f
   prune = fetch --prune
   diffs = diff --staged
+  uncommit = reset --soft HEAD^
+  unstage = reset
+  staged = diff --cached
 [color]
   ui = true
 [gitsh]

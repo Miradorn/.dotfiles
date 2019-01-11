@@ -91,7 +91,6 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#begin(expand('~/.vim/dein')) " plugins' root path
 
   call dein#add('~/.vim/bundles/repos/github.com/Shougo/dein.vim/')
-  call dein#add('wsdjeg/dein-ui.vim')
 
   " Languages
   call dein#add('sheerun/vim-polyglot')
@@ -132,6 +131,7 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('wellle/targets.vim')
   call dein#add('haya14busa/incsearch.vim')
   call dein#add('tpope/vim-unimpaired')
+  call dein#add('dhruvasagar/vim-zoom')
 
   " colors
   call dein#add('chriskempson/base16-vim')
@@ -178,7 +178,7 @@ endif
 let g:polyglot_disabled = ['latex']
 let g:vue_disable_pre_processors = 1
 
-nnoremap <leader>u :DeinUpdate<cr>
+nnoremap <leader>u :call dein#update()<cr>
 nnoremap <leader>i :call dein#install()<cr>
 nnoremap <leader>cc :call map(dein#check_clean(), "delete(v:val, 'rf')")<cr>
 
@@ -189,7 +189,7 @@ set background=dark
 colorscheme onedark
 
 " ALE Linter/formatter
-" let g:ale_fix_on_save = 1
+let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 1
 let g:ale_virtualtext_cursor = 1
 
@@ -285,17 +285,6 @@ command! -bang -nargs=* Ag
 "Test
 let test#strategy = "neoterm"
 
-" function! RunTest(cmd)
-"   call neoterm#open() " Opens the neoterm window
-"   call neoterm#normal('G') " Scroll to the end of the neoterm window
-"   exec a:cmd
-" endfunction
-
-nnoremap <silent> <leader>s :call RunTest('TestNearest')<CR>
-nnoremap <silent> <leader>S :call RunTest('TestFile')<CR>
-nnoremap <silent> <leader>a :call RunTest('TestSuite')<CR>
-nnoremap <silent> <leader>l :call RunTest('TestLast')<CR>
-
 nnoremap <silent> <leader>tq :Ttoggle<cr>
 nnoremap <silent> <leader>to :Ttoggle<cr>
 
@@ -333,6 +322,7 @@ nnoremap <leader>ez :vsplit ~/.zshrc<cr>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>W :Gwrite<CR>
 nnoremap <Leader>q :q<CR>
+nnoremap <Leader>Q :q!<CR>
 map q: :q
 nnoremap <Leader><Leader> V
 
@@ -343,6 +333,8 @@ onoremap p i(
 
 nnoremap <CR> G
 nnoremap <BS> gg
+
+nmap <leader>z <Plug>(zoom-toggle)
 
 " move by screen line
 nnoremap j gj
