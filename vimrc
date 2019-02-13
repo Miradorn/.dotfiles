@@ -122,7 +122,7 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('airblade/vim-gitgutter')
 
   " visual undo tree
-  call dein#add('simnalamburt/vim-mundo')
+  call dein#add('mbbill/undotree')
 
   " movement
   call dein#add('justinmk/vim-sneak')
@@ -193,17 +193,27 @@ let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 1
 let g:ale_virtualtext_cursor = 1
 
-nnoremap <leader>f :ALEFix<cr>
-let g:ale_fixers = {
-\   'javascript': ['eslint'],
-\   'vue': ['eslint'],
-\   'ruby': ['rubocop'],
-\   'elixir': ['mix_format']
-\}
+let g:ale_elixir_elixir_ls_release = '~/projekte/elixir-ls/rel'
 
-let g:ale_linters = {
-\   'graphql': ['gqlint'],
-\}
+let g:ale_linters = {}
+let g:ale_linters.graphql = ['gqlint']
+let g:ale_linters.scss = ['stylelint']
+let g:ale_linters.css = ['stylelint']
+let g:ale_linters.elixir = ['elixir-ls', 'credo']
+
+let g:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace']}
+let g:ale_fixers.javascript = ['eslint']
+let g:ale_fixers.scss = ['stylelint']
+let g:ale_fixers.css = ['stylelint']
+let g:ale_fixers.elm = ['format']
+let g:ale_fixers.ruby = ['rubocop']
+let g:ale_ruby_rubocop_executable = 'bundle'
+let g:ale_fixers.elixir = ['mix_format']
+let g:ale_fixers.vue = ['eslint']
+
+nnoremap <leader>f :ALEFix<cr>
+
+command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
 
 " NERDTree
 autocmd StdinReadPre * let s:std_in=1
@@ -300,9 +310,9 @@ nnoremap <silent> <leader>S :TestFile<CR>
 nnoremap <silent> <leader>a :TestSuite<CR>
 nnoremap <silent> <leader>l :TestLast<CR>
 
-" mundo
+" undo tree
 
-nnoremap <leader>g :MundoToggle<CR>
+nnoremap <leader>g :UndotreeToggle<CR>
 
 " incsearch
 
@@ -313,6 +323,7 @@ map g/ <Plug>(incsearch-stay)
 au BufNewFile,BufRead *.json.jbuilder set ft=ruby
 
 " custom
+iabbrev <// </<C-X><C-O>
 
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
@@ -349,7 +360,7 @@ let g:EditorConfig_core_mode = 'external_command'
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#auto_complete_delay = 150
+" let g:deoplete#auto_refresh_delay = 300
 
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"

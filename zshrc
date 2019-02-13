@@ -3,6 +3,7 @@ export ZSH=~/.oh-my-zsh
 
 export XDG_CONFIG_HOME=~/.config
 export DISABLE_AUTO_TITLE=true
+export TMUXP_CONFIGDIR=~/.tmuxp
 
 # export EVENT_NOKQUEUE=1
 
