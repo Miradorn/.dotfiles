@@ -119,6 +119,7 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
 
   " Git
   call dein#add('tpope/vim-fugitive')
+  call dein#add('shumphrey/fugitive-gitlab.vim')
   call dein#add('airblade/vim-gitgutter')
 
   " visual undo tree
@@ -193,7 +194,7 @@ let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 1
 let g:ale_virtualtext_cursor = 1
 
-let g:ale_elixir_elixir_ls_release = '~/projekte/elixir-ls/rel'
+let g:ale_elixir_elixir_ls_release = $HOME . '/projekte/elixir-ls/rel'
 
 let g:ale_linters = {}
 let g:ale_linters.graphql = ['gqlint']
@@ -299,7 +300,7 @@ nnoremap <silent> <leader>tq :Ttoggle<cr>
 nnoremap <silent> <leader>to :Ttoggle<cr>
 
 let g:neoterm_default_mod='botright'
-let g:neoterm_size = '15'
+let g:neoterm_size = '20'
 let g:neoterm_fixedsize = 1
 let g:neoterm_autoscroll = 1
 
@@ -321,6 +322,9 @@ map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
 au BufNewFile,BufRead *.json.jbuilder set ft=ruby
+
+" git
+let g:fugitive_gitlab_domains = ['https://gitlab.akra.de']
 
 " custom
 iabbrev <// </<C-X><C-O>
@@ -350,6 +354,14 @@ nmap <leader>z <Plug>(zoom-toggle)
 " move by screen line
 nnoremap j gj
 nnoremap k gk
+
+" move lines/block linewise up/down
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
 
 if has("nvim")
     " For terminal mode
