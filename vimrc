@@ -1,7 +1,6 @@
 """ Settings
 
 "For training
-
 inoremap <Up> <Esc>
 nnoremap <Up> <Esc>
 inoremap <Down> <Esc>
@@ -113,6 +112,11 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   """ Completions
   call dein#add('Shougo/deoplete.nvim')
   " call dein#add('fishbullet/deoplete-ruby')
+  " call dein#add('slashmili/alchemist.vim')
+  call dein#add('prabirshrestha/async.vim')
+  call dein#add('prabirshrestha/vim-lsp')
+
+  call dein#add('lighttiger2505/deoplete-vim-lsp')
 
   " HTML
   call dein#add('mattn/emmet-vim')
@@ -165,7 +169,6 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
 
   call dein#add('vim-airline/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
-  call dein#add('slashmili/alchemist.vim')
   call dein#add('w0rp/ale')
   call dein#add('mhinz/vim-startify')
 
@@ -193,8 +196,6 @@ colorscheme onedark
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 1
 let g:ale_virtualtext_cursor = 1
-
-let g:ale_elixir_elixir_ls_release = $HOME . '/projekte/elixir-ls/rel'
 
 let g:ale_linters = {}
 let g:ale_linters.graphql = ['gqlint']
@@ -373,6 +374,19 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 let g:deoplete#enable_at_startup = 1
 " let g:deoplete#auto_refresh_delay = 300
+
+
+" let g:lsp_log_verbose = 1
+" let g:lsp_log_file = expand('~/vim-lsp.log')
+augroup elixir_lsp
+  au!
+  au User lsp_setup call lsp#register_server({
+    \ 'name': 'elixir-ls',
+    \ 'cmd': {server_info->[&shell, &shellcmdflag, '/Users/alsc/projekte/elixir-ls/rel/language_server.sh']},
+    \ 'whitelist': ['elixir', 'eelixir'],
+    \ 'workspace_config': {'elixirLS': {'dialyzerEnabled': v:false}},
+    \ })
+augroup END
 
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"

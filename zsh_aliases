@@ -76,6 +76,7 @@ function kplog {
 }
 
 alias kctx=kubectx
+alias kx=kubectx
 alias kns=kubens
 
 # ----------------
@@ -100,7 +101,7 @@ alias ag="ag --hidden"
 
 function update {
   bubu
-  bcubc
+  brew cask upgrade
   upgrade_oh_my_zsh
   gem update --system
   gem update neovim coderay pry awesome-print byebug pry-byebug html2haml rubocop haml_lint scss_lint
