@@ -63,7 +63,7 @@ source /usr/local/etc/bash_completion.d/asdf.bash
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/share/istio/bin:/usr/local/sbin:$PATH"
 
 # # dircolors
-eval "$(dircolors .dir_colors)"
+eval "$(dircolors ~/.dir_colors)"
 
 # aliases
 source "$HOME/.zsh_aliases"
@@ -89,26 +89,26 @@ _fzf_compgen_dir() {
 
 _gen_fzf_default_opts() {
 
-  local color00='#282c34'
-  local color01='#e06c75'
-  local color02='#98c379'
-  local color03='#e5c07b'
-  local color04='#61afef'
-  local color05='#c678dd'
-  local color06='#56b6c2'
-  local color07='#dcdfe3'
-  local color08='#3d4452'
-  local color09='#be5046'
-  local color0A='#98c379'
-  local color0B='#ffdb99'
-  local color0C='#61afef'
-  local color0D='#eba8ff'
-  local color0E='#e06c75'
-  local color0F='#f7f8f9'
+  local color00='#2E3440'
+  local color01='#3B4252'
+  local color02='#434C5E'
+  local color03='#4C566A'
+  local color04='#D8DEE9'
+  local color05='#E5E9F0'
+  local color06='#ECEFF4'
+  local color07='#8FBCBB'
+  local color08='#88C0D0'
+  local color09='#81A1C1'
+  local color0A='#5E81AC'
+  local color0B='#BF616A'
+  local color0C='#D08770'
+  local color0D='#EBCB8B'
+  local color0E='#A3BE8C'
+  local color0F='#B48EAD'
 
   export FZF_DEFAULT_OPTS="
   --height 40% --border
-  --color=bg+:$color08,bg:$color00,spinner:$color0C,hl:$color0D
+  --color=bg+:$color01,bg:$color00,spinner:$color0C,hl:$color0D
   --color=fg:$color04,header:$color0D,info:$color0A,pointer:$color0C
   --color=marker:$color0C,fg+:$color06,prompt:$color0A,hl+:$color0D
   "

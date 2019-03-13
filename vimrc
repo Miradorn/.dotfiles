@@ -10,6 +10,8 @@ nnoremap <Left> <Esc>
 inoremap <Right> <Esc>
 nnoremap <Right> <Esc>
 
+set encoding=utf-8
+scriptencoding utf-8
 
 set lazyredraw
 set regexpengine=1
@@ -76,6 +78,11 @@ set splitright
 set foldcolumn=3
 set foldmethod=syntax
 set foldlevelstart=20
+
+augroup nord-overrides
+  autocmd!
+  autocmd ColorScheme nord highlight Identifier ctermfg=14 guifg=#8FBCBB
+augroup END
 
 """ Dein
 let g:dein#install_log_filename = '~/.dein.log'
@@ -201,8 +208,8 @@ let g:ale_lint_on_enter = 1
 let g:ale_virtualtext_cursor = 1
 
 " use nice symbols for errors and warnings
-" let g:ale_sign_error = '✗\ '
-" let g:ale_sign_warning = '⚠\ '
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚠'
 
 let g:ale_linters = {}
 let g:ale_linters.graphql = ['gqlint']
@@ -222,11 +229,7 @@ let g:ale_fixers.vue = ['eslint']
 
 let g:ale_elixir_credo_strict = 1
 let g:ale_elixir_elixir_ls_release = expand('~') . '/projects/elixir-ls/rel/'
-let g:ale_elixir_elixir_ls_config =  {
-      \   'elixirLS': {
-      \     'dialyzerEnabled': v:false,
-      \   },
-      \ }
+let g:ale_elixir_elixir_ls_config = {'elixirLS': {'dialyzerEnabled': v:false}}
 
 nnoremap <leader>f :ALEFix<cr>
 
@@ -412,6 +415,10 @@ autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 let g:startify_change_to_dir = 0
 
+" current highlight group #
+" map <leader>hi :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+" \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+" \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 " Tmuxline
 
 " let g:tmuxline_preset = {
