@@ -200,6 +200,10 @@ let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 1
 let g:ale_virtualtext_cursor = 1
 
+" use nice symbols for errors and warnings
+" let g:ale_sign_error = '✗\ '
+" let g:ale_sign_warning = '⚠\ '
+
 let g:ale_linters = {}
 let g:ale_linters.graphql = ['gqlint']
 let g:ale_linters.scss = ['stylelint']
@@ -215,6 +219,14 @@ let g:ale_fixers.ruby = ['rubocop']
 let g:ale_ruby_rubocop_executable = 'bundle'
 let g:ale_fixers.elixir = ['mix_format']
 let g:ale_fixers.vue = ['eslint']
+
+let g:ale_elixir_credo_strict = 1
+let g:ale_elixir_elixir_ls_release = expand('~') . '/projects/elixir-ls/rel/'
+let g:ale_elixir_elixir_ls_config =  {
+      \   'elixirLS': {
+      \     'dialyzerEnabled': v:false,
+      \   },
+      \ }
 
 nnoremap <leader>f :ALEFix<cr>
 
