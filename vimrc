@@ -143,7 +143,7 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('jacoborus/tender.vim')
   call dein#add('morhetz/gruvbox')
   call dein#add('joshdick/onedark.vim')
-
+  call dein#add('arcticicestudio/nord-vim')
 
   call dein#add('lilydjwg/colorizer')
   " other
@@ -189,8 +189,11 @@ nnoremap <leader>cc :call map(dein#check_clean(), "delete(v:val, 'rf')")<cr>
 filetype plugin indent on    " required
 
 syntax enable
+
 set background=dark
-colorscheme onedark
+let g:nord_underline = 1
+let g:nord_cursor_line_number_background = 1
+colorscheme nord
 
 " ALE Linter/formatter
 let g:ale_fix_on_save = 1
@@ -257,7 +260,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 """ AirLine
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme="onedark"
+let g:airline_theme="nord"
 
 " let airline#extensions#default#section_use_groupitems = 0
 let g:airline#extensions#tabline#enabled = 1

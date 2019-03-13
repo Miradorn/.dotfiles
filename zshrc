@@ -62,8 +62,8 @@ source /usr/local/etc/bash_completion.d/asdf.bash
 # gnu coreutils
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/share/istio/bin:/usr/local/sbin:$PATH"
 
-# dircolors
-eval "$(dircolors)"
+# # dircolors
+eval "$(dircolors .dir_colors)"
 
 # aliases
 source "$HOME/.zsh_aliases"
