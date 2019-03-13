@@ -1,5 +1,5 @@
 [core]
-	excludesfile = /Users/alsc/.gitignore_global
+	excludesfile = ~/.gitignore_global
   pager = diff-so-fancy | less --tabs=4 -RFX
 [user]
 	name = Alexander Schramm
@@ -49,11 +49,5 @@
   old = red bold
   new = green bold
   whitespace = red reverse
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [merge]
   ff = only

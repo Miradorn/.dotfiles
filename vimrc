@@ -378,11 +378,13 @@ let g:deoplete#enable_at_startup = 1
 
 " let g:lsp_log_verbose = 1
 " let g:lsp_log_file = expand('~/vim-lsp.log')
+let g:lsp_signs_enabled = 1         " enable signs
+let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
 augroup elixir_lsp
   au!
   au User lsp_setup call lsp#register_server({
     \ 'name': 'elixir-ls',
-    \ 'cmd': {server_info->[&shell, &shellcmdflag, '/Users/alsc/projekte/elixir-ls/rel/language_server.sh']},
+    \ 'cmd': {server_info->[&shell, &shellcmdflag, expand('~',) . '/projects/elixir-ls/rel/language_server.sh']},
     \ 'whitelist': ['elixir', 'eelixir'],
     \ 'workspace_config': {'elixirLS': {'dialyzerEnabled': v:false}},
     \ })
