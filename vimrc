@@ -120,10 +120,10 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('Shougo/deoplete.nvim')
   " call dein#add('fishbullet/deoplete-ruby')
   " call dein#add('slashmili/alchemist.vim')
-  call dein#add('prabirshrestha/async.vim')
-  call dein#add('prabirshrestha/vim-lsp')
-
-  call dein#add('lighttiger2505/deoplete-vim-lsp')
+  call dein#add('autozimu/LanguageClient-neovim', {
+        \ 'rev': 'next',
+        \ 'build': 'bash install.sh',
+        \ })
 
   " HTML
   call dein#add('mattn/emmet-vim')
@@ -215,7 +215,8 @@ let g:ale_linters = {}
 let g:ale_linters.graphql = ['gqlint']
 let g:ale_linters.scss = ['stylelint']
 let g:ale_linters.css = ['stylelint']
-let g:ale_linters.elixir = ['elixir-ls', 'credo']
+" let g:ale_linters.elixir = ['elixir-ls', 'credo']
+let g:ale_linters.elixir = ['credo']
 
 let g:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace']}
 let g:ale_fixers.javascript = ['eslint']
@@ -228,8 +229,8 @@ let g:ale_fixers.elixir = ['mix_format']
 let g:ale_fixers.vue = ['eslint']
 
 let g:ale_elixir_credo_strict = 1
-let g:ale_elixir_elixir_ls_release = expand('~') . '/projects/elixir-ls/rel/'
-let g:ale_elixir_elixir_ls_config = {'elixirLS': {'dialyzerEnabled': v:false}}
+" let g:ale_elixir_elixir_ls_release = expand('~') . '/projects/elixir-ls/rel/'
+" let g:ale_elixir_elixir_ls_config = {'elixirLS': {'dialyzerEnabled': v:false}}
 
 nnoremap <leader>f :ALEFix<cr>
 
@@ -394,19 +395,17 @@ let g:deoplete#enable_at_startup = 1
 " let g:deoplete#auto_refresh_delay = 300
 
 
-" let g:lsp_log_verbose = 1
-" let g:lsp_log_file = expand('~/vim-lsp.log')
-let g:lsp_signs_enabled = 1         " enable signs
-let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
-augroup elixir_lsp
-  au!
-  au User lsp_setup call lsp#register_server({
-    \ 'name': 'elixir-ls',
-    \ 'cmd': {server_info->[&shell, &shellcmdflag, expand('~',) . '/projects/elixir-ls/rel/language_server.sh']},
-    \ 'whitelist': ['elixir', 'eelixir'],
-    \ 'workspace_config': {'elixirLS': {'dialyzerEnabled': v:false}},
-    \ })
-augroup END
+let g:LanguageClient_hasSnippetSupport = 0
+let g:LanguageClient_serverCommands = {
+    \ 'elixir': [expand('~') . '/projects/elixir-ls/rel/language_server.sh'],
+    \ }
+
+" let g:LanguageClient_rootMarkers = {
+"     \ 'elixir': ['mix.exs'],
+"     \ }
+
+" let g:LanguageClient_loggingLevel = 'DEBUG'
+
 
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
