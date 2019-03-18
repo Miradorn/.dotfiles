@@ -81,41 +81,20 @@ bindkey "^[e" end-of-line
 _fzf_compgen_path() {
   fd --hidden --follow --exclude ".git" . "$1"
 }
+
 # Use fd to generate the list for directory completion
 _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
 
-_gen_fzf_default_opts() {
-
-  local color00='#2E3440'
-  local color01='#3B4252'
-  local color02='#434C5E'
-  local color03='#4C566A'
-  local color04='#D8DEE9'
-  local color05='#E5E9F0'
-  local color06='#ECEFF4'
-  local color07='#8FBCBB'
-  local color08='#88C0D0'
-  local color09='#81A1C1'
-  local color0A='#5E81AC'
-  local color0B='#BF616A'
-  local color0C='#D08770'
-  local color0D='#EBCB8B'
-  local color0E='#A3BE8C'
-  local color0F='#B48EAD'
-
-  export FZF_DEFAULT_OPTS="
-  --height 40% --border
-  --color=bg+:$color01,bg:$color00,spinner:$color0C,hl:$color0D
-  --color=fg:$color04,header:$color0D,info:$color0A,pointer:$color0C
-  --color=marker:$color0C,fg+:$color06,prompt:$color0A,hl+:$color0D
-  "
-  export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
-}
-
-_gen_fzf_default_opts
+export FZF_DEFAULT_OPTS="
+--height 40% --border
+--color=dark
+--color=fg:-1,bg:-1,hl:#c678dd,fg+:#ffffff,bg+:#4b5263,hl+:#d858fe
+--color=info:#98c379,prompt:#61afef,pointer:#be5046,marker:#e5c07b,spinner:#61afef,header:#61afef
+"
+export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 
 # tmux
 # Fix reattach for tmux
@@ -134,6 +113,7 @@ pasteinit() {
 pastefinish() {
   zle -N self-insert $OLD_SELF_INSERT
 }
+
 zstyle :bracketed-paste-magic paste-init pasteinit
 zstyle :bracketed-paste-magic paste-finish pastefinish
 ### Fix slowness of pastes
@@ -149,7 +129,7 @@ man() {
     LESS_TERMCAP_ue=$(printf "\e[0m") \
     LESS_TERMCAP_us=$(printf "\e[1;32m") \
     man "$@"
-}
+  }
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 

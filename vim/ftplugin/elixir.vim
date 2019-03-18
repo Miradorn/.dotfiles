@@ -10,7 +10,3 @@ endfunction
 
 let g:test#custom_transformations = {'elixir_umbrella': function('ElixirUmbrellaTransform')}
 let g:test#transformation = 'elixir_umbrella'
-
-augroup elixir
-  autocmd FileType elixir nnoremap <c-]> :ALEGoToDefinition<cr>
-augroup END
