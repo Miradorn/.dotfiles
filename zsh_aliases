@@ -104,7 +104,7 @@ function update {
   brew cask upgrade
   upgrade_oh_my_zsh
   gem update --system
-  gem update neovim coderay pry awesome-print byebug pry-byebug html2haml rubocop haml_lint scss_lint
+  gem update neovim coderay pry awesome-print byebug pry-byebug rubocop haml_lint scss_lint
   # pip2 install --upgrade pip
   # pip2 freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip2 install -U
   # pip3 install --upgrade pip
