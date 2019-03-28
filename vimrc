@@ -95,6 +95,7 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
 
   " Languages
   call dein#add('sheerun/vim-polyglot')
+  call dein#add('elixir-editors/vim-elixir')
   call dein#add('jparise/vim-graphql')
 
   " Compile/Test
@@ -252,6 +253,7 @@ let g:NERDTreeExtensionHighlightColor['exs'] = 'cc6666'
 
 let g:NERDTreeExtensionHighlightColor['ex'] = 'cc6666'
 let g:NERDTreeExtensionHighlightColor['eex'] = 'cc6666'
+let g:NERDTreeExtensionHighlightColor['leex'] = 'cc6666'
 let g:NERDTreeExtensionHighlightColor['exs'] = 'cc6666'
 
 let g:NERDTreeExtensionHighlightColor['haml'] = 'b5bd68'
@@ -386,7 +388,7 @@ let g:EditorConfig_core_mode = 'external_command'
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 let g:deoplete#enable_at_startup = 1
-" let g:deoplete#auto_refresh_delay = 300
+let g:deoplete#auto_refresh_delay = 300
 
 
 let g:LanguageClient_hasSnippetSupport = 0

@@ -58,6 +58,16 @@ function dsh {
 }
 
 # ----------------
+# gcloud
+# ----------------
+
+alias g=gcloud
+alias gcl="gcloud config list"
+alias gcs="gcloud config set"
+alias gccl="gcloud config configurations list"
+alias gcca="gcloud config configurations activate"
+
+# ----------------
 # Kubernetes
 # ----------------
 # select pod and get its ID

@@ -31,6 +31,8 @@ export BAT_THEME=OneHalfDark
 eval "$(hub alias -s)"
 # eval "$(rbenv init -)"
 
+eval $(thefuck --alias)
+
 # autojump #Duh
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
@@ -38,7 +40,7 @@ eval "$(hub alias -s)"
 
 export EDITOR='nvim'
 
-plugins=(git docker yarn kubectl helm bundler osx brew brew-cask gem rails mix)
+plugins=(git docker yarn kubectl helm bundler osx brew gem rails mix)
 
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
@@ -54,7 +56,7 @@ autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 
 # gcloud
-source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
+# source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
 source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
 
 source /usr/local/etc/bash_completion.d/asdf.bash
@@ -134,3 +136,5 @@ man() {
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 complete -o nospace -C /Users/alexanderschramm/.asdf/installs/terraform/0.12.0-beta1/bin/terraform terraform
+
+eval $(thefuck --alias)
