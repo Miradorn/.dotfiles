@@ -136,5 +136,3 @@ man() {
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 complete -o nospace -C /Users/alexanderschramm/.asdf/installs/terraform/0.12.0-beta1/bin/terraform terraform
-
-eval $(thefuck --alias)
