@@ -40,7 +40,7 @@ eval $(thefuck --alias)
 
 export EDITOR='nvim'
 
-plugins=(git docker yarn kubectl helm bundler osx brew gem rails mix)
+plugins=(git docker terraform yarn kubectl helm bundler osx brew gem rails mix)
 
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
@@ -61,6 +61,8 @@ source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.
 
 source /usr/local/etc/bash_completion.d/asdf.bash
 
+# krew
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 # gnu coreutils
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/share/istio/bin:/usr/local/sbin:$PATH"
 
@@ -135,4 +137,4 @@ man() {
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-complete -o nospace -C /Users/alexanderschramm/.asdf/installs/terraform/0.12.0-beta1/bin/terraform terraform
+eval $(thefuck --alias)

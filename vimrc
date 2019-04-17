@@ -221,6 +221,7 @@ let g:ale_fixers.elm = ['format']
 let g:ale_fixers.ruby = ['rubocop']
 let g:ale_ruby_rubocop_executable = 'bundle'
 let g:ale_fixers.elixir = ['mix_format']
+let g:ale_fixers.terraform = ['terraform']
 let g:ale_fixers.vue = ['eslint']
 
 let g:ale_elixir_credo_strict = 1
