@@ -123,6 +123,7 @@ function update {
   bubu
   brew cask upgrade
   upgrade_oh_my_zsh
+  asdf plugin-update --all
   gem update --system
   gem update neovim coderay pry awesome-print byebug pry-byebug rubocop haml_lint scss_lint
   # pip2 install --upgrade pip

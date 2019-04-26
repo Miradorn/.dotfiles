@@ -14,5 +14,5 @@ node_modules
 packs
 packs-test
 /.vscode
-/.elixir_ls
+.elixir_ls
 /bin

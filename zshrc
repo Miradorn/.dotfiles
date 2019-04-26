@@ -23,6 +23,8 @@ export SPACESHIP_PACKAGE_SHOW=false
 # export SPACESHIP_DOCKER_PREFIX=''
 export SPACESHIP_ELIXIR_SHOW=false
 export SPACESHIP_KUBECONTEXT_SYMBOL="☸️"
+export SPACESHIP_TERRAFORM_SHOW=true
+export SPACESHIP_TERRAFORM_SYMBOL="🛠️"
 
 export ERL_AFLAGS="-kernel shell_history enabled"
 
@@ -56,7 +58,7 @@ autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 
 # gcloud
-# source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
+source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
 source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
 
 source /usr/local/etc/bash_completion.d/asdf.bash
@@ -138,3 +140,4 @@ man() {
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 eval $(thefuck --alias)
+eval "$(direnv hook zsh)"

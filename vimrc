@@ -59,7 +59,7 @@ set shiftwidth=2        " number of spaces for indent
 set expandtab           " expand tabs into spaces
 
 if has("mouse")
-    set mouse=a
+  set mouse=a
 endif
 set mousehide           " Hide mouse pointer on insert mode."
 
@@ -95,7 +95,6 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
 
   " Languages
   call dein#add('sheerun/vim-polyglot')
-  call dein#add('elixir-editors/vim-elixir')
   call dein#add('jparise/vim-graphql')
 
   " Compile/Test
@@ -210,8 +209,8 @@ let g:ale_linters = {}
 let g:ale_linters.graphql = ['gqlint']
 let g:ale_linters.scss = ['stylelint']
 let g:ale_linters.css = ['stylelint']
-" let g:ale_linters.elixir = ['elixir-ls', 'credo']
-let g:ale_linters.elixir = ['credo']
+let g:ale_linters.elixir = ['elixir-ls', 'credo']
+" let g:ale_linters.elixir = ['credo']
 
 let g:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace']}
 let g:ale_fixers.javascript = ['eslint']
@@ -225,10 +224,13 @@ let g:ale_fixers.terraform = ['terraform']
 let g:ale_fixers.vue = ['eslint']
 
 let g:ale_elixir_credo_strict = 1
-" let g:ale_elixir_elixir_ls_release = expand('~') . '/projects/elixir-ls/rel/'
+let g:ale_elixir_elixir_ls_release = expand('~') . '/projects/elixir-ls/rel'
 " let g:ale_elixir_elixir_ls_config = {'elixirLS': {'dialyzerEnabled': v:false}}
 
 nnoremap <leader>f :ALEFix<cr>
+nnoremap <C-[> :ALEGoToDefinition<cr>
+nnoremap <M-[> :ALEGoToDefinitionInSplit<cr>
+nnoremap <M-h> :ALEHover<cr>
 
 command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
 
@@ -281,9 +283,9 @@ let g:airline#extensions#tabline#enabled = 1
 """ Dash
 nmap <silent> <leader>d <Plug>DashSearch
 let g:dash_map = {
-        \ 'haml' : ['ruby', 'rails', 'haml'],
-        \ 'eruby' : ['ruby', 'rails']
-        \ }
+      \ 'haml' : ['ruby', 'rails', 'haml'],
+      \ 'eruby' : ['ruby', 'rails']
+      \ }
 
 
 """ FZF
@@ -299,14 +301,14 @@ vnoremap <Leader>* y:Ag <C-r>=fnameescape(@")<CR><CR>
 
 
 let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-s': 'split',
-  \ 'ctrl-v': 'vsplit' }
+      \ 'ctrl-t': 'tab split',
+      \ 'ctrl-s': 'split',
+      \ 'ctrl-v': 'vsplit' }
 let g:fzf_layout = { 'up': '~30%' }
 let $FZF_DEFAULT_COMMAND = 'ag --hidden -g ""'
 
 command! -bang -nargs=* Ag
-  \ call fzf#vim#ag(<q-args>, '--hidden --color-path "0;34" --color-line-number "0;31"', <bang>0)
+      \ call fzf#vim#ag(<q-args>, '--hidden --color-path "0;34" --color-line-number "0;31"', <bang>0)
 " command! -bang -nargs=? -complete=dir Files
 "   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
@@ -368,6 +370,9 @@ nnoremap <BS> gg
 
 nmap <leader>z <Plug>(zoom-toggle)
 
+" jump to next closing pair
+let g:AutoPairsShortcutJump = '<C-]>'
+
 " move by screen line
 nnoremap j gj
 nnoremap k gk
@@ -381,27 +386,38 @@ vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
 
 if has("nvim")
-    " For terminal mode
-    tnoremap <Esc> <C-\><C-n>
+  " For terminal mode
+  tnoremap <Esc> <C-\><C-n>
 end
 
 let g:EditorConfig_core_mode = 'external_command'
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
+" deoplete
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#auto_refresh_delay = 300
+call deoplete#custom#option({
+      \ 'auto_refresh_delay': 200,
+      \ 'num_processes': 0,
+      \ })
+"
+" let g:deoplete#sources = {'_': ['ale', 'buffer']}
 
 
+" languageClient
 let g:LanguageClient_hasSnippetSupport = 0
+let g:LanguageClient_diagnosticsEnable = 0
 let g:LanguageClient_serverCommands = {
-    \ 'elixir': [expand('~') . '/projects/elixir-ls/rel/language_server.sh'],
-    \ }
+      \ 'elixir': [expand('~') . '/projects/elixir-ls/rel/language_server.sh'],
+      \ }
+
+let g:LanguageClient_rootMarkers = {
+      \ 'elixir': ['mix.exs'],
+      \ }
 
 " let g:LanguageClient_rootMarkers = {
 "     \ 'elixir': ['mix.exs'],
 "     \ }
 
-" let g:LanguageClient_loggingLevel = 'DEBUG'
 
 
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
