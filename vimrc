@@ -115,10 +115,10 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('Shougo/deoplete.nvim')
   " call dein#add('fishbullet/deoplete-ruby')
   " call dein#add('slashmili/alchemist.vim')
-  call dein#add('autozimu/LanguageClient-neovim', {
-        \ 'rev': 'next',
-        \ 'build': 'bash install.sh',
-        \ })
+  " call dein#add('autozimu/LanguageClient-neovim', {
+  "       \ 'rev': 'next',
+  "       \ 'build': 'bash install.sh',
+  "       \ })
 
   " HTML
   call dein#add('mattn/emmet-vim')
@@ -150,6 +150,7 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   " other
 
   call dein#add('tpope/vim-projectionist')
+  call dein#add('tpope/vim-eunuch')
 
   call dein#add('tpope/vim-commentary')
 
@@ -200,6 +201,7 @@ let g:ale_lint_on_enter = 1
 let g:ale_virtualtext_cursor = 1
 
 " use nice symbols for errors and warnings
+let g:ale_change_sign_column_color = 1
 let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '⚠'
 highlight ALEErrorSign ctermbg=NONE ctermfg=red
@@ -400,25 +402,27 @@ call deoplete#custom#option({
       \ 'num_processes': 0,
       \ })
 "
+call deoplete#custom#source('ale', 'rank', 999)
 " let g:deoplete#sources = {'_': ['ale', 'buffer']}
 
 
 " languageClient
-let g:LanguageClient_hasSnippetSupport = 0
-let g:LanguageClient_diagnosticsEnable = 0
-let g:LanguageClient_serverCommands = {
-      \ 'elixir': [expand('~') . '/projects/elixir-ls/rel/language_server.sh'],
-      \ }
 
-let g:LanguageClient_rootMarkers = {
-      \ 'elixir': ['mix.exs'],
-      \ }
+" let g:LanguageClient_hasSnippetSupport = 0
+" let g:LanguageClient_diagnosticsEnable = 0
+" let g:LanguageClient_serverCommands = {
+"       \ 'elixir': [expand('~') . '/projects/elixir-ls/rel/language_server.sh'],
+"       \ }
 
 " let g:LanguageClient_rootMarkers = {
-"     \ 'elixir': ['mix.exs'],
-"     \ }
+"       \ 'elixir': ['mix.exs'],
+"       \ }
+
+" let g:LanguageClient_loggingLevel='DEBUG'
+" let g:LanguageClient_loggingFile='/Users/alsc/LC.log'
 
 
+" completion
 
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"

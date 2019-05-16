@@ -16,3 +16,4 @@ packs-test
 /.vscode
 .elixir_ls
 /bin
+.projections.json

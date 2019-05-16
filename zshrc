@@ -42,7 +42,7 @@ eval $(thefuck --alias)
 
 export EDITOR='nvim'
 
-plugins=(git docker terraform yarn kubectl helm bundler osx brew gem rails mix)
+plugins=(git colored-man-pages docker terraform yarn kubectl helm bundler osx brew gem rails mix sdk)
 
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
@@ -66,6 +66,7 @@ source /usr/local/etc/bash_completion.d/asdf.bash
 # krew
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 # gnu coreutils
+# export PATH="/usr/local/share/istio/bin:/usr/local/sbin:$PATH"
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/share/istio/bin:/usr/local/sbin:$PATH"
 
 # # dircolors
@@ -124,20 +125,11 @@ zstyle :bracketed-paste-magic paste-init pasteinit
 zstyle :bracketed-paste-magic paste-finish pastefinish
 ### Fix slowness of pastes
 
-# colored man pages
-man() {
-  env \
-    LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-    LESS_TERMCAP_md=$(printf "\e[1;31m") \
-    LESS_TERMCAP_me=$(printf "\e[0m") \
-    LESS_TERMCAP_se=$(printf "\e[0m") \
-    LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
-    LESS_TERMCAP_ue=$(printf "\e[0m") \
-    LESS_TERMCAP_us=$(printf "\e[1;32m") \
-    man "$@"
-  }
-
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 eval $(thefuck --alias)
 eval "$(direnv hook zsh)"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/alsc/.sdkman"
+[[ -s "/Users/alsc/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/alsc/.sdkman/bin/sdkman-init.sh"
