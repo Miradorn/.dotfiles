@@ -1,1 +1,1 @@
-/Users/alsc/.dotfiles/vimrc
+../../vimrc
