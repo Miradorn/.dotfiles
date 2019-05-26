@@ -96,8 +96,10 @@ alias kns=kubens
 alias tf=terraform
 alias tfp="terraform plan"
 alias tfpo="terraform plan -out=plan.out"
+alias tfop=tfpo
 alias tfa="terraform apply"
 alias tfap="terraform apply plan.out"
+alias tfpp="tfop && tfap"
 
 # ----------------
 # ruby

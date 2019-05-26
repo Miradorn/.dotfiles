@@ -21,6 +21,7 @@ export SPACESHIP_CHAR_SYMBOL='λ '
 export SPACESHIP_TIME_SHOW=true
 export SPACESHIP_PACKAGE_SHOW=false
 # export SPACESHIP_DOCKER_PREFIX=''
+export SPACESHIP_DOCKER_SHOW=false
 export SPACESHIP_ELIXIR_SHOW=false
 export SPACESHIP_KUBECONTEXT_SYMBOL="☸️"
 export SPACESHIP_TERRAFORM_SHOW=true
@@ -42,7 +43,7 @@ eval $(thefuck --alias)
 
 export EDITOR='nvim'
 
-plugins=(git colored-man-pages docker terraform yarn kubectl helm bundler osx brew gem rails mix sdk)
+plugins=(git colored-man-pages docker terraform yarn kubectl helm bundler osx brew gem rails mix sdk extract)
 
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
