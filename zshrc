@@ -9,7 +9,7 @@ export TMUXP_CONFIGDIR=~/.tmuxp
 
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
-export RBENV_ROOT='/usr/local/opt/rbenv'
+# export RBENV_ROOT='/usr/local/opt/rbenv'
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -55,14 +55,18 @@ source $ZSH/oh-my-zsh.sh
 
 fpath=(/usr/local/share/zsh-completions $fpath)
 
-autoload -U +X compinit && compinit
-autoload -U +X bashcompinit && bashcompinit
+autoload -Uz +X compinit && compinit
+autoload -Uz +X bashcompinit && bashcompinit
+
+complete -o nospace -C /usr/local/bin/vault vault
 
 # gcloud
 source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
 source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
 
 source /usr/local/etc/bash_completion.d/asdf.bash
+source <(stern --completion=zsh)
+source <(velero completion zsh)
 
 # krew
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
@@ -130,7 +134,3 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 eval $(thefuck --alias)
 eval "$(direnv hook zsh)"
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/alsc/.sdkman"
-[[ -s "/Users/alsc/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/alsc/.sdkman/bin/sdkman-init.sh"

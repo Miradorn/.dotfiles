@@ -1,7 +1,7 @@
 neovim
 coderay
 pry
-awesome-print
+awesome_print
 byebug
 pry-byebug
 rubocop

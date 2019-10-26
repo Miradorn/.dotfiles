@@ -17,3 +17,4 @@ packs-test
 .elixir_ls
 /bin
 .projections.json
+.envrc.private

@@ -14,11 +14,8 @@ set encoding=utf-8
 scriptencoding utf-8
 
 set lazyredraw
-set regexpengine=1
 
 if (has('termguicolors'))
-  " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors
 endif
 
@@ -95,7 +92,8 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
 
   " Languages
   call dein#add('sheerun/vim-polyglot')
-  call dein#add('jparise/vim-graphql')
+  call dein#add('towolf/vim-helm')
+
 
   " Compile/Test
   call dein#add('janko-m/vim-test')
@@ -106,13 +104,15 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('tiagofumo/vim-nerdtree-syntax-highlight')
 
   " Ruby
-  call dein#add('tpope/vim-rbenv')
   call dein#add('tpope/vim-rails')
   call dein#add('tpope/vim-endwise')
   call dein#add('tpope/vim-bundler')
 
   """ Completions
   call dein#add('Shougo/deoplete.nvim')
+  call dein#add('Shougo/context_filetype.vim')
+  call dein#add('Shougo/neosnippet.vim')
+  call dein#add('Shougo/neosnippet-snippets')
   " call dein#add('fishbullet/deoplete-ruby')
   " call dein#add('slashmili/alchemist.vim')
   " call dein#add('autozimu/LanguageClient-neovim', {
@@ -188,9 +188,8 @@ nnoremap <leader>u :call dein#update()<cr>
 nnoremap <leader>i :call dein#install()<cr>
 nnoremap <leader>cc :call map(dein#check_clean(), "delete(v:val, 'rf')")<cr>
 
-filetype plugin indent on    " required
-
 syntax enable
+filetype plugin indent on    " required
 
 set background=dark
 colorscheme onedark
@@ -201,18 +200,17 @@ let g:ale_lint_on_enter = 1
 let g:ale_virtualtext_cursor = 1
 
 " use nice symbols for errors and warnings
+let g:ale_sign_highlight_linenrs = 1
 let g:ale_change_sign_column_color = 1
-let g:ale_sign_error = '✘'
-let g:ale_sign_warning = '⚠'
-highlight ALEErrorSign ctermbg=NONE ctermfg=red
-highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
+" let g:ale_sign_error = '✘'
+" let g:ale_sign_warning = '⚠'
 
 let g:ale_linters = {}
 let g:ale_linters.graphql = ['gqlint']
 let g:ale_linters.scss = ['stylelint']
 let g:ale_linters.css = ['stylelint']
 let g:ale_linters.elixir = ['elixir-ls', 'credo']
-" let g:ale_linters.elixir = ['credo']
+let g:ale_linters.terraform = ['terraform', 'tflint']
 
 let g:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace']}
 let g:ale_fixers.javascript = ['eslint']
@@ -223,6 +221,7 @@ let g:ale_fixers.ruby = ['rubocop']
 let g:ale_ruby_rubocop_executable = 'bundle'
 let g:ale_fixers.elixir = ['mix_format']
 let g:ale_fixers.terraform = ['terraform']
+let g:ale_fixers.hcl = ['terraform']
 let g:ale_fixers.vue = ['eslint']
 
 let g:ale_elixir_credo_strict = 1
@@ -354,6 +353,7 @@ nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
 nnoremap <leader>ez :vsplit ~/.zshrc<cr>
+nnoremap <leader>ed :vsplit ~/.dein.log<cr>
 
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>W :Gwrite<CR>
@@ -392,7 +392,6 @@ if has("nvim")
   tnoremap <Esc> <C-\><C-n>
 end
 
-let g:EditorConfig_core_mode = 'external_command'
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 " deoplete
@@ -404,6 +403,28 @@ call deoplete#custom#option({
 "
 call deoplete#custom#source('ale', 'rank', 999)
 " let g:deoplete#sources = {'_': ['ale', 'buffer']}
+
+" neosnippet
+imap <C-s>     <Plug>(neosnippet_expand_or_jump)
+smap <C-s>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-s>     <Plug>(neosnippet_expand_target)
+
+let g:neosnippet#snippets_directory='~/.vim/snippets'
+
+" completion
+
+imap <expr><TAB>
+      \   pumvisible() ?
+      \     "\<C-n>" :
+      \     neosnippet#expandable_or_jumpable() ?
+      \       "\<Plug>(neosnippet_expand_or_jump)" :
+      \       "\<TAB>"
+
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+      \ "\<Plug>(neosnippet_expand_or_jump)" :
+      \ "\<TAB>"
+
+inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 
 " languageClient
@@ -422,28 +443,6 @@ call deoplete#custom#source('ale', 'rank', 999)
 " let g:LanguageClient_loggingFile='/Users/alsc/LC.log'
 
 
-" completion
-
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
-
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 let g:startify_change_to_dir = 0
-
-" current highlight group #
-" map <leader>hi :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-" \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-" \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-" Tmuxline
-
-" let g:tmuxline_preset = {
-"       \ 'a'    : ['#h', '#S'],
-"       \ 'win'  : '#I #W',
-"       \ 'cwin' : '#I #{?window_zoomed_flag,#[fg=red](,}#W#{?window_zoomed_flag,#[fg=red]),}',
-"       \ 'y'    : ['%R', '%a'],
-"       \ 'z'    : '#{battery_status_bg}#{battery_icon} #{battery_percentage}',
-"       \ 'options': {
-"       \   'status-justify': 'left',
-"       \   'status-bg': 'colour234'}
-"       \}

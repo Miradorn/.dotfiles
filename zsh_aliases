@@ -1,10 +1,11 @@
 # ----------------
 # common
 # ----------------
-alias e='exa --long --header --git --all'
-alias et='exa --tree --long'
-alias l=e
-alias t=tree
+alias ls='lsd'
+alias l='ls -l'
+alias la='ls -al'
+alias lt='ls --tree'
+alias t=lt
 alias cat=bat
 alias ping=prettyping
 alias kraken='open -a "GitKraken" --args -p $(pwd)'
@@ -32,6 +33,21 @@ alias vim=nvim
 # git
 # ----------------
 alias gitsh="gitsh --git $(which hub)"
+
+function fco() {
+  local tags branches target
+  branches=$(
+    git --no-pager branch --all \
+      --format="%(if)%(HEAD)%(then)%(else)%(if:equals=HEAD)%(refname:strip=3)%(then)%(else)%1B[0;34;1mbranch%09%1B[m%(refname:short)%(end)%(end)" \
+    | sed '/^$/d') || return
+  tags=$(
+    git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
+  target=$(
+    (echo "$branches"; echo "$tags") |
+    fzf --no-hscroll --no-multi -n 2 \
+        --ansi --preview="git --no-pager log -150 --pretty=format:%s '..{2}'") || return
+  git checkout $(awk '{print $2}' <<<"$target" )
+}
 
 # ----------------
 # docker
@@ -90,6 +106,12 @@ alias kx=kubectx
 alias kns=kubens
 
 # ----------------
+# FluxCD
+# ----------------
+
+alias flux="fluxctl --k8s-fwd-ns flux"
+
+# ----------------
 # terraform
 # ----------------
 
@@ -105,8 +127,6 @@ alias tfpp="tfop && tfap"
 # ruby
 # ----------------
 alias bil="bi --local"
-alias pry='/usr/local/Cellar/rbenv/1.1.1/shims/pry'
-alias pryr='pry -r ./config/environment'
 
 # ----------------
 # puma-dev
@@ -128,10 +148,6 @@ function update {
   asdf plugin-update --all
   gem update --system
   gem update neovim coderay pry awesome-print byebug pry-byebug rubocop haml_lint scss_lint
-  # pip2 install --upgrade pip
-  # pip2 freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip2 install -U
-  # pip3 install --upgrade pip
-  # pip3 freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip3 install -U
   pip3 install --upgrade pynvim Pygments tmuxp
   yarn global upgrade
   gcloud components update --quiet
