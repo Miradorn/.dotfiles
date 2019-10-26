@@ -2,8 +2,8 @@
 # common
 # ----------------
 alias ls='lsd'
-alias l='ls -l'
-alias la='ls -al'
+alias l='ls -al'
+alias la='ls -l'
 alias lt='ls --tree'
 alias t=lt
 alias cat=bat
