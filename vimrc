@@ -94,6 +94,8 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('sheerun/vim-polyglot')
   call dein#add('towolf/vim-helm')
 
+  call dein#add('liuchengxu/vista.vim')
+
 
   " Compile/Test
   call dein#add('janko-m/vim-test')
@@ -145,6 +147,7 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('jacoborus/tender.vim')
   call dein#add('morhetz/gruvbox')
   call dein#add('joshdick/onedark.vim')
+  call dein#add('arcticicestudio/nord-vim')
 
   call dein#add('lilydjwg/colorizer')
   " other
@@ -171,7 +174,8 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
 
   call dein#add('vim-airline/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
-  call dein#add('w0rp/ale')
+  call dein#add('dense-analysis/ale')
+  call dein#add('ncm2/float-preview.nvim')
   call dein#add('mhinz/vim-startify')
 
   call dein#add('terryma/vim-expand-region')
@@ -192,7 +196,7 @@ syntax enable
 filetype plugin indent on    " required
 
 set background=dark
-colorscheme onedark
+colorscheme nord
 
 " ALE Linter/formatter
 let g:ale_fix_on_save = 1
@@ -217,7 +221,7 @@ let g:ale_fixers.javascript = ['eslint']
 let g:ale_fixers.scss = ['stylelint']
 let g:ale_fixers.css = ['stylelint']
 let g:ale_fixers.elm = ['format']
-let g:ale_fixers.ruby = ['rubocop']
+let g:ale_fixers.ruby = [] " ['rubocop']
 let g:ale_ruby_rubocop_executable = 'bundle'
 let g:ale_fixers.elixir = ['mix_format']
 let g:ale_fixers.terraform = ['terraform']
@@ -276,7 +280,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 """ AirLine
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme="onedark"
+let g:airline_theme="nord"
 
 " let airline#extensions#default#section_use_groupitems = 0
 let g:airline#extensions#tabline#enabled = 1
@@ -296,7 +300,6 @@ inoremap <C-p> <ESC>:Files<CR>
 nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>c :Commits<CR>
 nnoremap <Leader>m :Maps<CR>
-nnoremap <Leader>tt :BTags<CR>
 nnoremap <silent> <Leader>* :Ag <C-R><C-W><CR>
 vnoremap <Leader>* y:Ag <C-r>=fnameescape(@")<CR><CR>
 
@@ -313,7 +316,21 @@ command! -bang -nargs=* Ag
 " command! -bang -nargs=? -complete=dir Files
 "   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
-"Test
+" Vista
+
+let g:vista_default_executive = 'ale'
+
+let g:vista#renderer#enable_icon = 1
+
+nnoremap <Leader>tt :Vista!!<CR>
+nnoremap <Leader>tf :Vista finder<CR>
+
+let g:vista_sidebar_width = 50
+let g:vista_echo_cursor = 1
+let g:vista_echo_cursor_strategy = 'floating_win'
+let g:vista_fzf_preview = ['right:50%']
+
+" Test
 let test#strategy = "neoterm"
 
 nnoremap <silent> <leader>tq :Ttoggle<cr>
@@ -395,6 +412,9 @@ end
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 " deoplete
+set completeopt-=preview
+let g:float_preview#docked = 0
+
 let g:deoplete#enable_at_startup = 1
 call deoplete#custom#option({
       \ 'auto_refresh_delay': 200,
