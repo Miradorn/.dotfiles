@@ -14,6 +14,7 @@ set encoding=utf-8
 scriptencoding utf-8
 
 set lazyredraw
+set signcolumn=yes
 
 if (has('termguicolors'))
   set termguicolors
@@ -72,7 +73,7 @@ set noswapfile          " do not write .swp files
 set splitbelow
 set splitright
 
-set foldcolumn=3
+" set foldcolumn=3
 set foldmethod=syntax
 set foldlevelstart=20
 
@@ -94,9 +95,6 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('sheerun/vim-polyglot')
   call dein#add('towolf/vim-helm')
 
-  call dein#add('liuchengxu/vista.vim')
-
-
   " Compile/Test
   call dein#add('janko-m/vim-test')
   call dein#add('kassio/neoterm')
@@ -111,16 +109,9 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('tpope/vim-bundler')
 
   """ Completions
-  call dein#add('Shougo/deoplete.nvim')
-  call dein#add('Shougo/context_filetype.vim')
-  call dein#add('Shougo/neosnippet.vim')
-  call dein#add('Shougo/neosnippet-snippets')
-  " call dein#add('fishbullet/deoplete-ruby')
-  " call dein#add('slashmili/alchemist.vim')
-  " call dein#add('autozimu/LanguageClient-neovim', {
-  "       \ 'rev': 'next',
-  "       \ 'build': 'bash install.sh',
-  "       \ })
+  call dein#add('neoclide/coc.nvim', {'merged':0, 'rev': 'release'})
+  call dein#add('honza/vim-snippets')
+  call dein#add('liuchengxu/vista.vim')
 
   " HTML
   call dein#add('mattn/emmet-vim')
@@ -149,7 +140,6 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('joshdick/onedark.vim')
   call dein#add('arcticicestudio/nord-vim')
 
-  call dein#add('lilydjwg/colorizer')
   " other
 
   call dein#add('tpope/vim-projectionist')
@@ -170,12 +160,10 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('editorconfig/editorconfig-vim')
 
   call dein#add('tpope/vim-repeat')
-  " call dein#add('Konfekt/FastFold')
 
   call dein#add('vim-airline/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
   call dein#add('dense-analysis/ale')
-  call dein#add('ncm2/float-preview.nvim')
   call dein#add('mhinz/vim-startify')
 
   call dein#add('terryma/vim-expand-region')
@@ -199,43 +187,47 @@ set background=dark
 colorscheme nord
 
 " ALE Linter/formatter
-let g:ale_fix_on_save = 1
+let g:ale_fix_on_save = 0
 let g:ale_lint_on_enter = 1
 let g:ale_virtualtext_cursor = 1
 
 " use nice symbols for errors and warnings
 let g:ale_sign_highlight_linenrs = 1
-let g:ale_change_sign_column_color = 1
+" let g:ale_change_sign_column_color = 1
 " let g:ale_sign_error = '✘'
 " let g:ale_sign_warning = '⚠'
 
 let g:ale_linters = {}
 let g:ale_linters.graphql = ['gqlint']
+let g:ale_linters.javascript = ['eslint']
+let g:ale_linters.typescript = ['eslint']
 let g:ale_linters.scss = ['stylelint']
 let g:ale_linters.css = ['stylelint']
-let g:ale_linters.elixir = ['elixir-ls', 'credo']
+let g:ale_linters.elixir = ['credo']
 let g:ale_linters.terraform = ['terraform', 'tflint']
 
 let g:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace']}
-let g:ale_fixers.javascript = ['eslint']
+let g:ale_fixers.javascript = ['prettier']
+let g:ale_fixers.typescript = ['prettier']
 let g:ale_fixers.scss = ['stylelint']
 let g:ale_fixers.css = ['stylelint']
 let g:ale_fixers.elm = ['format']
-let g:ale_fixers.ruby = [] " ['rubocop']
+let g:ale_fixers.ruby = ['rubocop']
 let g:ale_ruby_rubocop_executable = 'bundle'
 let g:ale_fixers.elixir = ['mix_format']
 let g:ale_fixers.terraform = ['terraform']
 let g:ale_fixers.hcl = ['terraform']
 let g:ale_fixers.vue = ['eslint']
+let g:ale_fixers.json = ['prettier']
 
 let g:ale_elixir_credo_strict = 1
-let g:ale_elixir_elixir_ls_release = expand('~') . '/projects/elixir-ls/rel'
+" let g:ale_elixir_elixir_ls_release = expand('~') . '/projects/elixir-ls/rel'
 " let g:ale_elixir_elixir_ls_config = {'elixirLS': {'dialyzerEnabled': v:false}}
 
 nnoremap <leader>f :ALEFix<cr>
-nnoremap <C-[> :ALEGoToDefinition<cr>
-nnoremap <M-[> :ALEGoToDefinitionInSplit<cr>
-nnoremap <M-h> :ALEHover<cr>
+" nnoremap <C-[> :ALEGoToDefinition<cr>
+" nnoremap <M-[> :ALEGoToDefinitionInSplit<cr>
+" nnoremap <M-h> :ALEHover<cr>
 
 command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
 
@@ -318,7 +310,7 @@ command! -bang -nargs=* Ag
 
 " Vista
 
-let g:vista_default_executive = 'ale'
+let g:vista_default_executive = 'coc'
 
 let g:vista#renderer#enable_icon = 1
 
@@ -368,6 +360,7 @@ iabbrev <// </<C-X><C-O>
 
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <leader>ec :CocConfig<cr>
 nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
 nnoremap <leader>ez :vsplit ~/.zshrc<cr>
 nnoremap <leader>ed :vsplit ~/.dein.log<cr>
@@ -411,58 +404,70 @@ end
 
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
-" deoplete
-set completeopt-=preview
-let g:float_preview#docked = 0
+" =================
+" COC
+" =================
 
-let g:deoplete#enable_at_startup = 1
-call deoplete#custom#option({
-      \ 'auto_refresh_delay': 200,
-      \ 'num_processes': 0,
-      \ })
-"
-call deoplete#custom#source('ale', 'rank', 999)
-" let g:deoplete#sources = {'_': ['ale', 'buffer']}
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 
-" neosnippet
-imap <C-s>     <Plug>(neosnippet_expand_or_jump)
-smap <C-s>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-s>     <Plug>(neosnippet_expand_target)
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-let g:neosnippet#snippets_directory='~/.vim/snippets'
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+let g:coc_snippet_next = '<tab>'
 
-" completion
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-imap <expr><TAB>
-      \   pumvisible() ?
-      \     "\<C-n>" :
-      \     neosnippet#expandable_or_jumpable() ?
-      \       "\<Plug>(neosnippet_expand_or_jump)" :
-      \       "\<TAB>"
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
 
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-      \ "\<Plug>(neosnippet_expand_or_jump)" :
-      \ "\<TAB>"
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> <C-[> <Plug>(coc-definition)
+nmap <silent> gv :call CocAction('jumpDefinition', 'vsplit')<cr>
+nmap <silent> <A-[> :call CocAction('jumpDefinition', 'vsplit')<cr>
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-" languageClient
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
 
-" let g:LanguageClient_hasSnippetSupport = 0
-" let g:LanguageClient_diagnosticsEnable = 0
-" let g:LanguageClient_serverCommands = {
-"       \ 'elixir': [expand('~') . '/projects/elixir-ls/rel/language_server.sh'],
-"       \ }
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" let g:LanguageClient_rootMarkers = {
-"       \ 'elixir': ['mix.exs'],
-"       \ }
-
-" let g:LanguageClient_loggingLevel='DEBUG'
-" let g:LanguageClient_loggingFile='/Users/alsc/LC.log'
-
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
 
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 let g:startify_change_to_dir = 0
+
+" tmuxline
+" let g:tmuxline_preset = {
+"       \ 'a'    : ['#h', '#S'],
+"       \ 'win'  : '#I #W',
+"       \ 'cwin' : '#I #{?window_zoomed_flag,#[fg=red](,}#W#{?window_zoomed_flag,#[fg=red]),}',
+"       \ 'y'    : ['%R', '%a'],
+"       \ 'z'    : '#{battery_status_bg}#{battery_icon} #{battery_percentage}',
+"       \ 'options': {
+"       \   'status-justify': 'left',
+"       \   'status-bg': 'colour234'}
+"       \}

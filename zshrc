@@ -43,7 +43,7 @@ eval $(thefuck --alias)
 
 export EDITOR='nvim'
 
-plugins=(git colored-man-pages docker terraform yarn kubectl helm bundler osx brew gem rails mix sdk extract)
+plugins=(git colored-man-pages docker terraform yarn kubectl helm bundler osx brew gem rails mix extract)
 
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
@@ -72,7 +72,7 @@ source <(velero completion zsh)
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 # gnu coreutils
 # export PATH="/usr/local/share/istio/bin:/usr/local/sbin:$PATH"
-export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/share/istio/bin:/usr/local/sbin:$PATH"
+export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/share/istio/bin:/usr/local/sbin:$(brew --prefix)/opt/python/libexec/bin:$PATH"
 
 # # dircolors
 eval "$(dircolors ~/.dir_colors)"

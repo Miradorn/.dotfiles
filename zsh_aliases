@@ -11,6 +11,14 @@ alias ping=prettyping
 alias kraken='open -a "GitKraken" --args -p $(pwd)'
 
 # ----------------
+# hugo
+# ----------------
+
+function blogpost() {
+  hugo new posts/$(date -u +"%Y%m%d")-${1}
+}
+
+# ----------------
 # tmux
 # ----------------
 alias tmux="tmux -2 -u"

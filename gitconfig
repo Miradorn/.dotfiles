@@ -30,6 +30,7 @@
   uncommit = reset --soft HEAD^
   unstage = reset
   staged = diff --cached
+  pick = cherry-pick
 [color]
   ui = true
 [gitsh]
@@ -53,7 +54,7 @@
   ff = only
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
