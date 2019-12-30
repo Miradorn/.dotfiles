@@ -1,0 +1,14 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": ["*"],
+  "eslint.autoFixOnSave": true,
+  "prettier.disableSuccessMessage": true,
+  "snippets.snipmate.enable": false,
+  "snippets.userSnippetsDirectory": "~/.vim/snippets",
+  "solargraph.hover": true,
+  "solargraph.completion": true,
+  "solargraph.formatting": true,
+  "solargraph.diagnostics": true,
+  "solargraph.definitions": true,
+  "solargraph.useBundler": true,
+  "diagnostic.displayByAle": true
+}

@@ -14,27 +14,22 @@ export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-ZSH_THEME="spaceship"
-export SPACESHIP_CHAR_SYMBOL='λ '
-# export SPACESHIP_CHAR_SUFFIX=' '
-# export SPACESHIP_PROMPT_DEFAULT_PREFIX=''
-export SPACESHIP_TIME_SHOW=true
-export SPACESHIP_PACKAGE_SHOW=false
-# export SPACESHIP_DOCKER_PREFIX=''
-export SPACESHIP_DOCKER_SHOW=false
-export SPACESHIP_ELIXIR_SHOW=false
-export SPACESHIP_KUBECONTEXT_SYMBOL="☸️"
-export SPACESHIP_TERRAFORM_SHOW=true
-export SPACESHIP_TERRAFORM_SYMBOL="🛠️"
+# ZSH_THEME="spaceship"
+# export SPACESHIP_CHAR_SYMBOL='λ '
+# # export SPACESHIP_CHAR_SUFFIX=' '
+# # export SPACESHIP_PROMPT_DEFAULT_PREFIX=''
+# export SPACESHIP_TIME_SHOW=true
+# export SPACESHIP_PACKAGE_SHOW=false
+# # export SPACESHIP_DOCKER_PREFIX=''
+# export SPACESHIP_DOCKER_SHOW=false
+# export SPACESHIP_ELIXIR_SHOW=false
+# export SPACESHIP_TERRAFORM_SHOW=true
+# export SPACESHIP_TERRAFORM_SYMBOL="🛠️"
 
 export ERL_AFLAGS="-kernel shell_history enabled"
 
 export BAT_THEME=OneHalfDark
 
-eval "$(hub alias -s)"
-# eval "$(rbenv init -)"
-
-eval $(thefuck --alias)
 
 # autojump #Duh
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
@@ -134,3 +129,5 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 eval $(thefuck --alias)
 eval "$(direnv hook zsh)"
+eval "$(hub alias -s)"
+eval "$(starship init zsh)"
