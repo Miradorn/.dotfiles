@@ -119,7 +119,7 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   " Git
   call dein#add('tpope/vim-fugitive')
   call dein#add('shumphrey/fugitive-gitlab.vim')
-  call dein#add('airblade/vim-gitgutter')
+  " call dein#add('airblade/vim-gitgutter')
 
   " visual undo tree
   call dein#add('mbbill/undotree')
@@ -184,6 +184,11 @@ syntax enable
 filetype plugin indent on    " required
 
 set background=dark
+
+let g:nord_italic = 1
+let g:nord_italic_comments = 1
+let g:nord_underline = 1
+
 colorscheme nord
 
 " ALE Linter/formatter
@@ -198,33 +203,36 @@ let g:ale_sign_highlight_linenrs = 1
 " let g:ale_sign_warning = '⚠'
 
 let g:ale_linters = {}
+let g:ale_linters.ruby = ['brakeman', 'rails_best_practices', 'reek']
+let g:ale_linters.markdown = []
 let g:ale_linters.graphql = ['gqlint']
-let g:ale_linters.javascript = ['eslint']
-let g:ale_linters.typescript = ['eslint']
-let g:ale_linters.scss = ['stylelint']
-let g:ale_linters.css = ['stylelint']
-let g:ale_linters.elixir = ['credo']
+let g:ale_linters.javascript = []
+let g:ale_linters.typescript = []
+let g:ale_linters.scss = []
+let g:ale_linters.css = []
+let g:ale_linters.elixir = ['credo', 'mix']
 let g:ale_linters.terraform = ['terraform', 'tflint']
 
 let g:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace']}
-let g:ale_fixers.javascript = ['prettier']
-let g:ale_fixers.typescript = ['prettier']
-let g:ale_fixers.scss = ['stylelint']
-let g:ale_fixers.css = ['stylelint']
+" let g:ale_fixers.javascript = ['prettier']
+" let g:ale_fixers.typescript = ['prettier']
+" let g:ale_fixers.scss = ['stylelint']
+" let g:ale_fixers.css = ['stylelint']
 let g:ale_fixers.elm = ['format']
-let g:ale_fixers.ruby = ['rubocop']
-let g:ale_ruby_rubocop_executable = 'bundle'
+" let g:ale_fixers.ruby = ['rubocop']
 let g:ale_fixers.elixir = ['mix_format']
 let g:ale_fixers.terraform = ['terraform']
 let g:ale_fixers.hcl = ['terraform']
-let g:ale_fixers.vue = ['eslint']
-let g:ale_fixers.json = ['prettier']
+" let g:ale_fixers.vue = ['eslint']
+" let g:ale_fixers.json = ['prettier']
 
+let g:ale_ruby_rubocop_executable = 'bundle'
 let g:ale_elixir_credo_strict = 1
 " let g:ale_elixir_elixir_ls_release = expand('~') . '/projects/elixir-ls/rel'
 " let g:ale_elixir_elixir_ls_config = {'elixirLS': {'dialyzerEnabled': v:false}}
 
-nnoremap <leader>f :ALEFix<cr>
+nnoremap <leader>fa :ALEFix<CR>
+nnoremap <leader>ff :call CocAction('format')<CR>
 " nnoremap <C-[> :ALEGoToDefinition<cr>
 " nnoremap <M-[> :ALEGoToDefinitionInSplit<cr>
 " nnoremap <M-h> :ALEHover<cr>
@@ -276,6 +284,7 @@ let g:airline_theme="nord"
 
 " let airline#extensions#default#section_use_groupitems = 0
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#hunks#coc_git = 1
 
 """ Dash
 nmap <silent> <leader>d <Plug>DashSearch
@@ -291,6 +300,7 @@ nnoremap <C-p> :Files<CR>
 inoremap <C-p> <ESC>:Files<CR>
 nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>c :Commits<CR>
+nnoremap <Leader>fl :Lines<CR>
 nnoremap <Leader>m :Maps<CR>
 nnoremap <silent> <Leader>* :Ag <C-R><C-W><CR>
 vnoremap <Leader>* y:Ag <C-r>=fnameescape(@")<CR><CR>
@@ -300,7 +310,9 @@ let g:fzf_action = {
       \ 'ctrl-t': 'tab split',
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit' }
-let g:fzf_layout = { 'up': '~30%' }
+
+let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.5, 'yoffset': 0.05 } }
+
 let $FZF_DEFAULT_COMMAND = 'ag --hidden -g ""'
 
 command! -bang -nargs=* Ag
@@ -353,7 +365,7 @@ map g/ <Plug>(incsearch-stay)
 au BufNewFile,BufRead *.json.jbuilder set ft=ruby
 
 " git
-let g:fugitive_gitlab_domains = ['https://gitlab.akra.de']
+" let g:fugitive_gitlab_domains = ['https://gitlab.akra.de']
 
 " custom
 iabbrev <// </<C-X><C-O>
@@ -402,14 +414,20 @@ if has("nvim")
   tnoremap <Esc> <C-\><C-n>
 end
 
-let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+" let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 " =================
 " COC
 " =================
 
+nnoremap <Leader>cu :CocUpdate<CR>
+
 let g:coc_global_extensions = [
       \"coc-css",
+      \"coc-sh",
+      \"coc-markdownlint",
+      \"coc-go",
+      \"coc-git",
       \"coc-elixir",
       \"coc-eslint",
       \"coc-highlight",
@@ -418,11 +436,13 @@ let g:coc_global_extensions = [
       \"coc-prettier",
       \"coc-snippets",
       \"coc-solargraph",
+      \"coc-stylelintplus",
       \"coc-tsserver",
       \"coc-vetur",
       \"coc-yaml"
       \]
 
+inoremap <C-c> <ESC>
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -431,13 +451,14 @@ inoremap <silent><expr> <TAB>
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 imap <C-j> <Plug>(coc-snippets-expand-jump)
-let g:coc_snippet_next = '<tab>'
+let g:coc_snippet_next = '<C-j>'
 
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
+nmap <leader>ca :CocCommand actions.open<CR>
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 

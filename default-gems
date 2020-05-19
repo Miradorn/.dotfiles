@@ -7,5 +7,5 @@ pry-byebug
 rubocop
 haml_lint
 scss_lint
-git_curate
 solargraph
+git_curate

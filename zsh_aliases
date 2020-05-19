@@ -9,6 +9,7 @@ alias t=lt
 alias cat=bat
 alias ping=prettyping
 alias kraken='open -a "GitKraken" --args -p $(pwd)'
+alias icat='kitty +kitten icat'
 
 # ----------------
 # hugo
@@ -63,6 +64,8 @@ function fco() {
 function dsel {
   docker container ls --all | fzf --header-lines=1 --query "${1}" --multi | awk '{ print $1 }'
 }
+
+alias drrmit='docker run --rm -it'
 
 # localhost for lazy docker people
 function dopen {

@@ -4,6 +4,8 @@ export ZSH=~/.oh-my-zsh
 export XDG_CONFIG_HOME=~/.config
 export DISABLE_AUTO_TITLE=true
 export TMUXP_CONFIGDIR=~/.tmuxp
+export TERM_ITALICS=true
+export DOCKER_BUILDKIT=true
 
 # export EVENT_NOKQUEUE=1
 
@@ -28,7 +30,7 @@ export LANG=en_US.UTF-8
 
 export ERL_AFLAGS="-kernel shell_history enabled"
 
-export BAT_THEME=OneHalfDark
+export BAT_THEME=Nord
 
 
 # autojump #Duh
@@ -38,7 +40,7 @@ export BAT_THEME=OneHalfDark
 
 export EDITOR='nvim'
 
-plugins=(git colored-man-pages docker terraform yarn kubectl helm bundler osx brew gem rails mix extract)
+plugins=(git git-open colored-man-pages docker terraform yarn kubectl helm bundler osx brew gem rails mix extract)
 
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
@@ -48,7 +50,7 @@ source $ZSH/oh-my-zsh.sh
 #
 # completion setup
 
-fpath=(/usr/local/share/zsh-completions $fpath)
+fpath=(/usr/local/share/zsh-completions ~/.zsh/completions $fpath)
 
 autoload -Uz +X compinit && compinit
 autoload -Uz +X bashcompinit && bashcompinit
@@ -97,6 +99,7 @@ _fzf_compgen_dir() {
 
 export FZF_DEFAULT_OPTS="
 --height 40% --border
+--info=inline
 --color=dark
 --color fg:#D8DEE9,bg:#2E3440,hl:#A3BE8C,fg+:#D8DEE9,bg+:#434C5E,hl+:#A3BE8C
 --color pointer:#BF616A,info:#4C566A,spinner:#4C566A,header:#4C566A,prompt:#81A1C1,marker:#EBCB8B
@@ -131,3 +134,6 @@ eval $(thefuck --alias)
 eval "$(direnv hook zsh)"
 eval "$(hub alias -s)"
 eval "$(starship init zsh)"
+
+# Created by `userpath` on 2020-02-22 15:02:05
+export PATH="$PATH:/Users/alsc/.local/bin"

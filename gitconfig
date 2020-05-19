@@ -1,14 +1,16 @@
 [core]
 	excludesfile = ~/.gitignore_global
-  pager = diff-so-fancy | less --tabs=4 -RFX
+  pager = delta
+  # pager = diff-so-fancy | less --tabs=4 -RFX
 [user]
 	name = Alexander Schramm
 	email = alex@schram.me
-  signingkey = 2B591E707DDD9CE2
+	signingkey = 18C740F63953F199A0085AFB2B591E707DDD9CE2
 [push]
 	default = current
 [alias]
   llog = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+  br = branch
   bd = branch -d
   bD = branch -D
   co = checkout
@@ -23,7 +25,7 @@
   pr = pull-request
   amend = commit --amend --no-edit
   pushf = push -f
-  pf = push -f
+  pf = push --force-with-lease
   force = push -f
   prune = fetch --prune
   diffs = diff --staged
@@ -31,6 +33,7 @@
   unstage = reset
   staged = diff --cached
   pick = cherry-pick
+  branches = for-each-ref --sort=-committerdate --format=\"%(color:blue)%(authordate:relative)\t%(color:red)%(authorname)\t%(color:white)%(color:bold)%(refname:short)\" refs/remotes
 [color]
   ui = true
 [gitsh]
@@ -50,8 +53,11 @@
   old = red bold
   new = green bold
   whitespace = red reverse
+[interactive]
+    diffFilter = delta --color-only
 [merge]
   ff = only
+  conflictstyle = diff3
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
@@ -60,3 +66,12 @@
 	trustExitCode = true
 [tag]
 	forceSignAnnotated = true
+[gpg]
+	program = /usr/local/MacGPG2/bin/gpg
+[pull]
+	rebase = true
+[fetch]
+	prune = true
+[branch]
+	autoSetupMerge = true
+	autoSetupRebase = always

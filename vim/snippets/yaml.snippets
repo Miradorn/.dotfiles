@@ -128,7 +128,7 @@ data:
 endsnippet
 
 
-snippet sec "secret"
+snippet secret
 apiVersion: v1
 kind: Secret
 metadata:
@@ -247,7 +247,7 @@ livenessProbe: &probe
 readinessProbe: *probe $0
 endsnippet
 
-snippet ss "sealedsecret"
+snippet sealedsecret
 apiVersion: bitnami.com/v1alpha1
 kind: SealedSecret
 metadata:
@@ -300,4 +300,71 @@ spec:
 	host: ${4}
 	prefix: ${5:/}
 	service: ${6}
+endsnippet
+
+snippet helmrelease
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+	name: ${1}
+	namespace: ${2:default}
+spec:
+	releaseName: ${3:$1}
+	chart:
+		repository: ${4:https://kubernetes-charts.storage.googleapis.com/}
+		name: ${5:$1}
+		version: ${6:master}
+	valuesFrom:
+		- configMapKeyRef:
+				name: ${7}
+	values:
+		${8}
+endsnippet
+
+snippet serviceMonitor
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+	name: ${1}
+	namespace: ${2:$1}
+	labels:
+		app: ${3}
+spec:
+	selector:
+		matchLabels:
+			${4}: ${5}
+	endpoints:
+	- port: ${6}
+endsnippet
+
+snippet podMonitor
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+	name: ${1}
+	namespace: ${2:$1}
+	labels:
+		app: ${3}
+spec:
+	selector:
+		matchLabels:
+			${4}: ${5}
+	podMetricsEndpoints:
+	- port: ${6}
+endsnippet
+
+snippet  prometheusRule
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+	name: ${1}
+	namespace: ${2:$1}
+	labels:
+		role: ${3:alert-rules}
+spec:
+	groups:
+	- name: ${4:$1}
+		rules:
+		- alert: ${5:$1}
+			expr: ${6}
 endsnippet
