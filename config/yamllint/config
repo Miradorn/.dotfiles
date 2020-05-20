@@ -1,0 +1,14 @@
+extends: default
+
+ignore: |
+  .git/
+  node_modules/
+
+rules:
+  line-length:
+    max: 120
+    ignore: |
+      config/locales/
+  document-start: disable
+  indentation:
+    indent-sequences: consistent
