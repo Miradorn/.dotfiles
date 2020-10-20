@@ -1,8 +1,8 @@
 {
   "coc.preferences.enableFloatHighlight": true,
   "suggest.enablePreview": true,
+  "suggest.labelMaxLength": 30,
   "eslint.autoFixOnSave": true,
-  "elixir.pathToElixirLS": "~/projects/elixir-ls/rel/language_server.sh",
   "list.maxPreviewHeight": 60,
   "prettier.disableSuccessMessage": true,
   "snippets.snipmate.enable": false,
@@ -41,7 +41,19 @@
   "vetur.format.enable": true,
   "json.format.enable": true,
   "yaml.format.enable": true,
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/DavidAnson/markdownlint/main/schema/markdownlint-config-schema.json": "/.markdownlint.yaml"
+  },
+  "yaml.completion": true,
   "html.format.enable": true,
   "typescript.format.enabled": true,
-  "javascript.format.enabled": true
+  "javascript.format.enabled": true,
+  "languageserver": {
+    "terraform": {
+      "command": "terraform-lsp",
+      "filetypes": ["terraform", "tf", "hcl"],
+      "initializationOptions": {},
+      "settings": {}
+    }
+  }
 }

@@ -16,18 +16,6 @@ export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-# ZSH_THEME="spaceship"
-# export SPACESHIP_CHAR_SYMBOL='λ '
-# # export SPACESHIP_CHAR_SUFFIX=' '
-# # export SPACESHIP_PROMPT_DEFAULT_PREFIX=''
-# export SPACESHIP_TIME_SHOW=true
-# export SPACESHIP_PACKAGE_SHOW=false
-# # export SPACESHIP_DOCKER_PREFIX=''
-# export SPACESHIP_DOCKER_SHOW=false
-# export SPACESHIP_ELIXIR_SHOW=false
-# export SPACESHIP_TERRAFORM_SHOW=true
-# export SPACESHIP_TERRAFORM_SYMBOL="🛠️"
-
 export ERL_AFLAGS="-kernel shell_history enabled"
 
 export BAT_THEME=Nord
@@ -40,42 +28,36 @@ export BAT_THEME=Nord
 
 export EDITOR='nvim'
 
-plugins=(git git-open colored-man-pages docker terraform yarn kubectl helm bundler osx brew gem rails mix extract)
+plugins=(brew git git-open colored-man-pages docker terraform yarn kubectl helm bundler osx gem rails mix extract)
 
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
-source /usr/local/opt/asdf/asdf.sh
+source $(brew --prefix asdf)/asdf.sh
 
-source $ZSH/oh-my-zsh.sh
 #
 # completion setup
 
 fpath=(/usr/local/share/zsh-completions ~/.zsh/completions $fpath)
 
-autoload -Uz +X compinit && compinit
-autoload -Uz +X bashcompinit && bashcompinit
-
-complete -o nospace -C /usr/local/bin/vault vault
+autoload -U +X compinit && compinit -u
 
 # gcloud
 source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
 source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
 
-source /usr/local/etc/bash_completion.d/asdf.bash
 source <(stern --completion=zsh)
-source <(velero completion zsh)
+
+eval "$(aws-vault --completion-script-zsh)"
 
 # krew
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 # gnu coreutils
 # export PATH="/usr/local/share/istio/bin:/usr/local/sbin:$PATH"
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/share/istio/bin:/usr/local/sbin:$(brew --prefix)/opt/python/libexec/bin:$PATH"
+export PATH="$PATH:$(yarn global bin)"
 
 # # dircolors
 eval "$(dircolors ~/.dir_colors)"
-
-# aliases
-source "$HOME/.zsh_aliases"
 
 # beginning/end of line/word navigation
 bindkey "[D" backward-word
@@ -83,7 +65,39 @@ bindkey "[C" forward-word
 bindkey "^[a" beginning-of-line
 bindkey "^[e" end-of-line
 
-# FZF
+# tmux
+# Fix reattach for tmux
+# setopt HUP
+
+# if [ ${TMUX} ]; then # fixes paste fuckup in some cases
+#   unset zle_bracketed_paste
+# fi
+
+# This speeds up pasting w/ autosuggest
+# https://github.com/zsh-users/zsh-autosuggestions/issues/238
+pasteinit() {
+  OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
+  zle -N self-insert url-quote-magic # I wonder if you'd need `.url-quote-magic`?
+}
+
+pastefinish() {
+  zle -N self-insert $OLD_SELF_INSERT
+}
+zstyle :bracketed-paste-magic paste-init pasteinit
+zstyle :bracketed-paste-magic paste-finish pastefinish
+
+eval $(thefuck --alias)
+eval "$(direnv hook zsh)"
+eval "$(hub alias -s)"
+eval "$(starship init zsh)"
+eval "$(gh completion -s zsh)"
+
+# Created by `userpath` on 2020-02-22 15:02:05
+export PATH="$PATH:/Users/alsc/.local/bin"
+
+source $ZSH/oh-my-zsh.sh
+
+# FZF (has to come after oh-my-zsh)
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -106,34 +120,8 @@ export FZF_DEFAULT_OPTS="
 "
 export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 
-# tmux
-# Fix reattach for tmux
-setopt HUP
+# aliases
+source "$HOME/.zsh_aliases"
 
-if [ ${TMUX} ]; then # fixes paste fuckup in some cases
-  unset zle_bracketed_paste
-fi
-
-### Fix slowness of pastes with zsh-syntax-highlighting.zsh
-pasteinit() {
-  OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
-  zle -N self-insert url-quote-magic # I wonder if you'd need `.url-quote-magic`?
-}
-
-pastefinish() {
-  zle -N self-insert $OLD_SELF_INSERT
-}
-
-zstyle :bracketed-paste-magic paste-init pasteinit
-zstyle :bracketed-paste-magic paste-finish pastefinish
-### Fix slowness of pastes
-
+# syntax highlights
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-eval $(thefuck --alias)
-eval "$(direnv hook zsh)"
-eval "$(hub alias -s)"
-eval "$(starship init zsh)"
-
-# Created by `userpath` on 2020-02-22 15:02:05
-export PATH="$PATH:/Users/alsc/.local/bin"

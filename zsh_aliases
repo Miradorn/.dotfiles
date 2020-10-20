@@ -104,7 +104,7 @@ function ksel {
 
 # Run shell on pod which remians to be selected
 function kpsh {
-  keti $(ksel) sh
+  keti $(ksel) -- sh
 }
 
 # Get logs off pod which remians to be selected
@@ -122,6 +122,33 @@ alias kns=kubens
 
 alias flux="fluxctl --k8s-fwd-ns flux"
 
+
+# ----------------
+# aws
+# ----------------
+
+
+alias awsv=aws-vault
+
+function awsls {
+  aws configure list-profiles | fzf
+}
+
+function export_aws_profile {
+  export AWS_PROFILE=$(awsls)
+}
+
+function awsve {
+  if [ -z "$AWS_PROFILE" ]
+  then
+    profile=$(awsls)
+  else
+    profile=$AWS_PROFILE
+  fi
+
+  aws-vault exec ${profile} -- "$@"
+}
+
 # ----------------
 # terraform
 # ----------------
@@ -133,17 +160,7 @@ alias tfop=tfpo
 alias tfa="terraform apply"
 alias tfap="terraform apply plan.out"
 alias tfpp="tfop && tfap"
-
-# ----------------
-# ruby
-# ----------------
-alias bil="bi --local"
-
-# ----------------
-# puma-dev
-# ----------------
-alias pd="puma-dev link"
-alias pdl="tail -f ~/Library/Logs/puma-dev.log"
+alias tg="terragrunt"
 
 # ----------------
 # other
@@ -153,9 +170,9 @@ alias drops=ds
 alias ag="ag --hidden"
 
 function update {
-  bubu
+  brew update && brew outdated && brew upgrade && brew cleanup
   brew cask upgrade
-  upgrade_oh_my_zsh
+  omz update
   asdf plugin-update --all
   gem update --system
   gem update neovim coderay pry awesome-print byebug pry-byebug rubocop haml_lint scss_lint

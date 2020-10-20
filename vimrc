@@ -22,7 +22,7 @@ endif
 
 let mapleader = "\<Space>"
 
-" set binary
+set inccommand=split
 
 set undofile
 
@@ -96,7 +96,7 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('towolf/vim-helm')
 
   " Compile/Test
-  call dein#add('janko-m/vim-test')
+  call dein#add('vim-test/vim-test')
   call dein#add('kassio/neoterm')
 
   " NerdTree
@@ -112,6 +112,8 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('neoclide/coc.nvim', {'merged':0, 'rev': 'release'})
   call dein#add('honza/vim-snippets')
   call dein#add('liuchengxu/vista.vim')
+  call dein#add('antoinemadec/coc-fzf')
+
 
   " HTML
   call dein#add('mattn/emmet-vim')
@@ -178,7 +180,6 @@ let g:vue_disable_pre_processors = 1
 
 nnoremap <leader>u :call dein#update()<cr>
 nnoremap <leader>i :call dein#install()<cr>
-nnoremap <leader>cc :call map(dein#check_clean(), "delete(v:val, 'rf')")<cr>
 
 syntax enable
 filetype plugin indent on    " required
@@ -222,6 +223,7 @@ let g:ale_fixers.elm = ['format']
 " let g:ale_fixers.ruby = ['rubocop']
 let g:ale_fixers.elixir = ['mix_format']
 let g:ale_fixers.terraform = ['terraform']
+let g:ale_fixers.tf = ['terraform']
 let g:ale_fixers.hcl = ['terraform']
 " let g:ale_fixers.vue = ['eslint']
 " let g:ale_fixers.json = ['prettier']
@@ -232,6 +234,7 @@ let g:ale_elixir_credo_strict = 1
 " let g:ale_elixir_elixir_ls_config = {'elixirLS': {'dialyzerEnabled': v:false}}
 
 nnoremap <leader>fa :ALEFix<CR>
+
 nnoremap <leader>ff :call CocAction('format')<CR>
 " nnoremap <C-[> :ALEGoToDefinition<cr>
 " nnoremap <M-[> :ALEGoToDefinitionInSplit<cr>
@@ -311,7 +314,7 @@ let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit' }
 
-let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 0.5, 'yoffset': 0.05 } }
+let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 25, 'yoffset': 0.03 } }
 
 let $FZF_DEFAULT_COMMAND = 'ag --hidden -g ""'
 
@@ -376,6 +379,7 @@ nnoremap <leader>ec :CocConfig<cr>
 nnoremap <leader>et :vsplit ~/.tmux.conf<cr>
 nnoremap <leader>ez :vsplit ~/.zshrc<cr>
 nnoremap <leader>ed :vsplit ~/.dein.log<cr>
+nnoremap <leader>ek :vsplit ~/.config/kitty/kitty.conf<cr>
 
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>W :Gwrite<CR>
@@ -414,6 +418,10 @@ if has("nvim")
   tnoremap <Esc> <C-\><C-n>
 end
 
+highlight HighlightedyankRegion cterm=reverse gui=reverse
+highlight CocHighlightText cterm=undercurl,italic gui=undercurl,italic
+
+
 " let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 " =================
@@ -439,6 +447,8 @@ let g:coc_global_extensions = [
       \"coc-stylelintplus",
       \"coc-tsserver",
       \"coc-vetur",
+      \"coc-vimlsp",
+      \"coc-yank",
       \"coc-yaml"
       \]
 
@@ -459,8 +469,12 @@ function! s:check_back_space() abort
 endfunction
 
 nmap <leader>ca :CocCommand actions.open<CR>
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+" Remap for do codeAction of selected region
+function! s:cocActionsOpenFromSelected(type) abort
+  execute 'CocCommand actions.open ' . a:type
+endfunction
+xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
+nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
 
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -486,15 +500,29 @@ function! s:show_documentation()
   endif
 endfunction
 
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
+nnoremap <silent> H :call CocActionAsync('highlight')<cr>
 
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
 
+let g:coc_fzf_preview = ''
+let g:coc_fzf_opts = []
+
+nnoremap <silent> <leader>cl  :<C-u>CocFzfList<cr>
+nnoremap <silent> <leader>cc  :<C-u>CocFzfList commands<cr>
+nnoremap <silent> <leader>cy  :<C-u>CocFzfList yank<cr>
+nnoremap <silent> <leader>ce  :<C-u>CocFzfList extensions<cr>
+nnoremap <silent> <leader>co  :<C-u>CocFzfList outline<cr>
+nnoremap <silent> <leader>cs  :<C-u>CocFzfList symbols<cr>
+
+""""""""
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 let g:startify_change_to_dir = 0
+
+augroup filetypedetect
+  au! BufNewFile,BufRead *.template set ft=yaml
+augroup END
 
 " tmuxline
 " let g:tmuxline_preset = {

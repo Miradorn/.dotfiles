@@ -1,6 +1,7 @@
 [aws]
 
-disabled = true
+disabled = false
+symbol = "☁ "
 
 [kubernetes]
 
@@ -16,6 +17,9 @@ symbol = " "
 
 [git_branch]
 symbol = " "
+
+[gcloud]
+disabled = true
 
 [golang]
 symbol = " "

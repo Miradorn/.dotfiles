@@ -368,3 +368,28 @@ spec:
 		- alert: ${5:$1}
 			expr: ${6}
 endsnippet
+
+snippet endlessPod
+apiVersion: v1
+kind: Pod
+metadata:
+	annotations:
+		kubernetes.io/psp: eks.privileged
+	name: ${1}
+	namespace: ${2}
+spec:
+	containers:
+	- command: [ "/bin/bash", "-c", "--" ]
+		args: [ "while true; do sleep 30; done;" ]
+		image: ${3}
+		imagePullPolicy: Always
+		name: ${4:$1}
+	restartPolicy: Always
+endsnippet
+
+snippet envFrom
+envFrom:
+	- configMapRef:
+			name: ${1}
+endsnippet
+endsnippet

@@ -24,6 +24,7 @@
   rb = rebase
   pr = pull-request
   amend = commit --amend --no-edit
+  reword = commit --amend
   pushf = push -f
   pf = push --force-with-lease
   force = push -f
@@ -75,3 +76,8 @@
 [branch]
 	autoSetupMerge = true
 	autoSetupRebase = always
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
