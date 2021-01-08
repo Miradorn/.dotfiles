@@ -6,4 +6,5 @@ stylelint
 markdownlint
 neovim
 typescript
+ts-node
 aws-cdk

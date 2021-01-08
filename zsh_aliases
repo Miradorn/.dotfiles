@@ -149,6 +149,18 @@ function awsve {
   aws-vault exec ${profile} -- "$@"
 }
 
+function awsvl {
+  if [ -z "$AWS_PROFILE" ]
+  then
+    profile=$(awsls)
+  else
+    profile=$AWS_PROFILE
+  fi
+
+  aws-vault login ${profile}
+}
+
+
 # ----------------
 # terraform
 # ----------------
@@ -169,9 +181,21 @@ alias wetter="curl wttr.in/hamburg"
 alias drops=ds
 alias ag="ag --hidden"
 
+alias pj='npx projen'
+
+function cdk-diff() {
+  if ! [ -d "cdk.out" ]; then
+    echo "no 'cdk.out' dir fount. Go to your apps root dir and run 'cdk synth'."
+    return
+  fi
+  stage=$(ls cdk.out | grep 'assembly-' | fzf)
+  stack=$(ls cdk.out/$stage/*.template.json | sed -E "s|cdk\.out\/${stage}\/(.+)\.template\.json|\1|" | fzf)
+  npx cdk diff -a cdk.out/${stage} $stack
+}
+
 function update {
   brew update && brew outdated && brew upgrade && brew cleanup
-  brew cask upgrade
+  brew upgrade --cask
   omz update
   asdf plugin-update --all
   gem update --system

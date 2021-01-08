@@ -6,6 +6,7 @@ export DISABLE_AUTO_TITLE=true
 export TMUXP_CONFIGDIR=~/.tmuxp
 export TERM_ITALICS=true
 export DOCKER_BUILDKIT=true
+export ZSH_DISABLE_COMPFIX=true
 
 # export EVENT_NOKQUEUE=1
 
@@ -28,7 +29,7 @@ export BAT_THEME=Nord
 
 export EDITOR='nvim'
 
-plugins=(brew git git-open colored-man-pages docker terraform yarn kubectl helm bundler osx gem rails mix extract)
+plugins=(brew git git-open colored-man-pages kubectl helm docker terraform yarn bundler osx gem rails mix extract)
 
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
@@ -39,7 +40,15 @@ source $(brew --prefix asdf)/asdf.sh
 
 fpath=(/usr/local/share/zsh-completions ~/.zsh/completions $fpath)
 
-autoload -U +X compinit && compinit -u
+autoload -Uz compinit
+for dump in ~/.zcompdump(N.mh+24); do
+  compinit
+done
+compinit -C
+# autoload -Uz compinit && compinit -u
+# autoload -U +X bashcompinit && bashcompinit
+
+# complete -o nospace -C /usr/local/bin/kustomize kustomize
 
 # gcloud
 source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
@@ -59,11 +68,17 @@ export PATH="$PATH:$(yarn global bin)"
 # # dircolors
 eval "$(dircolors ~/.dir_colors)"
 
+bindkey -e
+
 # beginning/end of line/word navigation
 bindkey "[D" backward-word
 bindkey "[C" forward-word
 bindkey "^[a" beginning-of-line
 bindkey "^[e" end-of-line
+
+# make ctrl p work like up arrow
+bindkey "^p" up-line-or-search
+bindkey "^n" down-line-or-search
 
 # tmux
 # Fix reattach for tmux
@@ -115,8 +130,10 @@ export FZF_DEFAULT_OPTS="
 --height 40% --border
 --info=inline
 --color=dark
---color fg:#D8DEE9,bg:#2E3440,hl:#A3BE8C,fg+:#D8DEE9,bg+:#434C5E,hl+:#A3BE8C
---color pointer:#BF616A,info:#4C566A,spinner:#4C566A,header:#4C566A,prompt:#81A1C1,marker:#EBCB8B
+--color=fg:#e5e9f0,bg:#3b4252,hl:#81a1c1
+--color=fg+:#e5e9f0,bg+:#3b4252,hl+:#81a1c1
+--color=info:#eacb8a,prompt:#bf6069,pointer:#b48dac,border:#eacb8a
+--color=marker:#a3be8b,spinner:#b48dac,header:#a3be8b
 "
 export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 

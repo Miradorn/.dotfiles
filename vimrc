@@ -10,6 +10,15 @@ nnoremap <Left> <Esc>
 inoremap <Right> <Esc>
 nnoremap <Right> <Esc>
 
+" command line movement
+cnoremap <C-p> <up>
+cnoremap <C-n> <down>
+cnoremap <C-a> <Home>
+cnoremap <C-f> <Right>
+cnoremap <C-b> <Left>
+cnoremap <A-b> <S-Left>
+cnoremap <A-f> <S-Right>
+
 set encoding=utf-8
 scriptencoding utf-8
 
@@ -208,6 +217,7 @@ let g:ale_linters.ruby = ['brakeman', 'rails_best_practices', 'reek']
 let g:ale_linters.markdown = []
 let g:ale_linters.graphql = ['gqlint']
 let g:ale_linters.javascript = []
+let g:ale_linters.typescriptreact = []
 let g:ale_linters.typescript = []
 let g:ale_linters.scss = []
 let g:ale_linters.css = []
@@ -236,9 +246,6 @@ let g:ale_elixir_credo_strict = 1
 nnoremap <leader>fa :ALEFix<CR>
 
 nnoremap <leader>ff :call CocAction('format')<CR>
-" nnoremap <C-[> :ALEGoToDefinition<cr>
-" nnoremap <M-[> :ALEGoToDefinitionInSplit<cr>
-" nnoremap <M-h> :ALEHover<cr>
 
 command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
 
@@ -275,11 +282,6 @@ noremap <Leader>N :NERDTreeFind<CR>
 " Exit if NERDTree is only open window
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" Open NERDTree automatically on start but keep focus on mainwindow
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd vimenter * NERDTree
-" autocmd vimenter * wincmd p
-
 """ AirLine
 
 let g:airline_powerline_fonts = 1
@@ -314,7 +316,7 @@ let g:fzf_action = {
       \ 'ctrl-s': 'split',
       \ 'ctrl-v': 'vsplit' }
 
-let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 25, 'yoffset': 0.03 } }
+let g:fzf_layout = { 'window': { 'width': 0.95, 'height': 25, 'yoffset': 0.03, 'border': 'rounded' } }
 
 let $FZF_DEFAULT_COMMAND = 'ag --hidden -g ""'
 
@@ -349,6 +351,9 @@ let g:neoterm_fixedsize = 1
 let g:neoterm_autoscroll = 1
 
 let g:dispatch_compilers = {'elixir': 'exunit'}
+
+let g:test#javascript#jest#file_pattern = '\v(tests?/.*|(test))\.(js|jsx|coffee|tsx?)'
+let g:test#javascript#jest#executable = 'yarn test'
 
 nnoremap <silent> <leader>s :TestNearest<CR>
 nnoremap <silent> <leader>S :TestFile<CR>
@@ -418,8 +423,14 @@ if has("nvim")
   tnoremap <Esc> <C-\><C-n>
 end
 
+nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+inoremap <nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+inoremap <nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
 highlight HighlightedyankRegion cterm=reverse gui=reverse
 highlight CocHighlightText cterm=undercurl,italic gui=undercurl,italic
+
+highlight Comment guifg=#b48ead
 
 
 " let g:EditorConfig_exclude_patterns = ['fugitive://.*']
@@ -442,6 +453,7 @@ let g:coc_global_extensions = [
       \"coc-html",
       \"coc-json",
       \"coc-prettier",
+      \"coc-rls",
       \"coc-snippets",
       \"coc-solargraph",
       \"coc-stylelintplus",
@@ -468,13 +480,7 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-nmap <leader>ca :CocCommand actions.open<CR>
-" Remap for do codeAction of selected region
-function! s:cocActionsOpenFromSelected(type) abort
-  execute 'CocCommand actions.open ' . a:type
-endfunction
-xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
-nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
+nmap <silent> <leader>ca <Plug>(coc-codeaction-line)
 
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -482,8 +488,9 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> <C-[> <Plug>(coc-definition)
+nmap <silent> [[ <Plug>(coc-definition)
 nmap <silent> gv :call CocAction('jumpDefinition', 'vsplit')<cr>
+nmap <silent> ]] :call CocAction('jumpDefinition', 'vsplit')<cr>
 nmap <silent> <A-[> :call CocAction('jumpDefinition', 'vsplit')<cr>
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
@@ -505,8 +512,8 @@ nnoremap <silent> H :call CocActionAsync('highlight')<cr>
 " Remap for rename current word
 nmap <leader>rn <Plug>(coc-rename)
 
-let g:coc_fzf_preview = ''
-let g:coc_fzf_opts = []
+" let g:coc_fzf_preview = ''
+" let g:coc_fzf_opts = []
 
 nnoremap <silent> <leader>cl  :<C-u>CocFzfList<cr>
 nnoremap <silent> <leader>cc  :<C-u>CocFzfList commands<cr>

@@ -18,7 +18,7 @@
   cm = commit -m
   fetchmaster = fetch origin master:master
   fm = fetch origin master:master
-  rbi = rebase -i master
+  rbi = rebase -i main
   up = pull --rebase --autostash
   rbm = rebase master
   rb = rebase
@@ -81,3 +81,5 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+[init]
+	defaultBranch = main
