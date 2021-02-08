@@ -142,3 +142,5 @@ source "$HOME/.zsh_aliases"
 
 # syntax highlights
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+source /Users/alsc/.config/broot/launcher/bash/br

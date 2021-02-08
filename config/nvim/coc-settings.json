@@ -5,21 +5,11 @@
   "eslint.autoFixOnSave": false,
   "eslint.packageManager": "yarn",
   "eslint.workingDirectories": [{ "mode": "auto" }],
+  "eslint.format.enable": true,
   "list.maxPreviewHeight": 60,
   "tsserver.enable": true,
   "tsserver.enableJavascript": true,
-  "prettier.disableSuccessMessage": true,
-  "prettier.eslintIntegration": true,
   "snippets.snipmate.enable": false,
-  "coc.preferences.rootPatterns": [
-    ".git",
-    ".hg",
-    ".projections.json",
-    "tsconfig.json",
-    ".prettierrc",
-    ".eslintrc.js",
-    "lerna.json"
-  ],
   "suggest.floatEnable": true,
   "snippets.userSnippetsDirectory": "~/.vim/snippets",
   "snippets.editSnippetsCommand": ":vsplit",
@@ -55,6 +45,7 @@
   "git.enableGutters": true,
   "vetur.format.enable": true,
   "json.format.enable": true,
+  "json.schemas": [{"url": "http://json.schemastore.org/prettierrc", "fileMatch": ["/prettierrc.json"]}],
   "yaml.format.enable": true,
   "yaml.schemas": {
     "https://raw.githubusercontent.com/DavidAnson/markdownlint/main/schema/markdownlint-config-schema.json": "/.markdownlint.yaml"
@@ -64,7 +55,8 @@
   "javascript.format.enabled": true,
   "languageserver": {
     "terraform": {
-      "command": "terraform-lsp",
+      "command": "terraform-ls",
+      "args": ["serve"],
       "filetypes": ["terraform", "tf", "hcl"],
       "initializationOptions": {},
       "settings": {}

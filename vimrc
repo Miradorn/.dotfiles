@@ -282,6 +282,10 @@ noremap <Leader>N :NERDTreeFind<CR>
 " Exit if NERDTree is only open window
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
+" If another buffer tries to replace NERDTree, put in the other window, and bring back NERDTree.
+autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+
 """ AirLine
 
 let g:airline_powerline_fonts = 1
@@ -452,7 +456,6 @@ let g:coc_global_extensions = [
       \"coc-highlight",
       \"coc-html",
       \"coc-json",
-      \"coc-prettier",
       \"coc-rls",
       \"coc-snippets",
       \"coc-solargraph",
@@ -461,7 +464,6 @@ let g:coc_global_extensions = [
       \"coc-vetur",
       \"coc-vimlsp",
       \"coc-yank",
-      \"coc-yaml"
       \]
 
 inoremap <C-c> <ESC>

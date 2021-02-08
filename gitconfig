@@ -3,8 +3,8 @@
   pager = delta
   # pager = diff-so-fancy | less --tabs=4 -RFX
 [user]
-	name = Alexander Schramm
-	email = alex@schram.me
+	name = Alexander Steppke
+	email = alex@steppke.dev
 	signingkey = 18C740F63953F199A0085AFB2B591E707DDD9CE2
 [push]
 	default = current
@@ -16,11 +16,12 @@
   co = checkout
   cb = checkout -b
   cm = commit -m
-  fetchmaster = fetch origin master:master
-  fm = fetch origin master:master
+  fms = fetch origin master:master
+  fm = fetch origin main:main
   rbi = rebase -i main
   up = pull --rebase --autostash
-  rbm = rebase master
+  rbm = rebase main
+  rbms = rebase master
   rb = rebase
   pr = pull-request
   amend = commit --amend --no-edit
