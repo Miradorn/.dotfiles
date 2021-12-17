@@ -8,8 +8,12 @@ alias lt='ls --tree'
 alias t=lt
 alias cat=bat
 alias ping=prettyping
-alias kraken='open -a "GitKraken" --args -p $(pwd)'
 alias icat='kitty +kitten icat'
+
+krak () {
+    dir="$(cd "$(dirname "$1")"; pwd -P)/$(basename "$1")"
+    open gitkraken://repo/$dir
+    }
 
 # ----------------
 # hugo
@@ -115,6 +119,10 @@ function kplog {
 alias kctx=kubectx
 alias kx=kubectx
 alias kns=kubens
+
+function krename {
+  kubectl config rename-context $(kubectl config current-context) $1
+}
 
 # ----------------
 # FluxCD

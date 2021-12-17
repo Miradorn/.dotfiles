@@ -86,6 +86,8 @@ set splitright
 set foldmethod=syntax
 set foldlevelstart=20
 
+let g:ale_disable_lsp = 1
+
 """ Dein
 let g:dein#install_log_filename = '~/.dein.log'
 " let g:dein#install_progress_type = 'tabline' " else maybe tabline
@@ -167,7 +169,6 @@ if dein#load_state(expand('~/.vim/dein')) " plugins' root path
   call dein#add('AndrewRadev/splitjoin.vim')
   " call dein#add('edkolev/tmuxline.vim')
   call dein#add('christoomey/vim-tmux-navigator')
-  call dein#add('tmux-plugins/vim-tmux-focus-events')
   call dein#add('editorconfig/editorconfig-vim')
 
   call dein#add('tpope/vim-repeat')
@@ -221,6 +222,7 @@ let g:ale_linters.typescriptreact = []
 let g:ale_linters.typescript = []
 let g:ale_linters.scss = []
 let g:ale_linters.css = []
+let g:ale_linters.cloudformation = ['cloudformation']
 let g:ale_linters.elixir = ['credo', 'mix']
 let g:ale_linters.terraform = ['terraform', 'tflint']
 
@@ -256,13 +258,14 @@ autocmd User Startified setlocal buftype=
 
 " let g:NERDTreeHighlightCursorline = 0
 " let g:NERDTreeLimitedSyntax = 1
+let g:NERDTreeQuitOnOpen = 0
 let g:NERDTreeSyntaxDisableDefaultExtensions = 0
 let g:NERDTreeDisableExactMatchHighlight = 0
 let g:NERDTreeDisablePatternMatchHighlight = 0
 let g:NERDTreeFileExtensionHighlightFullName = 1
 let g:NERDTreeExactMatchHighlightFullName = 1
 let g:NERDTreePatternMatchHighlightFullName = 1
-let g:NERDTreeSyntaxEnabledExtensions = ['rb', 'ex', 'eex', 'exs', 'haml', 'js', 'css', 'yml', 'yaml', 'sh', 'json', 'vue', 'conf', 'scss', 'sass']
+" let g:NERDTreeSyntaxEnabledExtensions = ['rb', 'ex', 'eex', 'exs', 'haml', 'js', 'css', 'yml', 'yaml', 'sh', 'json', 'vue', 'conf', 'scss', 'sass']
 
 let g:NERDTreeExtensionHighlightColor = {}
 let g:NERDTreeExtensionHighlightColor['ex'] = 'cc6666'
@@ -375,6 +378,8 @@ map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
 au BufNewFile,BufRead *.json.jbuilder set ft=ruby
+au BufRead,BufNewFile *.template.yaml set filetype=yaml.cloudformation
+au BufRead,BufNewFile *.template.json set filetype=json.cloudformation
 
 " git
 " let g:fugitive_gitlab_domains = ['https://gitlab.akra.de']
@@ -464,6 +469,7 @@ let g:coc_global_extensions = [
       \"coc-vetur",
       \"coc-vimlsp",
       \"coc-yank",
+      \"coc-yaml",
       \]
 
 inoremap <C-c> <ESC>

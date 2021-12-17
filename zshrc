@@ -1,3 +1,5 @@
+# zmodload zsh/zprof
+
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
@@ -29,40 +31,24 @@ export BAT_THEME=Nord
 
 export EDITOR='nvim'
 
-plugins=(brew git git-open colored-man-pages kubectl helm docker terraform yarn bundler osx gem rails mix extract)
+plugins=(brew git github kubectl git-open terraform npm bundler macos gem rails mix extract)
 
 source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
 source $(brew --prefix asdf)/asdf.sh
 
-#
-# completion setup
+if type brew &>/dev/null; then
+    FPATH="$(brew --prefix)/share/zsh-completions:$(brew --prefix)/share/zsh/site-functions:$FPATH"
 
-fpath=(/usr/local/share/zsh-completions ~/.zsh/completions $fpath)
-
-autoload -Uz compinit
-for dump in ~/.zcompdump(N.mh+24); do
-  compinit
-done
-compinit -C
-# autoload -Uz compinit && compinit -u
-# autoload -U +X bashcompinit && bashcompinit
-
-# complete -o nospace -C /usr/local/bin/kustomize kustomize
-
-# gcloud
-source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc'
-source '/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc'
-
-source <(stern --completion=zsh)
-
-eval "$(aws-vault --completion-script-zsh)"
+    autoload -Uz compinit
+    compinit
+  fi
 
 # krew
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 # gnu coreutils
 # export PATH="/usr/local/share/istio/bin:/usr/local/sbin:$PATH"
-export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/share/istio/bin:/usr/local/sbin:$(brew --prefix)/opt/python/libexec/bin:$PATH"
+export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/share/istio/bin:/usr/local/sbin:$HOME/go/bin:$PATH"
 export PATH="$PATH:$(yarn global bin)"
 
 # # dircolors
@@ -137,6 +123,9 @@ export FZF_DEFAULT_OPTS="
 "
 export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 
+source <(stern --completion=zsh)
+
+eval "$(aws-vault --completion-script-zsh)"
 # aliases
 source "$HOME/.zsh_aliases"
 
@@ -144,3 +133,7 @@ source "$HOME/.zsh_aliases"
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 source /Users/alsc/.config/broot/launcher/bash/br
+
+# zprof
+
+alias luamake=/Users/alsc/projects/lua-language-server/3rd/luamake/luamake

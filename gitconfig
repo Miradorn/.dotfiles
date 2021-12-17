@@ -1,6 +1,10 @@
 [core]
 	excludesfile = ~/.gitignore_global
-  pager = delta
+	pager = delta
+	diff = delta
+	log = delta
+	reflog = delta
+	show = delta
   # pager = diff-so-fancy | less --tabs=4 -RFX
 [user]
 	name = Alexander Steppke
@@ -9,57 +13,58 @@
 [push]
 	default = current
 [alias]
-  llog = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
-  br = branch
-  bd = branch -d
-  bD = branch -D
-  co = checkout
-  cb = checkout -b
-  cm = commit -m
-  fms = fetch origin master:master
-  fm = fetch origin main:main
-  rbi = rebase -i main
-  up = pull --rebase --autostash
-  rbm = rebase main
-  rbms = rebase master
-  rb = rebase
-  pr = pull-request
-  amend = commit --amend --no-edit
-  reword = commit --amend
-  pushf = push -f
-  pf = push --force-with-lease
-  force = push -f
-  prune = fetch --prune
-  diffs = diff --staged
-  uncommit = reset --soft HEAD^
-  unstage = reset
-  staged = diff --cached
-  pick = cherry-pick
-  branches = for-each-ref --sort=-committerdate --format=\"%(color:blue)%(authordate:relative)\t%(color:red)%(authorname)\t%(color:white)%(color:bold)%(refname:short)\" refs/remotes
+	llog = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+	br = branch
+	bd = branch -d
+	bD = branch -D
+	co = checkout
+	cb = checkout -b
+	cm = commit -m
+	fms = fetch origin master:master
+	fm = fetch origin main:main
+	rbi = rebase -i main
+	rbims = rebase -i master
+	up = pull --rebase --autostash
+	rbm = rebase main
+	rbms = rebase master
+	rb = rebase
+	pr = pull-request
+	amend = commit --amend --no-edit
+	reword = commit --amend
+	pushf = push -f
+	pf = push --force-with-lease
+	force = push -f
+	prune = fetch --prune
+	diffs = diff --staged
+	uncommit = reset --soft HEAD^
+	unstage = reset
+	staged = diff --cached
+	pick = cherry-pick
+	branches = for-each-ref --sort=-committerdate --format=\"%(color:blue)%(authordate:relative)\t%(color:red)%(authorname)\t%(color:white)%(color:bold)%(refname:short)\" refs/remotes
 [color]
-  ui = true
+	ui = true
 [gitsh]
-  prompt = "%D %c%b%#%w"
+	prompt = "%D %c%b%#%w"
 [commit]
 	template = ~/.gitCommitMsg
-  gpgsign = true
+	gpgsign = true
 [color "diff-highlight"]
-  oldNormal = red bold
-  oldHighlight = red bold 52
-  newNormal = green bold
-  newHighlight = green bold 22
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
 [color "diff"]
-  meta = 227
-  frag = magenta bold
-  commit = 227 bold
-  old = red bold
-  new = green bold
-  whitespace = red reverse
+	meta = 227
+	frag = magenta bold
+	commit = 227 bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
 [interactive]
-    diffFilter = delta --color-only
+	diffFilter = delta --color-only  --features=interactive
 [merge]
-  ff = only
-  conflictstyle = diff3
+	ff = only
+	conflictstyle = diff3
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
@@ -84,3 +89,9 @@
 	process = git-lfs filter-process
 [init]
 	defaultBranch = main
+
+[delta]
+	features = decorations
+
+[delta "interactive"]
+	keep-plus-minus-markers = false
