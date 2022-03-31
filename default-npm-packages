@@ -1,6 +1,8 @@
+alex
 aws-cdk
 eslint
-markdownlint
+markdownlint-cli
+remark-cli
 neovim
 prettier
 projen

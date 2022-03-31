@@ -190,6 +190,7 @@ alias drops=ds
 alias ag="ag --hidden"
 
 alias pj='npx projen'
+alias dig=dog
 
 function cdk-diff() {
   if ! [ -d "cdk.out" ]; then

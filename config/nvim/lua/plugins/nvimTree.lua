@@ -10,8 +10,6 @@ return function()
         open_on_setup = false,
         -- will not open on setup if the filetype is in this list
         ignore_ft_on_setup = {},
-        -- closes neovim automatically when the tree is the last **WINDOW** in the view
-        auto_close = true,
         -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
         open_on_tab = false,
         -- hijacks new directory buffers when they are opened.
@@ -27,6 +25,13 @@ return function()
         update_cwd = false,
         -- show lsp diagnostics in the signcolumn
         diagnostics = { enable = true },
+        actions = {
+            open_file = {
+                window_picker = {
+                    enable = false
+                }
+            }
+        },
         -- update the focused file on `BufEnter`, un-collapses the folders recursively until it finds the file
         update_focused_file = {
             -- enables the feature
@@ -73,7 +78,7 @@ return function()
                     { key = "<Tab>", cb = tree_cb("preview") },
                     { key = "K", cb = tree_cb("first_sibling") },
                     { key = "J", cb = tree_cb("last_sibling") },
-                    { key = "I", cb = tree_cb("toggle_ignored") },
+                    { key = "I", cb = tree_cb("toggle_git_ignored") },
                     { key = "H", cb = tree_cb("toggle_dotfiles") },
                     { key = "R", cb = tree_cb("refresh") },
                     { key = "a", cb = tree_cb("create") },

@@ -12,25 +12,18 @@ local autocmd = utils.autocmd
 --
 -- Pre Plugin config
 --
+g.vim_markdown_no_default_key_mappings = 1
+
 
 -- Recompile packer/plugins on safe
 autocmd("Packer", {
-  "BufWritePost ~/.dotfiles/config/nvim/lua/plugins.lua,~/.dotfiles/config/nvim/lua/plugins/*.lua source <afile> | PackerCompile",
+    "BufWritePost ~/.dotfiles/config/nvim/lua/plugins.lua,~/.dotfiles/config/nvim/lua/plugins/*.lua source <afile> | PackerCompile"
 }, true)
-
 
 -- Disable some built-in plugins we don't want
 local disabled_built_ins = {
-  "gzip",
-  "man",
-  "matchit",
-  "matchparen",
-  "shada_plugin",
-  "tarPlugin",
-  "tar",
-  "zipPlugin",
-  "zip",
-  "netrwPlugin",
+    "gzip", "man", "matchit", "matchparen", "shada_plugin", "tarPlugin", "tar",
+    "zipPlugin", "zip", "netrwPlugin"
 }
 
 for i = 1, 10 do g["loaded_" .. disabled_built_ins[i]] = 1 end
@@ -48,7 +41,7 @@ opt("showmatch", true)
 opt("ignorecase", true)
 opt("smartcase", true)
 opt("tabstop", 2)
-opt("expandtab", true)
+-- opt("expandtab", true)
 opt("shiftwidth", 2)
 opt("number", true)
 opt("cursorline", true)
@@ -59,11 +52,17 @@ opt("undofile", true)
 opt("swapfile", false)
 opt("showbreak", "↪\\")
 opt("list", true)
-opt("listchars",
-    { tab = "» ", extends = "›", precedes = "‹", nbsp = "+", trail = "·", space = "·" })
+opt("listchars", {
+    tab = "» ",
+    extends = "›",
+    precedes = "‹",
+    nbsp = "+",
+    trail = "·",
+    space = "·"
+})
 opt("history", 5000)
 opt("signcolumn", "auto")
-opt("colorcolumn", { "120" })
+opt("colorcolumn", {"120"})
 opt("splitbelow", true)
 opt("splitright", true)
 
@@ -74,6 +73,8 @@ opt("completeopt", "menu,menuone,noselect")
 -- Colorscheme
 opt("termguicolors", true)
 opt("background", "dark")
+cmd("colorscheme nordfox")
+
 
 cmd("filetype plugin on")
 
@@ -86,12 +87,77 @@ g.shiftwidth = 2
 
 -- Visuals
 
-fn.sign_define("DiagnosticSignError", { text = "", texthl = "DiagnosticSignError" })
-fn.sign_define("DiagnosticSignWarn", { text = "", texthl = "DiagnosticSignWarn" })
-fn.sign_define("DiagnosticSignInformation", { text = "", texthl = "DiagnosticSignInfo" })
-fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })
+fn.sign_define("DiagnosticSignError",
+               {text = "", texthl = "DiagnosticSignError"})
+fn.sign_define("DiagnosticSignWarn",
+               {text = "", texthl = "DiagnosticSignWarn"})
+fn.sign_define("DiagnosticSignInformation",
+               {text = "", texthl = "DiagnosticSignInfo"})
+fn.sign_define("DiagnosticSignHint",
+               {text = "", texthl = "DiagnosticSignHint"})
 
 g.nord_borders = true
+
+-- diagnostics
+vim.diagnostic.config({
+    virtual_text = true,
+    signs = true,
+    underline = true,
+    float = {border = "single"}
+})
+
+
+-- quickfix window formatting from https://github.com/kevinhwang91/nvim-bqf
+function _G.qftf(info)
+    local items
+    local ret = {}
+    if info.quickfix == 1 then
+        items = fn.getqflist({id = info.id, items = 0}).items
+    else
+        items = fn.getloclist(info.winid, {id = info.id, items = 0}).items
+    end
+    local limit = 31
+    local fname_fmt1, fname_fmt2 = '%-' .. limit .. 's',
+                                   '…%.' .. (limit - 1) .. 's'
+    local valid_fmt = '%s │%5d:%-3d│%s %s'
+    for i = info.start_idx, info.end_idx do
+        local e = items[i]
+        local fname = ''
+        local str
+        if not e then return end
+        if e.valid == 1 then
+            if e.bufnr > 0 then
+                fname = fn.bufname(e.bufnr)
+                if fname == '' then
+                    fname = '[No Name]'
+                else
+                    fname = fname:gsub('^' .. vim.env.HOME, '~')
+                end
+                -- char in fname may occur more than 1 width, ignore this issue in order to keep performance
+                if #fname <= limit then
+                    fname = fname_fmt1:format(fname)
+                else
+                    fname = fname_fmt2:format(fname:sub(1 - limit))
+                end
+            end
+            local lnum = e.lnum > 99999 and -1 or e.lnum
+            local col = e.col > 999 and -1 or e.col
+            local qtype = e.type == '' and '' or ' ' .. e.type:sub(1, 1):upper()
+            str = valid_fmt:format(fname, lnum, col, qtype, e.text)
+        else
+            str = e.text
+        end
+        table.insert(ret, str)
+    end
+    return ret
+end
+
+vim.o.qftf = '{info -> v:lua._G.qftf(info)}'
+
+
+--[[ autocmd("diagnostics_hover", {
+    [[CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})
+}, true) ]]
 
 -- Commands
 cmd [[command! PackerInstall packadd packer.nvim | lua require('plugins').install()]]
@@ -100,11 +166,13 @@ cmd [[command! PackerSync packadd packer.nvim | lua require('plugins').sync()]]
 cmd [[command! PackerClean packadd packer.nvim | lua require('plugins').clean()]]
 cmd [[command! PackerCompile packadd packer.nvim | lua require('plugins').compile()]]
 
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "single" })
+vim.lsp.handlers["textDocument/hover"] =
+    vim.lsp.with(vim.lsp.handlers.hover, {border = "single"})
 
-g.nvim_tree_disable_window_picker = 1
 -- Highlight yanks
-autocmd("misc_aucmds", { [[TextYankPost * silent! lua vim.highlight.on_yank({timeout=500})]] }, true)
+autocmd("misc_aucmds",
+        {[[TextYankPost * silent! lua vim.highlight.on_yank({timeout=500})]]},
+        true)
 
 -- vim-test
 g["test#strategy"] = "neoterm"
