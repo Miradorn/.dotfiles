@@ -8,7 +8,6 @@ alias lt='ls --tree'
 alias t=lt
 alias cat=bat
 alias ping=prettyping
-alias icat='kitty +kitten icat'
 
 krak () {
     dir="$(cd "$(dirname "$1")"; pwd -P)/$(basename "$1")"
@@ -183,11 +182,20 @@ alias tfpp="tfop && tfap"
 alias tg="terragrunt"
 
 # ----------------
+# kitty
+# ----------------
+
+alias kssh=kitty +kitten ssh
+alias icat='kitty +kitten icat'
+alias d="kitty +kitten diff"
+
+# ----------------
 # other
 # ----------------
 alias wetter="curl wttr.in/hamburg"
 alias drops=ds
 alias ag="ag --hidden"
+alias tower=gittower
 
 alias pj='npx projen'
 alias dig=dog

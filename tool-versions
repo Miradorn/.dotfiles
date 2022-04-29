@@ -1,10 +1,8 @@
-erlang 24.2.1
-helm 3.7.2
-elixir 1.13.2-otp-24
-ruby 2.7.1
-terraform 0.13.0
-nodejs 16.10.0
-python 3.8.3
-hugo 0.79.0
-terragrunt 0.23.34
+erlang 24.3.3
+helm 3.8.1
+elixir 1.13.3-otp-24
+ruby 3.1.1
+terraform 1.1.7
+nodejs 16.14.2
+terragrunt 0.36.6
 rebar 3.18.0

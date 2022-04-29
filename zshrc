@@ -14,8 +14,6 @@ export ZSH_DISABLE_COMPFIX=true
 
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
-# export RBENV_ROOT='/usr/local/opt/rbenv'
-
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
@@ -25,7 +23,7 @@ export BAT_THEME=Nord
 
 
 # autojump #Duh
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
 
 # Other
 
@@ -33,7 +31,7 @@ export EDITOR='nvim'
 
 plugins=(brew git github kubectl git-open terraform npm bundler macos gem rails mix extract)
 
-source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
 source $(brew --prefix asdf)/asdf.sh
 
@@ -47,8 +45,7 @@ if type brew &>/dev/null; then
 # krew
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 # gnu coreutils
-# export PATH="/usr/local/share/istio/bin:/usr/local/sbin:$PATH"
-export PATH="/usr/local/opt/coreutils/libexec/gnubin:/usr/local/share/istio/bin:/usr/local/sbin:$HOME/go/bin:$PATH"
+export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$HOME/go/bin:$PATH"
 export PATH="$PATH:$(yarn global bin)"
 
 # # dircolors
@@ -130,10 +127,10 @@ eval "$(aws-vault --completion-script-zsh)"
 source "$HOME/.zsh_aliases"
 
 # syntax highlights
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-source /Users/alsc/.config/broot/launcher/bash/br
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # zprof
 
 alias luamake=/Users/alsc/projects/lua-language-server/3rd/luamake/luamake
+
+source /Users/alex/.config/broot/launcher/bash/br

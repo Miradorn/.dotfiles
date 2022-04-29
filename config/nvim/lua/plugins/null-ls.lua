@@ -24,8 +24,9 @@ return function()
             condition = eslint_condition,
             extra_filetypes = {"graphql"}
         }), b.formatting.fixjson, b.formatting.gofumpt, b.formatting.goimports,
-        b.formatting.lua_format, b.formatting.markdownlint, b.formatting.mix,
-        b.formatting.prettier, b.formatting.remark, b.formatting.rubocop,
+        b.formatting.lua_format, b.formatting.markdownlint,
+        b.formatting.mix.with({extra_filetypes = {'elixir', 'eelixir', 'heex'}}),
+        b.formatting.prettier, b.formatting.rubocop,
         b.formatting.shfmt, b.formatting.stylelint, b.formatting.terraform_fmt
     }
     null_ls.setup({

@@ -3,15 +3,24 @@
 --
 -- local utils = require "custom"
 local vfn = vim.api.nvim_call_function
+local fn = vim.fn
+local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+if fn.empty(fn.glob(install_path)) > 0 then
+    packer_bootstrap = fn.system({
+        'git', 'clone', '--depth', '1',
+        'https://github.com/wbthomason/packer.nvim', install_path
+    })
+end
 
 local packer = nil
 local function init()
     if packer == nil then
         packer = require "packer"
-        packer.init {disable_commands = true, max_jobs = 20}
+        packer.init { disable_commands = true, max_jobs = 20 }
     end
 
     local use = packer.use
+
     packer.reset()
 
     use "jbyuki/instant.nvim"
@@ -25,14 +34,22 @@ local function init()
     use "nvim-lua/popup.nvim"
 
     -- startup time
-    use "nathom/filetype.nvim"
+    use {
+        "nathom/filetype.nvim",
+        config = function()
+            require "filetype".setup {
+                overrides = { extensions = { ["tf"] = "terraform" } }
+            }
+
+        end
+    }
 
     -- Visuals
 
     use {
         "kyazdani42/nvim-web-devicons",
         config = function()
-            require"nvim-web-devicons".setup {
+            require "nvim-web-devicons".setup {
                 -- globally enable default icons (default to false)
                 -- will get overriden by `get_icons` option
                 default = true
@@ -44,11 +61,11 @@ local function init()
     use "folke/lsp-colors.nvim"
 
     -- use {"shaunsingh/nord.nvim", config = function() require("nord").set() end}
-    use {"EdenEast/nightfox.nvim"}
+    use { "EdenEast/nightfox.nvim" }
 
     use {
         "norcalli/nvim-colorizer.lua",
-        config = function() require"colorizer".setup() end
+        config = function() require "colorizer".setup() end
     }
 
     use {
@@ -59,10 +76,10 @@ local function init()
     use {
         "lukas-reineke/indent-blankline.nvim",
         config = function()
-            require"indent_blankline".setup {
+            require "indent_blankline".setup {
                 char = "│",
                 show_first_indent_level = false,
-                buftype_exclude = {"terminal"},
+                buftype_exclude = { "terminal" },
                 use_treesitter = true
             }
         end
@@ -71,7 +88,7 @@ local function init()
     use {
         "rcarriga/nvim-notify",
         config = function()
-            require"notify".setup({max_width = 60})
+            require "notify".setup({ max_width = 60 })
             vim.notify = require("notify")
         end
     }
@@ -86,25 +103,25 @@ local function init()
                 options = {
                     icons_enabled = true,
                     theme = 'auto',
-                    component_separators = {left = '', right = ''},
-                    section_separators = {left = '', right = ''},
+                    component_separators = { left = '', right = '' },
+                    section_separators = { left = '', right = '' },
                     disabled_filetypes = {},
                     always_divide_middle = true,
                     globalstatus = false
                 },
                 sections = {
-                    lualine_a = {'mode'},
-                    lualine_b = {'branch', 'diff', 'diagnostics'},
-                    lualine_c = {'filename'},
-                    lualine_x = {'encoding', 'fileformat', 'filetype'},
-                    lualine_y = {'progress'},
-                    lualine_z = {'location'}
+                    lualine_a = { 'mode' },
+                    lualine_b = { 'branch', 'diff', 'diagnostics' },
+                    lualine_c = { 'filename' },
+                    lualine_x = { 'encoding', 'fileformat', 'filetype' },
+                    lualine_y = { 'progress' },
+                    lualine_z = { 'location' }
                 },
                 inactive_sections = {
                     lualine_a = {},
                     lualine_b = {},
-                    lualine_c = {'filename'},
-                    lualine_x = {'location'},
+                    lualine_c = { 'filename' },
+                    lualine_x = { 'location' },
                     lualine_y = {},
                     lualine_z = {}
                 },
@@ -135,20 +152,20 @@ local function init()
 
     --- completions
 
-    use {"hrsh7th/nvim-cmp", config = require "plugins/cmp"}
-    use {"hrsh7th/cmp-nvim-lsp"}
-    use {"hrsh7th/cmp-path"}
-    use {"hrsh7th/cmp-buffer"}
-    use {"andersevenrud/cmp-tmux"}
+    use { "hrsh7th/nvim-cmp", config = require "plugins/cmp" }
+    use { "hrsh7th/cmp-nvim-lsp" }
+    use { "hrsh7th/cmp-path" }
+    use { "hrsh7th/cmp-buffer" }
+    use { "andersevenrud/cmp-tmux" }
 
     -- Languages / LSP
 
     use "williamboman/nvim-lsp-installer"
-    use {"neovim/nvim-lspconfig", config = require "plugins/lspconfig"}
+    use { "neovim/nvim-lspconfig", config = require "plugins/lspconfig" }
     use {
         "jose-elias-alvarez/null-ls.nvim",
         config = require "plugins/null-ls",
-        requires = {"nvim-lua/plenary.nvim", "neovim/nvim-lspconfig"}
+        requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" }
     }
 
     use {
@@ -161,21 +178,21 @@ local function init()
         end
     }
 
-    use {"j-hui/fidget.nvim", config = function() require"fidget".setup {} end}
+    use { "j-hui/fidget.nvim", config = function() require "fidget".setup {} end }
 
     use "ray-x/lsp_signature.nvim"
     use "RRethy/vim-illuminate"
     use {
         "RishabhRD/lspactions",
-        requires = {"nvim-lua/plenary.nvim", "nvim-lua/popup.nvim"},
+        requires = { "nvim-lua/plenary.nvim", "nvim-lua/popup.nvim" },
         config = require "plugins/lspactions"
     }
-    use {'weilbith/nvim-code-action-menu'}
+    use { 'weilbith/nvim-code-action-menu' }
 
     use 'ixru/nvim-markdown'
 
     -- diagnostics
-    use {'kevinhwang91/nvim-bqf', ft = 'qf'}
+    use { 'kevinhwang91/nvim-bqf', ft = 'qf' }
     use {
         'onsails/diaglist.nvim',
         config = function() require('diaglist').init() end
@@ -199,24 +216,7 @@ local function init()
         "nvim-treesitter/nvim-treesitter",
         run = ":TSUpdate",
         requires = "RRethy/nvim-treesitter-endwise",
-        config = function()
-            require"nvim-treesitter.configs".setup {
-                ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-                endwise = {enable = true},
-                highlight = {enable = true},
-                indent = {enable = true},
-                incremental_selection = {
-                    enable = true,
-                    keymaps = {
-                        init_selection = "gv",
-                        node_incremental = "gv",
-                        scope_incremental = "gV",
-                        node_decremental = "gd"
-                    }
-                }
-            }
-
-        end
+        config = require 'plugins/treesitter'
     }
 
     use "mattn/emmet-vim"
@@ -236,7 +236,7 @@ local function init()
     }
     use {
         "tpope/vim-fugitive",
-        cmd = {"Git", "Gstatus", "Gblame", "Gpush", "Gpull"}
+        cmd = { "Git", "Gstatus", "Gblame", "Gpush", "Gpull" }
     }
 
     use "tpope/vim-rhubarb"
@@ -250,17 +250,17 @@ local function init()
         config = function()
             local actions = require("telescope.actions")
 
-            require"telescope".setup {
+            require "telescope".setup {
                 defaults = {
                     mappings = {
-                        i = {["<C-b>"] = {"<esc>", type = "command"}},
-                        n = {["<C-c>"] = actions.close}
+                        i = { ["<C-b>"] = { "<esc>", type = "command" } },
+                        n = { ["<C-c>"] = actions.close }
                     }
                 },
                 pickers = {
                     -- Your special builtin config goes in here
-                    file_browser = {hidden = true},
-                    find_files = {hidden = true}
+                    file_browser = { hidden = true },
+                    find_files = { hidden = true }
                 },
                 extensions = {
                     fzf = {
@@ -279,9 +279,9 @@ local function init()
         end
     }
     use "nvim-telescope/telescope-media-files.nvim"
-    use {"nvim-telescope/telescope-fzf-native.nvim", run = "make"}
+    use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
 
-    use {"kyazdani42/nvim-tree.lua", config = require "plugins/nvimTree"}
+    use { "kyazdani42/nvim-tree.lua", config = require "plugins/nvimTree" }
     -- use {'ms-jpq/chadtree', branch = 'chad', run = 'python3 -m chadtree deps', config = require 'plugins/chadtree'}
 
     -- Navigation
@@ -303,15 +303,15 @@ local function init()
     -- FZF
 
     use "junegunn/fzf.vim"
-    use {"junegunn/fzf", run = function() vfn("fzf#install", {}) end}
+    use { "junegunn/fzf", run = function() vfn("fzf#install", {}) end }
 
     -- Make LSP popups use fzf
     use {
         "ojroques/nvim-lspfuzzy",
         requires = {
-            {"junegunn/fzf"}, {"junegunn/fzf.vim"} -- to enable preview (optional)
+            { "junegunn/fzf" }, { "junegunn/fzf.vim" } -- to enable preview (optional)
         },
-        config = function() require("lspfuzzy").setup {jump_one = false} end
+        config = function() require("lspfuzzy").setup { jump_one = false } end
     }
     -- use({ "weilbith/nvim-code-action-menu", cmd = "CodeActionMenu" })
 
@@ -336,7 +336,7 @@ local function init()
 
     use {
         "gelguy/wilder.nvim",
-        requires = {'romgrk/fzy-lua-native'},
+        requires = { 'romgrk/fzy-lua-native' },
         config = function()
             vim.cmd [[
                 call wilder#setup({'modes': [':']})
@@ -380,6 +380,8 @@ local function init()
         "windwp/nvim-autopairs",
         config = function() require("nvim-autopairs").setup {} end
     }
+
+    if packer_bootstrap then packer.sync() end
 end
 
 local plugins = setmetatable({}, {

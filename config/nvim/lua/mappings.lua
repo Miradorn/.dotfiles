@@ -3,7 +3,7 @@
 --
 local map = vim.keymap.set
 
-local silent = {silent = true}
+local silent = { silent = true }
 
 -- local config_dir = vim.fn.expand("$XDG_CONFIG_HOME")
 
@@ -53,6 +53,7 @@ map("n", "<Leader>tt", ":Ttoggle<CR>", silent)
 map("n", "<Leader>tf", ":TestFile<CR>", silent)
 map("n", "<Leader>tn", ":TestNearest<CR>", silent)
 map("n", "<Leader>tl", ":TestLast<CR>", silent)
+map("n", "<Leader>ts", ":TestSuite<CR>", silent)
 
 -- reenable fzf closing
 vim.cmd([[
@@ -65,11 +66,11 @@ vim.cmd([[
 
 -- Splits
 
-map("n", "<C-h>", "<CMD>lua require('Navigator').left()<CR>", silent)
-map("n", "<C-k>", "<CMD>lua require('Navigator').up()<CR>", silent)
-map("n", "<C-l>", "<CMD>lua require('Navigator').right()<CR>", silent)
-map("n", "<C-j>", "<CMD>lua require('Navigator').down()<CR>", silent)
-map("n", "<C-p>", "<CMD>lua require('Navigator').previous()<CR>", silent)
+map("n", "<C-h>", require('Navigator').left)
+map("n", "<C-k>", require('Navigator').up)
+map("n", "<C-l>", require('Navigator').right)
+map("n", "<C-j>", require('Navigator').down)
+map("n", "<C-p>", require('Navigator').previous)
 
 -- Selection
 
@@ -84,25 +85,27 @@ map("n", "<Leader>,", ":noh<CR>")
 map("n", "<Leader>*", ":Ag <C-R><C-W><CR>", silent)
 map("v", "<Leader>*", "y:Ag <C-r>=fnameescape(@\")<CR><CR>", silent)
 
-map("n", "<a-n>", "<cmd>lua require'illuminate'.next_reference{wrap=true}<cr>")
-map("n", "<a-p>",
-    "<cmd>lua require'illuminate'.next_reference{reverse=true,wrap=true}<cr>")
+map("n", "<a-n>", function() require'illuminate'.next_reference{wrap=true} end)
+map("n", "<a-p>", function() require'illuminate'.next_reference{reverse=true,wrap=true} end)
 
 -- Diagnostics
 
-map("n", "<Leader>dd", "<cmd>:lua vim.diagnostic.open_float()<CR>")
-map("n", "<Leader>dw",
-    "<cmd>:lua require('diaglist').open_buffer_diagnostics()<CR>")
+map("n", "<Leader>dd", vim.diagnostic.open_float)
+map("n", "<Leader>dw", require('diaglist').open_buffer_diagnostics)
 
 -- Config Edit
 
 map("n", "<leader>ev", ":vsplit $MYVIMRC<cr>")
+map("n", "<leader>evi", ":vsplit $MYVIMRC<cr>")
 map("n", "<leader>evp", ":vsplit ~/.dotfiles/config/nvim/lua/plugins.lua<cr>")
 map("n", "<leader>evl",
-    ":vsplit ~/.dotfiles/config/nvim/lua/lspconfig_config.lua<cr>")
+	":vsplit ~/.dotfiles/config/nvim/lua/lspconfig_config.lua<cr>")
 map("n", "<leader>evm", ":vsplit ~/.dotfiles/config/nvim/lua/mappings.lua<cr>")
-map("n", "<leader>evv",
-    ":lua require('telescope.builtin.files').find_files {search_dirs =  {'~/.dotfiles/config/nvim/'}}<CR>")
+map("n", "<leader>evv", function()
+	require('telescope.builtin.files').find_files {
+		search_dirs = { '~/.dotfiles/config/nvim/' }
+	}
+end)
 map("n", "<leader>et", ":vsplit ~/.tmux.conf<cr>")
 map("n", "<leader>ez", ":vsplit ~/.zshrc<cr>")
 map("n", "<leader>ek", ":vsplit ~/.config/kitty/kitty.conf<cr>")
@@ -129,23 +132,22 @@ map("n", "g<C-x>", "<Plug>(dial-decrement-additional)")
 
 -- Code
 
-map("n", "<Leader>ff",
-    "<cmd>lua vim.lsp.buf.formatting_seq_sync(nil, 10000)<CR>")
+map("n", "<Leader>ff", function() vim.lsp.buf.formatting_seq_sync(nil, 10000) end)
 
 -- LSP
-map("n", "gh", "<cmd>lua vim.lsp.buf.hover()<CR>", silent)
-map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", silent)
+map("n", "gh", vim.lsp.buf.hover)
+map("n", "K", vim.lsp.buf.hover)
 
-map("n", "<Leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", silent)
-map("v", "<Leader>ca", "<cmd>lua vim.lsp.buf.range_code_action()<CR>", silent)
+map("n", "<Leader>ca", vim.lsp.buf.code_action)
+map("v", "<Leader>ca", vim.lsp.buf.range_code_action)
 
-map("n", "<Leader>s", "<cmd>lua vim.lsp.buf.document_symbol<CR>")
+map("n", "<Leader>s", vim.lsp.buf.document_symbol)
 
-map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", silent)
-map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", silent)
-map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", silent)
-map("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", silent)
-map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", silent)
+map("n", "gD", vim.lsp.buf.declaration)
+map("n", "gd", vim.lsp.buf.definition)
+map("n", "gi", vim.lsp.buf.implementation)
+map("n", "<space>rn", vim.lsp.buf.rename)
+map("n", "gr", vim.lsp.buf.references)
 
 map("n", "<Leader>gt", ":SymbolsOutline<CR>")
 map("n", "<Leader>dt", ":SymbolsOutline<CR>")
@@ -153,11 +155,11 @@ map("n", "<Leader>dt", ":SymbolsOutline<CR>")
 -- other
 
 map("n", "gx",
-    ":execute 'silent! !open ' . shellescape(expand('<cWORD>'), 1)<cr>", silent)
+	":execute 'silent! !open ' . shellescape(expand('<cWORD>'), 1)<cr>", silent)
 
 -- Telescope https://github.com/nvim-telescope/telescope.nvim#mappings
 
-map("n", "<C-p>", "<cmd>lua require'custom'.project_files()<CR>")
+map("n", "<C-p>", require'custom'.project_files)
 map("n", "<Leader>p", "<cmd>Telescope find_files<CR>")
 map("n", "<Leader>d", "<cmd>Telescope lsp_document_diagnostics<CR>")
 map("n", "<Leader>bf", "<cmd>Telescope buffers<CR>")

@@ -22,8 +22,7 @@
 	cm = commit -m
 	fms = fetch origin master:master
 	fm = fetch origin main:main
-	rbi = rebase -i main
-	rbims = rebase -i master
+	rbi = rebase -i
 	up = pull --rebase --autostash
 	rbm = rebase main
 	rbms = rebase master
@@ -33,6 +32,7 @@
 	reword = commit --amend
 	pushf = push -f
 	pf = push --force-with-lease
+	pff = push --force
 	force = push -f
 	prune = fetch --prune
 	diffs = diff --staged
