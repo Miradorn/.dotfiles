@@ -5,6 +5,8 @@
 local vfn = vim.api.nvim_call_function
 local fn = vim.fn
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+local packer_bootstrap
+
 if fn.empty(fn.glob(install_path)) > 0 then
     packer_bootstrap = fn.system({
         'git', 'clone', '--depth', '1',
@@ -13,10 +15,17 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 local packer = nil
+
 local function init()
     if packer == nil then
         packer = require "packer"
-        packer.init { disable_commands = true, max_jobs = 20 }
+        packer.init {
+            disable_commands = true,
+            max_jobs = 20,
+            --[[ display = {
+                open_fn = require('packer.util').float
+            } ]]
+        }
     end
 
     local use = packer.use
@@ -45,6 +54,13 @@ local function init()
     }
 
     -- Visuals
+    use { 'stevearc/dressing.nvim', config = function()
+        require('dressing').setup({
+            select = {
+                telescope = require 'telescope.themes'.get_cursor()
+            }
+        })
+    end }
 
     use {
         "kyazdani42/nvim-web-devicons",
@@ -61,7 +77,21 @@ local function init()
     use "folke/lsp-colors.nvim"
 
     -- use {"shaunsingh/nord.nvim", config = function() require("nord").set() end}
-    use { "EdenEast/nightfox.nvim" }
+    -- use { "EdenEast/nightfox.nvim" }
+    use { 'rmehri01/onenord.nvim', config = function()
+        require('onenord').setup {
+            styles = {
+                comments = "italic",
+                strings = "NONE",
+                keywords = "NONE",
+                functions = "italic",
+                variables = "bold",
+                diagnostics = "underline",
+            },
+        }
+    end }
+
+
 
     use {
         "norcalli/nvim-colorizer.lua",
@@ -94,41 +124,11 @@ local function init()
     }
     use {
         "akinsho/bufferline.nvim",
-        config = function() require("bufferline").setup {} end
+        config = require 'plugins/bufferline'
     }
     use {
         "nvim-lualine/lualine.nvim",
-        config = function()
-            require('lualine').setup {
-                options = {
-                    icons_enabled = true,
-                    theme = 'auto',
-                    component_separators = { left = '', right = '' },
-                    section_separators = { left = '', right = '' },
-                    disabled_filetypes = {},
-                    always_divide_middle = true,
-                    globalstatus = false
-                },
-                sections = {
-                    lualine_a = { 'mode' },
-                    lualine_b = { 'branch', 'diff', 'diagnostics' },
-                    lualine_c = { 'filename' },
-                    lualine_x = { 'encoding', 'fileformat', 'filetype' },
-                    lualine_y = { 'progress' },
-                    lualine_z = { 'location' }
-                },
-                inactive_sections = {
-                    lualine_a = {},
-                    lualine_b = {},
-                    lualine_c = { 'filename' },
-                    lualine_x = { 'location' },
-                    lualine_y = {},
-                    lualine_z = {}
-                },
-                tabline = {},
-                extensions = {}
-            }
-        end
+        config = require 'plugins.lualine'
     }
 
     -- Undo tree
@@ -138,6 +138,16 @@ local function init()
         config = function() vim.g.undotree_SetFocusWhenToggle = 1 end
     }
 
+    -- yank history
+    use {
+        "AckslD/nvim-neoclip.lua",
+        requires = {
+            'nvim-telescope/telescope.nvim',
+            { 'tami5/sqlite.lua', module = 'sqlite' },
+
+        },
+        config = require 'plugins/neoclip',
+    }
     -- snippets
 
     use "rafamadriz/friendly-snippets"
@@ -157,11 +167,14 @@ local function init()
     use { "hrsh7th/cmp-path" }
     use { "hrsh7th/cmp-buffer" }
     use { "andersevenrud/cmp-tmux" }
+    use { "hrsh7th/cmp-cmdline" }
+
 
     -- Languages / LSP
 
     use "williamboman/nvim-lsp-installer"
     use { "neovim/nvim-lspconfig", config = require "plugins/lspconfig" }
+    use "b0o/schemastore.nvim"
     use {
         "jose-elias-alvarez/null-ls.nvim",
         config = require "plugins/null-ls",
@@ -169,46 +182,54 @@ local function init()
     }
 
     use {
-        "simrat39/symbols-outline.nvim",
+        "stevearc/aerial.nvim",
         config = function()
-            vim.g.symbols_outline = {
-                auto_preview = false,
-                preview_bg_highlight = "NormalFloat"
-            }
+            require('aerial').setup({
+                min_width = 45,
+                default_direction = "right",
+                placement_editor_edge = true,
+                close_behavior = "global",
+                update_events = "TextChanged,InsertLeave,WinEnter,WinLeave",
+            })
         end
     }
 
     use { "j-hui/fidget.nvim", config = function() require "fidget".setup {} end }
 
-    use "ray-x/lsp_signature.nvim"
+    use { "ray-x/lsp_signature.nvim", config = function()
+        require "lsp_signature".setup({
+            bind = true, -- This is mandatory, otherwise border config won't get registered.
+            handler_opts = {
+                border = "rounded"
+            }
+        })
+    end }
     use "RRethy/vim-illuminate"
-    use {
-        "RishabhRD/lspactions",
-        requires = { "nvim-lua/plenary.nvim", "nvim-lua/popup.nvim" },
-        config = require "plugins/lspactions"
-    }
-    use { 'weilbith/nvim-code-action-menu' }
 
     use 'ixru/nvim-markdown'
 
-    -- diagnostics
-    use { 'kevinhwang91/nvim-bqf', ft = 'qf' }
+    -- project Management
     use {
-        'onsails/diaglist.nvim',
-        config = function() require('diaglist').init() end
+        "ahmedkhalf/project.nvim",
+        config = function()
+            require("project_nvim").setup {}
+        end
     }
 
     --[[ use {
         "folke/trouble.nvim",
-        requires = "kyazdani42/nvim-web-devicons",
         config = function()
             require("trouble").setup {
                 {
-                    mode = "lsp_document_diagnostics" -- "lsp_workspace_diagnostics", "lsp_document_diagnostics", "quickfix", "lsp_references", "loclist"
+                    mode = "document_diagnostics"
                 }
             }
         end
     } ]]
+    use { "https://gitlab.com/yorickpeterse/nvim-pqf.git", config = function()
+        require('pqf').setup()
+    end }
+    use "kevinhwang91/nvim-bqf"
 
     -- Treesitter
 
@@ -247,36 +268,7 @@ local function init()
 
     use {
         "nvim-telescope/telescope.nvim",
-        config = function()
-            local actions = require("telescope.actions")
-
-            require "telescope".setup {
-                defaults = {
-                    mappings = {
-                        i = { ["<C-b>"] = { "<esc>", type = "command" } },
-                        n = { ["<C-c>"] = actions.close }
-                    }
-                },
-                pickers = {
-                    -- Your special builtin config goes in here
-                    file_browser = { hidden = true },
-                    find_files = { hidden = true }
-                },
-                extensions = {
-                    fzf = {
-                        fuzzy = true, -- false will only do exact matching
-                        override_generic_sorter = true, -- override the generic sorter
-                        override_file_sorter = true, -- override the file sorter
-                        case_mode = "smart_case" -- or "ignore_case" or "respect_case"
-                        -- the default case_mode is "smart_case"
-                    }
-                }
-            }
-
-            require("telescope").load_extension("fzf")
-            require("telescope").load_extension("media_files")
-
-        end
+        config = require 'plugins.telescope'
     }
     use "nvim-telescope/telescope-media-files.nvim"
     use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
@@ -323,62 +315,35 @@ local function init()
 
     -- Tools
 
+    use({
+        'mrjones2014/dash.nvim',
+        run = 'make install',
+        config = function()
+            require("dash").setup({ search_engine = "google", file_type_keywords = { elixir = { 'ex', 'elixir' } } })
+        end
+    })
     use "editorconfig/editorconfig-vim"
     use "tpope/vim-sleuth"
     use "kassio/neoterm"
     use "vim-test/vim-test"
 
+    use "andymass/vim-matchup"
     use "tpope/vim-surround"
     use "tpope/vim-repeat"
     use "AndrewRadev/splitjoin.vim"
     use "b3nj5m1n/kommentary"
     use "monaqa/dial.nvim"
 
-    use {
-        "gelguy/wilder.nvim",
-        requires = { 'romgrk/fzy-lua-native' },
-        config = function()
-            vim.cmd [[
-                call wilder#setup({'modes': [':']})
-                call wilder#set_option('use_python_remote_plugin', 0)
-                call wilder#set_option('pipeline', [
-                    \   wilder#branch(
-                    \     wilder#cmdline_pipeline({
-                    \       'fuzzy': 1,
-                    \       'fuzzy_filter': wilder#lua_fzy_filter(),
-                    \     }),
-                    \     wilder#vim_search_pipeline(),
-                    \   ),
-                    \ ])
-
-                call wilder#set_option('renderer', wilder#popupmenu_renderer(wilder#popupmenu_border_theme({
-                    \ 'apply_incsearch_fix': 0,
-                    \ 'highlighter': wilder#lua_fzy_highlighter(),
-                    \ 'left': [
-                    \   ' ',
-                    \   wilder#popupmenu_devicons(),
-                    \   wilder#popupmenu_buffer_flags({
-                    \     'flags': ' a + ',
-                    \     'icons': {'+': '', 'a': '', 'h': ''},
-                    \   }),
-                    \ ],
-                    \ 'right': [
-                    \   ' ', wilder#popupmenu_scrollbar(),
-                    \ ],
-                    \ 'highlights': {
-                    \   'border': 'FloatBorder',
-                    \   'default': 'Normal',
-                    \   'accent': wilder#make_hl('WilderAccent', 'Pmenu', [{}, {}, {'foreground': '#D08770'}]),
-                    \ },
-                    \ 'border': 'rounded',
-                    \ })))
-            ]]
-        end
-    }
+    -- use { "gelguy/wilder.nvim", requires = { 'romgrk/fzy-lua-native' }, config = require 'plugins.wilder' }
 
     use {
         "windwp/nvim-autopairs",
-        config = function() require("nvim-autopairs").setup {} end
+        config = function()
+            require("nvim-autopairs").setup {}
+            require("nvim-autopairs").add_rules(require('nvim-autopairs.rules.endwise-elixir'))
+            require("nvim-autopairs").add_rules(require('nvim-autopairs.rules.endwise-lua'))
+            require("nvim-autopairs").add_rules(require('nvim-autopairs.rules.endwise-ruby'))
+        end
     }
 
     if packer_bootstrap then packer.sync() end
@@ -386,8 +351,15 @@ end
 
 local plugins = setmetatable({}, {
     __index = function(_, key)
-        init()
-        return packer[key]
+        if key == 'delete_snapshot' then
+            init()
+            snapshot = require 'packer.snapshot'
+            snapshot.cfg(packer.config)
+            return snapshot.delete
+        else
+            init()
+            return packer[key]
+        end
     end
 })
 

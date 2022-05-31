@@ -10,6 +10,8 @@
 	name = Alexander Steppke
 	email = alex@steppke.dev
 	signingkey = 18C740F63953F199A0085AFB2B591E707DDD9CE2
+[includeIf "gitdir:~/projects/superluminar/statista/"]
+	path = ~/projects/superluminar/statista/.gitconfig
 [push]
 	default = current
 [alias]

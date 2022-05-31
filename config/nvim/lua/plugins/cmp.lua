@@ -64,7 +64,7 @@ return function()
             ["<C-d>"] = cmp.mapping.scroll_docs(-4),
             ["<C-f>"] = cmp.mapping.scroll_docs(4),
             ["<C-Space>"] = cmp.mapping.confirm({ select = true }),
-            ["<CR>"] = cmp.mapping.confirm({ select = true }),
+            ["<CR>"] = cmp.mapping.confirm({ select = false }),
             ["<C-e>"] = cmp.mapping.close()
             -- ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
         }),
@@ -78,6 +78,25 @@ return function()
         }
     }
 
+    -- `/` cmdline setup.
+    cmp.setup.cmdline('/', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+            { name = 'buffer' }
+        }
+    })
+    -- `:` cmdline setup.
+    cmp.setup.cmdline(':', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+            { name = 'path' }
+        }, {
+            { name = 'cmdline' }
+        })
+    })
+
     cmp.event:on('confirm_done',
         cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
+
+
 end

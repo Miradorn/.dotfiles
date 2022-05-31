@@ -12,6 +12,8 @@ local opt = utils.opt
 -- Pre Plugin config
 --
 g.vim_markdown_no_default_key_mappings = 1
+g.matchup_matchparen_offscreen = {}
+
 
 g.startify_change_to_dir = 0
 
@@ -69,7 +71,7 @@ opt("listchars", {
     space = "·"
 })
 opt("history", 5000)
-opt("signcolumn", "auto")
+opt("signcolumn", "number")
 opt("colorcolumn", { "120" })
 opt("splitbelow", true)
 opt("splitright", true)
@@ -81,7 +83,7 @@ opt("completeopt", "menu,menuone,noselect")
 -- Colorscheme
 opt("termguicolors", true)
 opt("background", "dark")
-cmd("colorscheme nordfox")
+-- cmd("colorscheme nordfox")
 
 g.kommentary_create_default_mappings = false
 
@@ -112,7 +114,7 @@ vim.diagnostic.config({
 })
 
 -- quickfix window formatting from https://github.com/kevinhwang91/nvim-bqf
-function _G.qftf(info)
+--[[ function _G.qftf(info)
     local items
     local ret = {}
     if info.quickfix == 1 then
@@ -156,11 +158,18 @@ function _G.qftf(info)
     return ret
 end
 
-vim.o.qftf = '{info -> v:lua._G.qftf(info)}'
+vim.o.qftf = '{info -> v:lua._G.qftf(info)}' ]]
 
 --[[ autocmd("diagnostics_hover", {
     [[CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})
 }, true) ]]
+
+local diag_augroup = vim.api.nvim_create_augroup("DiagnosticChanged", {})
+vim.api.nvim_create_autocmd("DiagnosticChanged", {
+    pattern = "*",
+    callback = function() vim.diagnostic.setqflist({ open = false }) end,
+    group = diag_augroup
+})
 
 -- Commands
 vim.api.nvim_create_user_command("PackerInstall", function()
@@ -169,9 +178,13 @@ vim.api.nvim_create_user_command("PackerInstall", function()
 end, {})
 vim.api.nvim_create_user_command("PackerUpdate", function()
     vim.cmd("packadd packer.nvim")
+    require('plugins').delete_snapshot("before-update")
+    require('plugins').snapshot("before-update")
     require('plugins').update()
 end, {})
 vim.api.nvim_create_user_command("PackerSync", function()
+    require('plugins').delete_snapshot("before-update")
+    require('plugins').snapshot("before-update")
     vim.cmd("packadd packer.nvim")
     require('plugins').sync()
 end, {})
@@ -217,3 +230,4 @@ require "mappings"
 --
 
 require "custom"
+require "winbar"

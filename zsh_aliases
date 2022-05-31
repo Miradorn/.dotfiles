@@ -220,4 +220,5 @@ function update {
   pip3 install --upgrade pynvim Pygments tmuxp
   yarn global upgrade
   gcloud components update --quiet
+  tldr --update
 }

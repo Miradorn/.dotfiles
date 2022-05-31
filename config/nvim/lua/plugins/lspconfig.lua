@@ -1,44 +1,28 @@
 return function()
-    local lsp_installer = require("nvim-lsp-installer")
-
     local servers = {
         "bashls", "cssls", "dockerls", "elixirls", "ember", "erlangls", "gopls",
         "graphql", "html", "jsonls", "sumneko_lua", "solargraph", "svelte",
         "tailwindcss", "terraformls", "tsserver", "vimls", "vuels", "yamlls"
     }
 
-    for _, name in pairs(servers) do
-        local ok, server = lsp_installer.get_server(name)
-        -- Check that the server is supported in nvim-lsp-installer
-        if ok then
-            if not server:is_installed() then
-                print("Installing " .. name)
-                server:install()
-            end
-        end
-    end
+    require("nvim-lsp-installer").setup({ ensure_installed = servers, automatic_installation = true })
 
     local function make_config(server)
         local capabilities = vim.lsp.protocol.make_client_capabilities()
         capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
-        capabilities.textDocument.completion.completionItem.snippetSupport =
-            true
-        capabilities.textDocument.colorProvider = {dynamicRegistration = false}
+        capabilities.textDocument.colorProvider = { dynamicRegistration = false }
 
         return {
             -- enable snippet support
             capabilities = capabilities,
             -- map buffer local keybindings when the language server attaches
             on_attach = function(client, bufnr)
-                require"lsp_signature".on_attach({
-                    bind = true, -- This is mandatory, otherwise border config won't get registered.
-                    handler_opts = {border = "single"}
-                })
+                require "illuminate".on_attach(client)
+                require("aerial").on_attach(client, bufnr)
 
-                require"illuminate".on_attach(client)
 
                 if server.name == "yamlls" then
-                    client.resolved_capabilities.document_formatting = true
+                    client.server_capabilities.document_formatting = true
                 end
             end
         }
@@ -54,14 +38,12 @@ return function()
             },
             diagnostics = {
                 -- Get the language server to recognize the `vim` global
-                globals = {"vim"}
+                globals = { "vim" },
+                disable = { "lowercase-global", "need-check-nil" }
             },
             workspace = {
                 -- Make the server aware of Neovim runtime files
-                library = {
-                    [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                    [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true
-                }
+                library = vim.api.nvim_get_runtime_file("", true),
             }
         }
     }
@@ -87,41 +69,48 @@ return function()
                 "!Split sequence", "!Join scalar", "!Join mapping",
                 "!Join sequence"
             },
-            format = {enable = true}
+            format = { enable = true }
         }
     }
 
-    local go_settings = {gopls = {gofumpt = true}}
+    local ruby_settings = {
+        solargraph = {
+            diagnostics = false
+        }
+    }
+
+    local go_settings = { gopls = { gofumpt = true } }
+
+    local json_settings = {
+        json = {
+            schemas = require('schemastore').json.schemas()
+        }
+    }
 
     local function setup_server(server)
         local config = make_config(server)
 
         -- language specific config
-        if server.name == "sumneko_lua" then
-            config.settings = lua_settings
-        end
-        if server.name == "yamlls" then config.settings = yaml_settings end
+        if server == "sumneko_lua" then config.settings = lua_settings end
+        if server == "solargraph" then config.settings = ruby_settings end
+        if server == "yamlls" then config.settings = yaml_settings end
         --[[ if server.name == "efm" then
             config = vim.tbl_extend("force", config, require "lsp/efm")
         end ]]
-        if server.name == "vimls" then
-            config.init_options = {isNeovim = true}
-        end
-        if server.name == "gopls" then config.settings = go_settings end
-        if server.name == "tsserver" then
+        if server == "vimls" then config.init_options = { isNeovim = true } end
+        if server == "gopls" then config.settings = go_settings end
+        if server == "jsonls" then config.settings = json_settings end
+        if server == "tsserver" then
             config.on_attach = function(client)
-                client.resolved_capabilities.document_formatting = false
-                client.resolved_capabilities.document_range_formatting = false
+                client.server_capabilities.document_formatting = false
+                client.server_capabilities.document_range_formatting = false
             end
         end
 
-        server:setup(config)
+        return config
     end
 
-    -- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-    lsp_installer.on_server_ready(function(server)
-        setup_server(server) -- reload installed servers
-        -- vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-        vim.cmd [[ do User LspAttachBuffers ]]
-    end)
+    for _, lsp in pairs(servers) do
+        require('lspconfig')[lsp].setup(setup_server(lsp))
+    end
 end

@@ -1,5 +1,3 @@
-local cmd = vim.cmd
-
 local function opt(o, v) vim.opt[o] = v end
 
 local function project_files()
