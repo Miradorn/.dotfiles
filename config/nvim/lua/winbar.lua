@@ -1,6 +1,8 @@
 local M = {}
 
-local aerial = require('aerial')
+local aerial
+import('aerial', function(a) aerial = a end)
+assert(aerial)
 
 -- Format the list representing the symbol path
 -- Grab it from https://github.com/stevearc/aerial.nvim/blob/master/lua/lualine/components/aerial.lua
@@ -22,7 +24,7 @@ local function format_symbols(symbols, depth, separator)
 end
 
 M.winbar = function()
-  if vim.tbl_contains({ 'startify', 'NvimTree', 'aerial', 'neoterm', 'qf', 'packer', 'help', 'dashboard', 'Trouble' }, vim.bo.filetype) then
+  if vim.tbl_contains({ 'alpha', 'startify', 'NvimTree', 'aerial', 'toggleterm', 'qf', 'packer', 'help', 'dashboard', 'Trouble' }, vim.bo.filetype) then
     return ''
   end
   -- Get a list representing the symbol path by aerial.get_location (see
@@ -37,5 +39,6 @@ M.winbar = function()
 end
 
 vim.o.winbar = "%{%v:lua.require('winbar').winbar()%}"
+-- vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
 
 return M

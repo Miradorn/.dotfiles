@@ -1,7 +1,7 @@
-return function()
-    local tree_cb = require "nvim-tree.config".nvim_tree_callback
+local tree_cb
+import("nvim-tree.config", function(c) tree_cb = c.nvim_tree_callback end)
 
-    require "nvim-tree".setup {
+import("nvim-tree", function(tree) tree.setup {
         -- disables netrw completely
         disable_netrw = false,
         -- hijack netrw window on startup
@@ -103,4 +103,4 @@ return function()
             },
         },
     }
-end
+end)

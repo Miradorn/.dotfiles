@@ -1,5 +1,4 @@
-return function()
-    require("neoclip").setup {
+import("neoclip", function(clip) clip.setup {
         enable_persistent_history = true,
         keys = {
             telescope = {
@@ -22,4 +21,4 @@ return function()
             },
         },
     }
-end
+end)

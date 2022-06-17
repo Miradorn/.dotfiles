@@ -1,24 +1,22 @@
-return function()
-    local lsp_name = function()
-        local msg = "No Active Lsp"
-        local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
-        local clients = vim.lsp.get_active_clients()
-        if next(clients) == nil then
-            return msg
-        end
+local lsp_name = function()
+    local msg = "No Active Lsp"
+    local buf_number = vim.api.nvim_get_current_buf()
+    local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
+    local clients = vim.lsp.get_active_clients({ bufnr = vim.api.nvim_get_current_buf() })
 
-        for _, client in ipairs(clients) do
-            local filetypes = client.config.filetypes
-
-            if client.name ~= "null-ls" and filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-                return client.name
-            end
-        end
-
+    if next(clients) == nil then
         return msg
     end
 
-    require('lualine').setup {
+    local client_names = {}
+    for _, client in ipairs(clients) do
+        table.insert(client_names, client.name)
+    end
+
+    return table.concat(client_names, " ")
+end
+
+import('lualine', function(lualine) lualine.setup {
         options = {
             globalstatus = true,
             icons_enabled = true,
@@ -30,7 +28,7 @@ return function()
         },
         sections = {
             lualine_a = { 'mode' },
-            lualine_b = { { 'filetype', fmt = string.upper }},
+            lualine_b = { { 'filetype', fmt = string.upper } },
             lualine_c = {
                 "filename"
             },
@@ -57,4 +55,4 @@ return function()
         tabline = {},
         extensions = { 'nvim-tree', 'fugitive', 'fzf', 'quickfix', 'symbols-outline' }
     }
-end
+end)

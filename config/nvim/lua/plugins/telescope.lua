@@ -1,7 +1,9 @@
-return function()
-    local actions = require("telescope.actions")
+local actions
+import("telescope.actions", function(a) actions = a end)
+assert(actions)
 
-    require "telescope".setup {
+import("telescope", function(telescope)
+    telescope.setup {
         defaults = {
             mappings = {
                 i = { ["<C-b>"] = { "<esc>", type = "command" } },
@@ -24,7 +26,7 @@ return function()
         }
     }
 
-    require("telescope").load_extension("fzf")
-    require("telescope").load_extension("media_files")
-    require('telescope').load_extension('projects')
-end
+    telescope.load_extension("fzf")
+    telescope.load_extension("media_files")
+    telescope.load_extension('projects')
+end)

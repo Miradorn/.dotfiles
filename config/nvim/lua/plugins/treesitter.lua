@@ -1,5 +1,4 @@
-return function()
-    require "nvim-treesitter.configs".setup {
+import("nvim-treesitter.configs", function(c) c.setup {
         ensure_installed = {
             'bash', 'cmake', 'comment', 'css', 'dockerfile', 'eex', 'elixir',
             'elm', 'erlang', 'go', 'gomod', 'graphql', 'hcl', 'heex', 'hjson',
@@ -20,4 +19,4 @@ return function()
             }
         }
     }
-end
+end)

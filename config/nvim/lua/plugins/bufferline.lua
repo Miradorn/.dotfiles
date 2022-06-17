@@ -1,7 +1,6 @@
-return function()
-    local colors = require("onenord.colors").load()
+local colors = require("onenord.colors").load()
 
-    require("bufferline").setup {
+import("bufferline", function(bl) bl.setup {
         options = {
             separator_style = "slant",
             diagnostics = "nvim_lsp",
@@ -39,4 +38,4 @@ return function()
             }
         }
     }
-end
+end)

@@ -91,7 +91,7 @@ eval "$(starship init zsh)"
 eval "$(gh completion -s zsh)"
 
 # Created by `userpath` on 2020-02-22 15:02:05
-export PATH="$PATH:/Users/alsc/.local/bin"
+export PATH="$PATH:/Users/alex/.local/bin"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -122,6 +122,9 @@ export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat 
 
 source <(stern --completion=zsh)
 
+export AWS_SESSION_TOKEN_TTL=8h
+export AWS_ASSUME_ROLE_TTL=8h
+export AWS_FEDERATION_TOKEN_TTL=8h
 eval "$(aws-vault --completion-script-zsh)"
 # aliases
 source "$HOME/.zsh_aliases"
@@ -134,3 +137,4 @@ source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 alias luamake=/Users/alsc/projects/lua-language-server/3rd/luamake/luamake
 
 source /Users/alex/.config/broot/launcher/bash/br
+. ~/.asdf/plugins/java/set-java-home.zsh

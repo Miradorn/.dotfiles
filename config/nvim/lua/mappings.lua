@@ -47,7 +47,7 @@ map("c", "<A-f>", "<S-Right>")
 map("t", "<ESC>", "<C-\\><C-n>")
 -- map("t", "<C-c>", "<C-\\><C-n>")
 
-map("n", "<Leader>tt", ":Ttoggle<CR>", silent)
+map("n", "<Leader>tt", ":ToggleTerm<CR>", silent)
 
 -- Tests
 map("n", "<Leader>tf", ":TestFile<CR>", silent)
@@ -112,7 +112,8 @@ map("n", "<leader>ek", ":vsplit ~/.config/kitty/kitty.conf<cr>")
 -- Packer
 
 map("n", "<leader>u", ":PackerSync<CR>")
-map("n", "<leader>pc", ":PackerClean<CR>")
+map("n", "<leader>pc", ":PackerCompile<CR>")
+map("n", "<leader>pcl", ":PackerClean<CR>")
 map("n", "<leader>pr", function() require'plugins'.rollback('before-update') end)
 
 -- kommentary
