@@ -1,7 +1,7 @@
 local servers = {
     "bashls", "cssls", "dockerls", "elixirls", "ember", "erlangls", "gopls",
     "graphql", "html", "jsonls", "sumneko_lua", "solargraph", "svelte",
-    "tailwindcss", "terraformls", "tsserver", "vimls", "vuels", "yamlls"
+    "tailwindcss", "terraformls", "tsserver", "vimls", "volar", "yamlls"
 }
 
 import("nvim-lsp-installer",
@@ -35,10 +35,10 @@ local function make_config(server)
             end
 
 
-            --[[ if not vim.tbl_contains({"null-ls", "tailwindcss", "ember"}, server) then
-                    vim.pretty_print(server)
-                    require('nvim-navic').attach(client, bufnr)
-                end ]]
+            -- if not vim.tbl_contains({"null-ls", "tailwindcss", "ember"}, server) then
+            --         vim.pretty_print(server)
+            --         require('nvim-navic').attach(client, bufnr)
+            --     end
         end
     }
 end

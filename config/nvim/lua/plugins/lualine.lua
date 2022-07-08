@@ -1,20 +1,13 @@
-local lsp_name = function()
-    local msg = "No Active Lsp"
-    local buf_number = vim.api.nvim_get_current_buf()
-    local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
-    local clients = vim.lsp.get_active_clients({ bufnr = vim.api.nvim_get_current_buf() })
+local lsp_names = function()
+     local clients = {}
 
-    if next(clients) == nil then
-        return msg
+    for _, client in pairs(vim.lsp.buf_get_clients(0)) do
+        clients[#clients + 1] = client.name
     end
 
-    local client_names = {}
-    for _, client in ipairs(clients) do
-        table.insert(client_names, client.name)
-    end
-
-    return table.concat(client_names, " ")
+    return table.concat(clients, ' '), ' '
 end
+
 
 import('lualine', function(lualine) lualine.setup {
         options = {
@@ -38,7 +31,7 @@ import('lualine', function(lualine) lualine.setup {
                 "progress",
                 'encoding',
                 'fileformat',
-                { lsp_name, icon = "", },
+                { lsp_names, icon = "", },
                 'diagnostics'
             },
             lualine_y = { 'diff' },

@@ -41,6 +41,7 @@ local opts = {
     cursorline = true,
     smartindent = true,
     hidden = true,
+    laststatus = 3,
     guicursor = [[n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50]],
     undofile = true,
     swapfile = false,

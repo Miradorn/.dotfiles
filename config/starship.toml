@@ -35,7 +35,7 @@ symbol = " "
 symbol = " "
 
 [nodejs]
-symbol = " "
+symbol = " "
 
 [package]
 symbol = " "
@@ -51,3 +51,12 @@ symbol = " "
 
 [rust]
 symbol = " "
+
+[elixir]
+symbol = " "
+
+[directory]
+read_only = " "
+
+[docker_context]
+symbol = " "

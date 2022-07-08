@@ -114,10 +114,7 @@ local function init()
 
     use {
         "petertriho/nvim-scrollbar",
-        config = function() import("scrollbar", function(scrollbar)
-                scrollbar.setup()
-            end)
-        end
+        config = function() import("scrollbar", function(scrollbar) scrollbar.setup() end) end
     }
 
     use {
@@ -338,7 +335,12 @@ local function init()
 
     -- use "justinmk/vim-sneak"
     use { "ggandor/leap.nvim", config = function()
-        import('leap', function(leap) leap.set_default_keymaps() end)
+        import('leap', function(leap)
+            leap.setup {
+                highlight_unlabeled = true
+            }
+            leap.set_default_keymaps()
+        end)
     end }
 
     -- FZF

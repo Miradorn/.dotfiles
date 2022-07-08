@@ -7,10 +7,16 @@ import("cmp", function(c) cmp = c end)
 import("luasnip", function(c) luasnip = c end)
 import("lspkind", function(c) lspkind = c end)
 import("nvim-autopairs.completion.cmp", function(c) cmp_autopairs = c end)
+
 assert(cmp)
 assert(luasnip)
 assert(lspkind)
 assert(cmp_autopairs)
+
+
+local t = function(str)
+    return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
 
 cmp.setup {
     window = {
@@ -67,8 +73,38 @@ cmp.setup {
             end
         end,
         ["<C-y>"] = cmp.config.disable,
-        ["<C-p>"] = cmp.mapping.select_prev_item(),
-        ["<C-n>"] = cmp.mapping.select_next_item(),
+        ['<C-n>'] = cmp.mapping({
+            c = function()
+                if cmp.visible() then
+                    cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+                else
+                    vim.api.nvim_feedkeys(t('<Down>'), 'n', true)
+                end
+            end,
+            i = function(fallback)
+                if cmp.visible() then
+                    cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+                else
+                    fallback()
+                end
+            end
+        }),
+        ['<C-p>'] = cmp.mapping({
+            c = function()
+                if cmp.visible() then
+                    cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+                else
+                    vim.api.nvim_feedkeys(t('<Up>'), 'n', true)
+                end
+            end,
+            i = function(fallback)
+                if cmp.visible() then
+                    cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+                else
+                    fallback()
+                end
+            end
+        }),
         ["<C-d>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.confirm({ select = true }),
