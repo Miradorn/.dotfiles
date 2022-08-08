@@ -27,11 +27,11 @@ map("n", "<Leader>E", ":e!<CR>")
 
 -- nvimTree Explorer
 
-map("n", "<Leader>n", ":NvimTreeToggle<CR>")
-map("n", "<Leader>N", ":NvimTreeFindFile<CR>")
+map("n", "<Leader>n", ":NvimTreeToggle<CR>", silent)
+map("n", "<Leader>N", ":NvimTreeFindFile<CR>", silent)
 
 -- undotree
-map("n", "<Leader>gu", ":UndotreeToggle<CR>")
+map("n", "<Leader>gu", ":UndotreeToggle<CR>", silent)
 
 -- Vim Command Line
 
@@ -101,7 +101,7 @@ map("n", "<leader>evl",
 	":vsplit ~/.dotfiles/config/nvim/lua/lspconfig.lua<cr>")
 map("n", "<leader>evm", ":vsplit ~/.dotfiles/config/nvim/lua/mappings.lua<cr>")
 map("n", "<leader>evv", function()
-	require('telescope.builtin.files').find_files {
+	require('telescope.builtin').find_files {
 		search_dirs = { '~/.dotfiles/config/nvim/' }
 	}
 end)

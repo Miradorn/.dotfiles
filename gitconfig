@@ -22,12 +22,12 @@
 	co = checkout
 	cb = checkout -b
 	cm = commit -m
-	fms = fetch origin master:master
-	fm = fetch origin main:main
+	fmn = fetch origin main:main
+	fm = fetch origin master:master
 	rbi = rebase -i
 	up = pull --rebase --autostash
-	rbm = rebase main
-	rbms = rebase master
+	rbm = rebase master
+	rbmn = rebase main
 	rb = rebase
 	pr = pull-request
 	amend = commit --amend --no-edit

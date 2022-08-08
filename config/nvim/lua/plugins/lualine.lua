@@ -1,5 +1,9 @@
+local winbar
+
+import('winbar', function(w) winbar = w end)
+
 local lsp_names = function()
-     local clients = {}
+    local clients = {}
 
     for _, client in pairs(vim.lsp.buf_get_clients(0)) do
         clients[#clients + 1] = client.name
@@ -13,10 +17,23 @@ import('lualine', function(lualine) lualine.setup {
         options = {
             globalstatus = true,
             icons_enabled = true,
-            theme = 'onenord',
+            theme = 'catppuccin',
             component_separators = { left = '', right = '' },
             section_separators = { left = '', right = '' },
-            disabled_filetypes = {},
+            disabled_filetypes = {
+                winbar = {
+                    'alpha',
+                    'startify',
+                    'NvimTree',
+                    'aerial',
+                    'toggleterm',
+                    'qf',
+                    'packer',
+                    'help',
+                    'dashboard',
+                    'Trouble'
+                },
+            },
             always_divide_middle = true,
         },
         sections = {
@@ -45,7 +62,13 @@ import('lualine', function(lualine) lualine.setup {
             lualine_y = {},
             lualine_z = {}
         },
+        -- winbar = {
+        --     lualine_c = { { winbar.get_location, cond = winbar.enabled } },
+        -- },
+        -- inactive_winbar = {
+        --     lualine_c = { { winbar.get_location, cond = winbar.enabled } },
+        -- },
         tabline = {},
-        extensions = { 'nvim-tree', 'fugitive', 'fzf', 'quickfix', 'symbols-outline' }
+        extensions = { 'nvim-tree', 'fugitive', 'fzf', 'quickfix', 'symbols-outline', 'aerial' }
     }
 end)

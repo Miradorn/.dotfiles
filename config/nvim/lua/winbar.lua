@@ -23,10 +23,13 @@ local function format_symbols(symbols, depth, separator)
   return table.concat(parts, separator)
 end
 
-M.winbar = function()
-  if vim.tbl_contains({ 'alpha', 'startify', 'NvimTree', 'aerial', 'toggleterm', 'qf', 'packer', 'help', 'dashboard', 'Trouble' }, vim.bo.filetype) then
-    return ''
-  end
+M.enabled = function()
+  return not
+      vim.tbl_contains({ 'alpha', 'startify', 'NvimTree', 'aerial', 'toggleterm', 'qf', 'packer', 'help', 'dashboard',
+        'Trouble' }, vim.bo.filetype)
+end
+
+M.get_location = function()
   -- Get a list representing the symbol path by aerial.get_location (see
   -- https://github.com/stevearc/aerial.nvim/blob/master/lua/aerial/init.lua#L127),
   -- and format the list to get the symbol path.
@@ -38,7 +41,7 @@ M.winbar = function()
   return (symbol_path == "" and "..." or symbol_path)
 end
 
-vim.o.winbar = "%{%v:lua.require('winbar').winbar()%}"
+-- vim.o.winbar = "%{%v:lua.require('winbar').winbar()%}"
 -- vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
 
 return M

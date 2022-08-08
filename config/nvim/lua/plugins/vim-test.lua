@@ -6,6 +6,7 @@ import("toggleterm.terminal", function(t) ttt = t end)
 
 vim.g["test#custom_strategies"] = {
   tterm = function(cmd)
+    -- vim.pretty_print(cmd)
     tt.exec(cmd)
   end,
 

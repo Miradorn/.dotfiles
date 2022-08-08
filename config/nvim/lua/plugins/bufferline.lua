@@ -1,4 +1,4 @@
-local colors = require("onenord.colors").load()
+local colors = require("catppuccin.palettes").get_palette "mocha"
 
 import("bufferline", function(bl) bl.setup {
         options = {
@@ -19,19 +19,19 @@ import("bufferline", function(bl) bl.setup {
                     local hint = #vim.diagnostic.get(0, { severity = seve.HINT })
 
                     if error ~= 0 then
-                        table.insert(result, { text = "  " .. error, guifg = colors.error })
+                        table.insert(result, { text = "  " .. error, guifg = colors.red })
                     end
 
                     if warning ~= 0 then
-                        table.insert(result, { text = "  " .. warning, guifg = colors.warn })
+                        table.insert(result, { text = "  " .. warning, guifg = colors.yellow })
                     end
 
                     if hint ~= 0 then
-                        table.insert(result, { text = "  " .. hint, guifg = colors.hint })
+                        table.insert(result, { text = "  " .. hint, guifg = colors.teal })
                     end
 
                     if info ~= 0 then
-                        table.insert(result, { text = "  " .. info, guifg = colors.info })
+                        table.insert(result, { text = "  " .. info, guifg = colors.sky })
                     end
                     return result
                 end,

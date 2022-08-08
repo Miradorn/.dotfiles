@@ -35,10 +35,10 @@ local function make_config(server)
             end
 
 
-            -- if not vim.tbl_contains({"null-ls", "tailwindcss", "ember"}, server) then
-            --         vim.pretty_print(server)
-            --         require('nvim-navic').attach(client, bufnr)
-            --     end
+            if not vim.tbl_contains({ "null-ls", "tailwindcss", "ember" }, server) then
+                -- vim.pretty_print(server)
+                -- require'nvim-navic'.attach(client, bufnr)
+            end
         end
     }
 end

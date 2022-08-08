@@ -12,8 +12,8 @@ import("telescope", function(telescope)
         },
         pickers = {
             -- Your special builtin config goes in here
-            file_browser = { hidden = true },
-            find_files = { hidden = true }
+            file_browser = { no_ignore=true, hidden = true },
+            find_files = { no_ignore=true, hidden = true }
         },
         extensions = {
             fzf = {
@@ -29,4 +29,5 @@ import("telescope", function(telescope)
     telescope.load_extension("fzf")
     telescope.load_extension("media_files")
     telescope.load_extension('projects')
+    telescope.load_extension('notify')
 end)

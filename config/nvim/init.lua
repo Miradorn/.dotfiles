@@ -13,6 +13,17 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     group = packer_augroup
 })
 
+
+local bqf_augroup = vim.api.nvim_create_augroup("BQF", {})
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "qf",
+    callback = function()
+        vim.wo.wrap = true
+    end,
+    group = bqf_augroup
+})
+
+
 -- Plugins
 --
 
@@ -30,4 +41,4 @@ import "mappings"
 
 import "custom"
 
-import "winbar"
+-- import "winbar"

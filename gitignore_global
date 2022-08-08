@@ -18,3 +18,4 @@ packs-test
 /bin
 .projections.json
 .envrc.private
+.envrc

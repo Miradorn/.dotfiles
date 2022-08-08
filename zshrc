@@ -12,6 +12,9 @@ export ZSH_DISABLE_COMPFIX=true
 
 # export EVENT_NOKQUEUE=1
 
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
+
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
 export LC_ALL=en_US.UTF-8
@@ -45,11 +48,10 @@ if type brew &>/dev/null; then
 # krew
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 # gnu coreutils
-export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$HOME/go/bin:$PATH"
 export PATH="$PATH:$(yarn global bin)"
 
 # # dircolors
-eval "$(dircolors ~/.dir_colors)"
+# eval "$(dircolors ~/.dir_colors)"
 
 bindkey -e
 
@@ -113,11 +115,10 @@ export FZF_DEFAULT_OPTS="
 --height 40% --border
 --info=inline
 --color=dark
---color=fg:#e5e9f0,bg:#3b4252,hl:#81a1c1
---color=fg+:#e5e9f0,bg+:#3b4252,hl+:#81a1c1
---color=info:#eacb8a,prompt:#bf6069,pointer:#b48dac,border:#eacb8a
---color=marker:#a3be8b,spinner:#b48dac,header:#a3be8b
-"
+--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+--color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
+
 export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 
 source <(stern --completion=zsh)
@@ -134,7 +135,4 @@ source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # zprof
 
-alias luamake=/Users/alsc/projects/lua-language-server/3rd/luamake/luamake
-
-source /Users/alex/.config/broot/launcher/bash/br
-. ~/.asdf/plugins/java/set-java-home.zsh
+source /Users/alexander/.config/broot/launcher/bash/br

@@ -18,17 +18,15 @@ local packer = nil
 
 local function init()
     if packer == nil then
-        import("packer", function(p)
-            packer = p
+        packer = require "packer"
 
-            packer.init {
-                disable_commands = true,
-                max_jobs = 20,
-                --[[ display = {
+        packer.init {
+            disable_commands = true,
+            max_jobs = 20,
+            --[[ display = {
                 open_fn = require('packer.util').float
             } ]]
-            }
-        end)
+        }
     end
 
     local use = packer.use
@@ -90,19 +88,31 @@ local function init()
 
     -- use {"shaunsingh/nord.nvim", config = function() require("nord").set() end}
     -- use { "EdenEast/nightfox.nvim" }
-    use { 'rmehri01/onenord.nvim', config = function()
-        import('onenord', function(onenord)
-            onenord.setup {
-                styles = {
-                    comments = "italic",
-                    strings = "NONE",
-                    keywords = "NONE",
-                    functions = "italic",
-                    variables = "bold",
-                    diagnostics = "underline",
-                },
+    -- use { 'rmehri01/onenord.nvim', config = function()
+    --     import('onenord', function(onenord)
+    --         onenord.setup {
+    --             styles = {
+    --                 comments = "italic",
+    --                 strings = "NONE",
+    --                 keywords = "NONE",
+    --                 functions = "italic",
+    --                 variables = "bold",
+    --                 diagnostics = "underline",
+    --             },
+    --         }
+    --     end)
+    -- end }
+    use { "catppuccin/nvim", as = "catppuccin", config = function()
+        vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
+
+        require("catppuccin").setup {
+            integrations = {
+                leap = true,
+                aerial = true,
             }
-        end)
+        }
+
+        vim.cmd [[colorscheme catppuccin]]
     end }
 
 
@@ -149,15 +159,15 @@ local function init()
         config = function() import('plugins.lualine') end
     }
 
-    --[[ use {
-        "SmiteshP/nvim-navic",
-        requires = "neovim/nvim-lspconfig",
-        config = function()
-            require 'nvim-navic'.setup {
-                highlight = true
-            }
-        end
-    } ]]
+    -- use {
+    --     "SmiteshP/nvim-navic",
+    --     requires = "neovim/nvim-lspconfig",
+    --     config = function()
+    --         require 'nvim-navic'.setup {
+    --             highlight = true
+    --         }
+    --     end
+    -- }
 
     -- Undo tree
     use {
@@ -261,7 +271,15 @@ local function init()
     use { "https://gitlab.com/yorickpeterse/nvim-pqf.git", config = function()
         import('pqf', function(pqf) pqf.setup() end)
     end }
-    use "kevinhwang91/nvim-bqf"
+    use { "kevinhwang91/nvim-bqf", config = function()
+        import('bqf', function(bqf)
+            bqf.setup {
+                preview = {
+                    wrap = true
+                }
+            }
+        end)
+    end }
 
     -- Treesitter
 
@@ -379,7 +397,10 @@ local function init()
     use "tpope/vim-sleuth"
     use { "akinsho/toggleterm.nvim", config = function()
         import("toggleterm", function(tt)
-            tt.setup()
+            tt.setup {
+                shade_terminals = false,
+                start_in_insert = false,
+            }
         end)
     end }
     use "antoinemadec/FixCursorHold.nvim"
