@@ -93,7 +93,7 @@ eval "$(starship init zsh)"
 eval "$(gh completion -s zsh)"
 
 # Created by `userpath` on 2020-02-22 15:02:05
-export PATH="$PATH:/Users/alex/.local/bin"
+export PATH="$PATH:/Users/$(whoami)/.local/bin"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -135,4 +135,4 @@ source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # zprof
 
-source /Users/alexander/.config/broot/launcher/bash/br
+source /Users/$(whoami)/.config/broot/launcher/bash/br
