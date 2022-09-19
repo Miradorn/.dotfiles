@@ -1,6 +1,6 @@
-local winbar
-
-import('winbar', function(w) winbar = w end)
+-- local winbar
+--
+-- import('winbar', function(w) winbar = w end)
 
 local lsp_names = function()
     local clients = {}

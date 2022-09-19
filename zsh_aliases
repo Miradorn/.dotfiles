@@ -45,6 +45,7 @@ alias vim=nvim
 # git
 # ----------------
 alias gitsh="gitsh --git $(which hub)"
+alias lg=lazygit
 
 function fco() {
   local tags branches target
@@ -192,6 +193,7 @@ alias d="kitty +kitten diff"
 # ----------------
 # other
 # ----------------
+alias r=remotectl
 alias wetter="curl wttr.in/hamburg"
 alias drops=ds
 alias ag="ag --hidden"

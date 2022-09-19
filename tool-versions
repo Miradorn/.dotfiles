@@ -8,4 +8,4 @@ terragrunt 0.36.6
 rebar 3.19.0
 java adoptopenjdk-18.0.1+10
 maven 3.8.6
-postgres 13.4
+postgres 13.7

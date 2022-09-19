@@ -1,12 +1,14 @@
-command_timeout = 2000
+command_timeout = 1000
 [aws]
 
 disabled = false
 symbol = "☁ "
 
 [kubernetes]
-
 disabled = false
+
+[kubernetes.context_aliases]
+"arn:aws:eks:.*:cluster/(?P<var_cluster>.*)" = "$var_cluster"
 
 [battery]
 full_symbol = ""

@@ -1,7 +1,6 @@
 --
 -- Helpers
 --
--- local utils = require "custom"
 local vfn = vim.api.nvim_call_function
 local fn = vim.fn
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
@@ -212,6 +211,7 @@ local function init()
 
     use "williamboman/nvim-lsp-installer"
     use { "neovim/nvim-lspconfig", config = function() import("plugins/lspconfig") end }
+    use "tamago324/nlsp-settings.nvim"
     use "b0o/schemastore.nvim"
     use {
         "jose-elias-alvarez/null-ls.nvim",
@@ -227,7 +227,7 @@ local function init()
                     min_width = 45,
                     default_direction = "right",
                     placement_editor_edge = true,
-                    close_behavior = "global",
+                    attach_mode = "global",
                     update_events = "TextChanged,InsertLeave,WinEnter,WinLeave",
                 })
             end)
@@ -236,16 +236,16 @@ local function init()
 
     use { "j-hui/fidget.nvim", config = function() import("fidget", function(fidget) fidget.setup {} end) end }
 
-    use { "ray-x/lsp_signature.nvim", config = function()
-        import("lsp_signature", function(sig)
-            sig.setup({
-                bind = true, -- This is mandatory, otherwise border config won't get registered.
-                handler_opts = {
-                    border = "rounded"
-                }
-            })
-        end)
-    end }
+    -- use { "ray-x/lsp_signature.nvim", config = function()
+    --     import("lsp_signature", function(sig)
+    --         sig.setup({
+    --             bind = true, -- This is mandatory, otherwise border config won't get registered.
+    --             handler_opts = {
+    --                 border = "rounded"
+    --             }
+    --         })
+    --     end)
+    -- end }
     use "RRethy/vim-illuminate"
 
     use 'ixru/nvim-markdown'
@@ -307,25 +307,30 @@ local function init()
     }
     use {
         "tpope/vim-fugitive",
-        cmd = { "Git", "Gstatus", "Gblame", "Gpush", "Gpull" }
+        cmd = { "Git", "Gwrite", "GBrowse" }
     }
 
+    use {
+        "shumphrey/fugitive-gitlab.vim",
+        requires = { "tpope/vim-fugitive" }
+    }
     use "tpope/vim-rhubarb"
 
     -- File Management
 
-    -- use "mhinz/vim-startify"
-    use {
-        'goolord/alpha-nvim',
-        requires = { 'kyazdani42/nvim-web-devicons' },
-        config = function()
-            import('alpha', function(alpha)
-                import('alpha.themes.startify', function(theme)
-                    alpha.setup(theme.config)
-                end)
-            end)
-        end
-    }
+
+    use "mhinz/vim-startify"
+    -- use {
+    --     'goolord/alpha-nvim',
+    --     requires = { 'kyazdani42/nvim-web-devicons' },
+    --     config = function()
+    --         import('alpha', function(alpha)
+    --             import('alpha.themes.startify', function(theme)
+    --                 alpha.setup(theme.config)
+    --             end)
+    --         end)
+    --     end
+    -- }
 
     use {
         "nvim-telescope/telescope.nvim",
@@ -398,8 +403,9 @@ local function init()
     use { "akinsho/toggleterm.nvim", config = function()
         import("toggleterm", function(tt)
             tt.setup {
-                shade_terminals = false,
+                -- shade_terminals = false,
                 start_in_insert = false,
+                auto_scroll = false,
             }
         end)
     end }

@@ -1,4 +1,4 @@
-# zmodload zsh/zprof
+ # zmodload zsh/zprof
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -41,8 +41,8 @@ source $(brew --prefix asdf)/asdf.sh
 if type brew &>/dev/null; then
     FPATH="$(brew --prefix)/share/zsh-completions:$(brew --prefix)/share/zsh/site-functions:$FPATH"
 
-    autoload -Uz compinit
-    compinit
+    # autoload -Uz compinit
+    # compinit
   fi
 
 # krew
@@ -126,6 +126,8 @@ source <(stern --completion=zsh)
 export AWS_SESSION_TOKEN_TTL=8h
 export AWS_ASSUME_ROLE_TTL=8h
 export AWS_FEDERATION_TOKEN_TTL=8h
+export AWS_PROFILE=sts
+
 eval "$(aws-vault --completion-script-zsh)"
 # aliases
 source "$HOME/.zsh_aliases"
@@ -133,6 +135,11 @@ source "$HOME/.zsh_aliases"
 # syntax highlights
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# zprof
 
 source /Users/$(whoami)/.config/broot/launcher/bash/br
+
+# remotectl
+source <(remotectl completion zsh)
+compdef _remotectl remotectl
+#
+# zprof

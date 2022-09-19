@@ -19,3 +19,4 @@ packs-test
 .projections.json
 .envrc.private
 .envrc
+.nlsp-settings/

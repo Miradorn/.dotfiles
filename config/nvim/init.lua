@@ -32,13 +32,11 @@ vim.api.nvim_create_autocmd("FileType", {
 --
 -- Navigation
 --
-import "settings"
-import "mappings"
+require "settings"
+require "mappings"
 
 --
 -- Config
 --
-
-import "custom"
 
 -- import "winbar"

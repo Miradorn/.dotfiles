@@ -19,7 +19,7 @@ map("i", "<C-a>", "<Home>")
 -- file modification
 
 map("n", "<Leader>w", ":w<CR>")
-map("n", "<Leader>W", ":w!<CR>")
+map("n", "<Leader>W", ":Gwrite<CR>")
 map("n", "<Leader>q", ":q<CR>")
 map("n", "<Leader>Q", ":q!<CR>")
 map("n", "<Leader>e", ":e<CR>")
@@ -84,13 +84,14 @@ map("n", "<Leader>,", ":noh<CR>")
 map("n", "<Leader>*", ":Ag <C-R><C-W><CR>", silent)
 map("v", "<Leader>*", "y:Ag <C-r>=fnameescape(@\")<CR><CR>", silent)
 
-map("n", "<a-n>", function() require 'illuminate'.next_reference { wrap = true } end)
-map("n", "<a-p>", function() require 'illuminate'.next_reference { reverse = true, wrap = true } end)
+map("n", "<a-n>", function() require 'illuminate'.next_reference { wrap = true } end, { desc = "illuminateNext" })
+map("n", "<a-p>", function() require 'illuminate'.next_reference { reverse = true, wrap = true } end,
+	{ desc = "illuminatePrevious" })
 
 -- Diagnostics
 
-map("n", "<Leader>dd", vim.diagnostic.open_float)
-map("n", "<Leader>dw", vim.diagnostic.setloclist)
+map("n", "<Leader>dd", vim.diagnostic.open_float, { desc = "Diagnostic Float" })
+map("n", "<Leader>dw", vim.diagnostic.setloclist, { desc = "Diagnostic LocList" })
 
 -- Config Edit
 
@@ -104,7 +105,7 @@ map("n", "<leader>evv", function()
 	require('telescope.builtin').find_files {
 		search_dirs = { '~/.dotfiles/config/nvim/' }
 	}
-end)
+end, { desc = "Neovim config picker" })
 map("n", "<leader>et", ":vsplit ~/.tmux.conf<cr>")
 map("n", "<leader>ez", ":vsplit ~/.zshrc<cr>")
 map("n", "<leader>ek", ":vsplit ~/.config/kitty/kitty.conf<cr>")
@@ -114,7 +115,7 @@ map("n", "<leader>ek", ":vsplit ~/.config/kitty/kitty.conf<cr>")
 map("n", "<leader>u", ":PackerSync<CR>")
 map("n", "<leader>pc", ":PackerCompile<CR>")
 map("n", "<leader>pcl", ":PackerClean<CR>")
-map("n", "<leader>pr", function() require'plugins'.rollback('before-update') end)
+map("n", "<leader>pr", function() require 'plugins'.rollback('before-update') end, { desc = "Packer Rollback" })
 
 -- kommentary
 
@@ -133,7 +134,8 @@ map("n", "g<C-x>", "<Plug>(dial-decrement-additional)")
 
 -- Code
 
-map("n", "<Leader>ff", function() vim.lsp.buf.format({timeout_ms = 10000}) end)
+-- map("n", "<Leader>ff", function() vim.lsp.buf.format({timeout_ms = 10000}) end)
+map("n", "<Leader>ff", function() vim.lsp.buf.formatting_seq_sync({ timeout_ms = 10000 }) end)
 
 -- LSP
 map("n", "gh", vim.lsp.buf.hover)
@@ -160,20 +162,22 @@ map("n", "gx",
 
 -- Telescope https://github.com/nvim-telescope/telescope.nvim#mappings
 
-map("n", "<C-p>", require 'custom'.project_files)
-map("n", "<C-A-p>", require 'telescope.builtin'.find_files)
-map("n", "<Leader>td", require 'telescope.builtin'.diagnostics)
-map("n", "<Leader>bf", require 'telescope.builtin'.buffers)
-map("n", "<Leader>gc", require 'telescope.builtin'.git_commits)
-map("n", "<Leader>gbc", require 'telescope.builtin'.git_bcommits)
-map("n", "<Leader>gbr", require 'telescope.builtin'.git_branches)
-map("n", "<Leader>tr", require 'telescope.builtin'.treesitter)
-map("n", "<Leader>tp", require 'telescope'.extensions.projects.projects)
-map("n", "<Leader>tm", require 'telescope.builtin'.keymaps)
-map("n", "<Leader>tb", require 'telescope.builtin'.builtin)
-map("n", "<Leader>ty", require 'telescope'.extensions.neoclip.default)
-map("i", "<C-y>", require 'telescope'.extensions.neoclip.default)
+map("n", "<C-p>", function() require 'telescope.builtin'.find_files({ hidden = true, no_ignore = false }) end,
+	{ desc = "Telescope files" })
+map("n", "<C-A-p>", function() require 'telescope.builtin'.find_files({ hidden = true, no_ignore = true }) end,
+	{ desc = "Telescope all files" })
+map("n", "<Leader>td", require 'telescope.builtin'.diagnostics, { desc = "Telescope diagnostic" })
+map("n", "<Leader>bf", require 'telescope.builtin'.buffers, { desc = "Telescope buffers" })
+map("n", "<Leader>gc", require 'telescope.builtin'.git_commits, { desc = "Telescope git_commits" })
+map("n", "<Leader>gbc", require 'telescope.builtin'.git_bcommits, { desc = "Telescope git_bcommits" })
+map("n", "<Leader>gbr", require 'telescope.builtin'.git_branches, { desc = "Telescope git_branches" })
+map("n", "<Leader>tr", require 'telescope.builtin'.treesitter, { desc = "Telescope treesitter" })
+map("n", "<Leader>tp", require 'telescope'.extensions.projects.projects, { desc = "Telescope projects" })
+map("n", "<Leader>tm", require 'telescope.builtin'.keymaps, { desc = "Telescope keymaps" })
+map("n", "<Leader>tb", require 'telescope.builtin'.builtin, { desc = "Telescope builitns" })
+map("n", "<Leader>ty", require 'telescope'.extensions.neoclip.default, { desc = "Telescope neoclip" })
+map("i", "<C-y>", require 'telescope'.extensions.neoclip.default, { desc = "Telescope neoclip" })
 
 -- Dash
-map("n", "D", function() require('dash').search(false, vim.fn.expand('<cword>')) end)
-map("n", "<Leader>D", function() require('dash').search(false, vim.fn.expand('<cword>')) end)
+map("n", "D", function() require('dash').search(false, vim.fn.expand('<cword>')) end, { desc = "Dash" })
+map("n", "<Leader>D", function() require('dash').search(false, vim.fn.expand('<cword>')) end, { desc = "Dash" })
