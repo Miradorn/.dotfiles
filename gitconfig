@@ -8,10 +8,8 @@
   # pager = diff-so-fancy | less --tabs=4 -RFX
 [user]
 	name = Alexander Steppke
-	email = alex@steppke.dev
+	email = alexander@remote.com
 	signingkey = 18C740F63953F199A0085AFB2B591E707DDD9CE2
-[includeIf "gitdir:~/projects/superluminar/statista/"]
-	path = ~/projects/superluminar/statista/.gitconfig
 [push]
 	default = current
 [alias]
@@ -93,6 +91,7 @@
 	defaultBranch = main
 
 [delta]
+	syntax-theme = Catppuccin-macchiato
 	features = decorations
 
 [delta "interactive"]

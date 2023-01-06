@@ -1,12 +1,11 @@
-local actions
-import("telescope.actions", function(a) actions = a end)
-assert(actions)
+import({"telescope", "telescope.actions"}, function(modules)
+    local telescope = modules.telescope
+    local actions = modules["telescope.actions"]
 
-import("telescope", function(telescope)
     telescope.setup {
         defaults = {
             mappings = {
-                i = { ["<C-b>"] = { "<esc>", type = "command" } },
+                -- i = { ["<C-b>"] = { "<esc>", type = "command" } },
                 n = { ["<C-c>"] = actions.close }
             }
         },

@@ -221,6 +221,6 @@ function update {
   gem update neovim coderay pry awesome-print byebug pry-byebug rubocop haml_lint scss_lint
   pip3 install --upgrade pynvim Pygments tmuxp
   yarn global upgrade
-  gcloud components update --quiet
+  # gcloud components update --quiet
   tldr --update
 }

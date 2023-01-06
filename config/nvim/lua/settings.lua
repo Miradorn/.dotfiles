@@ -17,10 +17,11 @@ g.matchup_matchparen_offscreen = {}
 -- Disable some built-in plugins we don't want
 local disabled_built_ins = {
     "gzip", "man", "matchit", "matchparen", "shada_plugin", "tarPlugin", "tar",
-    "zipPlugin", "zip", "netrwPlugin"
+    "zipPlugin", "zip"
 }
 
-for i = 1, 10 do g["loaded_" .. disabled_built_ins[i]] = 1 end
+for _i, v in ipairs(disabled_built_ins) do g["loaded_" .. v] = 1 end
+
 -- Leader
 g.mapleader = " "
 
@@ -29,8 +30,9 @@ local opts = {
     mouse = "a",
     -- textwidth = 120,
     scrolloff = 7,
+    -- cmdheight = 0,
     wildmode = "longest,full",
-    lazyredraw = true,
+    -- lazyredraw = true,
     showmatch = true,
     ignorecase = true,
     smartcase = true,
@@ -41,7 +43,7 @@ local opts = {
     cursorline = true,
     smartindent = true,
     hidden = true,
-    laststatus = 3,
+    -- laststatus = 3,
     guicursor = [[n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50]],
     undofile = true,
     swapfile = false,
@@ -68,6 +70,13 @@ local opts = {
     -- Colorscheme
     termguicolors = true,
     background = "dark",
+
+    -- folds
+    foldenable = true,
+    -- foldmethod = "expr",
+    -- foldexpr = "nvim_treesitter#foldexpr()",
+    foldlevel = 99,
+    foldcolumn = "0",
 }
 
 for k, v in pairs(opts) do
@@ -89,6 +98,7 @@ g.nord_borders = true
 -- diagnostics
 vim.diagnostic.config({
     virtual_text = true,
+    update_in_insert = false,
     signs = true,
     underline = true,
     float = { border = "single" }

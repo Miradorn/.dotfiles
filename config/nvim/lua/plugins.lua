@@ -61,7 +61,10 @@ local function init()
             import('telescope.themes', function(theme)
                 dressing.setup({
                     select = {
-                        telescope = theme.get_cursor()
+                        telescope = theme.get_dropdown()
+                    },
+                    input = {
+                        relative = "editor"
                     }
                 })
             end)
@@ -83,7 +86,7 @@ local function init()
     }
     use "ryanoasis/vim-devicons"
 
-    use "folke/lsp-colors.nvim"
+    -- use "folke/lsp-colors.nvim"
 
     -- use {"shaunsingh/nord.nvim", config = function() require("nord").set() end}
     -- use { "EdenEast/nightfox.nvim" }
@@ -102,16 +105,47 @@ local function init()
     --     end)
     -- end }
     use { "catppuccin/nvim", as = "catppuccin", config = function()
-        vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
+        vim.g.catppuccin_flavour = "macchiato" -- latte, frappe, macchiato, mocha
 
-        require("catppuccin").setup {
-            integrations = {
-                leap = true,
-                aerial = true,
+        import({ "catppuccin", "catppuccin.palettes" }, function(modules)
+            local colors = modules["catppuccin.palettes"].get_palette()
+
+            modules.catppuccin.setup {
+                styles = {
+                    comments = { "italic" },
+                },
+                custom_highlights = {
+                    Comment = { fg = colors.subtext0 },
+
+                },
+                integrations = {
+                    leap = true,
+                    aerial = true,
+                    gitsigns = true,
+                    illuminate = true,
+                    markdown = true,
+                    neotest = true,
+                    notify = true,
+                    nvimtree = true,
+                    telescope = true,
+                    treesitter = true,
+                    indent_blankline = {
+                        enabled = true,
+                        colored_indent_levels = false,
+                    },
+                    native_lsp = {
+                        enabled = true,
+                    },
+                    navic = {
+                        enabled = true,
+                        -- custom_bg = "NONE",
+                    },
+                }
             }
-        }
+        end)
 
-        vim.cmd [[colorscheme catppuccin]]
+        vim.api.nvim_command "colorscheme catppuccin"
+
     end }
 
 
@@ -133,9 +167,57 @@ local function init()
                 ib.setup {
                     char = "│",
                     show_first_indent_level = false,
+                    show_current_context_start = true,
+                    show_current_context = true,
                     buftype_exclude = { "terminal" },
-                    use_treesitter = true
+                    filetype_exclude = { "aerial", "neotest-summary", "noice" },
+                    use_treesitter = true,
                 }
+            end)
+        end
+    }
+
+    use {
+        'kevinhwang91/nvim-ufo',
+        requires = 'kevinhwang91/promise-async',
+        config = function()
+            import("ufo", function(ufo)
+                local handler = function(virtText, lnum, endLnum, width, truncate)
+                    local newVirtText = {}
+                    local suffix = ('  %d '):format(endLnum - lnum)
+                    local sufWidth = vim.fn.strdisplaywidth(suffix)
+                    local targetWidth = width - sufWidth
+                    local curWidth = 0
+                    for _, chunk in ipairs(virtText) do
+                        local chunkText = chunk[1]
+                        local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+                        if targetWidth > curWidth + chunkWidth then
+                            table.insert(newVirtText, chunk)
+                        else
+                            chunkText = truncate(chunkText, targetWidth - curWidth)
+                            local hlGroup = chunk[2]
+                            table.insert(newVirtText, { chunkText, hlGroup })
+                            chunkWidth = vim.fn.strdisplaywidth(chunkText)
+                            -- str width returned from truncate() may less than 2nd argument, need padding
+                            if curWidth + chunkWidth < targetWidth then
+                                suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+                            end
+                            break
+                        end
+                        curWidth = curWidth + chunkWidth
+                    end
+                    table.insert(newVirtText, { suffix, 'MoreMsg' })
+                    return newVirtText
+                end
+
+                ufo.setup {
+                    fold_virt_text_handler = handler,
+                    provider_selector = function()
+                        return { 'treesitter', 'indent' }
+                    end
+                }
+                vim.keymap.set('n', 'zR', ufo.openAllFolds)
+                vim.keymap.set('n', 'zM', ufo.closeAllFolds)
             end)
         end
     }
@@ -158,15 +240,15 @@ local function init()
         config = function() import('plugins.lualine') end
     }
 
-    -- use {
-    --     "SmiteshP/nvim-navic",
-    --     requires = "neovim/nvim-lspconfig",
-    --     config = function()
-    --         require 'nvim-navic'.setup {
-    --             highlight = true
-    --         }
-    --     end
-    -- }
+    use {
+        "SmiteshP/nvim-navic",
+        requires = "neovim/nvim-lspconfig",
+        config = function()
+            require 'nvim-navic'.setup {
+                highlight = true
+            }
+        end
+    }
 
     -- Undo tree
     use {
@@ -206,11 +288,29 @@ local function init()
     use { "andersevenrud/cmp-tmux" }
     use { "hrsh7th/cmp-cmdline" }
 
+    use { "folke/noice.nvim",
+        -- event = "VimEnter",
+        config = function() import("plugins/noice") end,
+        requires = {
+            -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+            "MunifTanjim/nui.nvim",
+            -- OPTIONAL:
+            --   `nvim-notify` is only needed, if you want to use the notification view.
+            --   If not available, we use `mini` as the fallback
+            "rcarriga/nvim-notify",
+        } }
 
     -- Languages / LSP
 
-    use "williamboman/nvim-lsp-installer"
-    use { "neovim/nvim-lspconfig", config = function() import("plugins/lspconfig") end }
+    use {
+        "neovim/nvim-lspconfig",
+        requires = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim", "folke/neodev.nvim"
+        },
+        config = function()
+            import("plugins/lspconfig")
+        end,
+    }
+
     use "tamago324/nlsp-settings.nvim"
     use "b0o/schemastore.nvim"
     use {
@@ -224,17 +324,23 @@ local function init()
         config = function()
             import('aerial', function(aerial)
                 aerial.setup({
-                    min_width = 45,
-                    default_direction = "right",
-                    placement_editor_edge = true,
+                    layout = {
+                        placement_editor_edge = true,
+                        min_width = 45,
+                        default_direction = "right",
+                    },
                     attach_mode = "global",
                     update_events = "TextChanged,InsertLeave,WinEnter,WinLeave",
+                    filter_kind = false,
                 })
             end)
         end
     }
 
-    use { "j-hui/fidget.nvim", config = function() import("fidget", function(fidget) fidget.setup {} end) end }
+    -- use { "j-hui/fidget.nvim",
+    --     config = function() import("fidget",
+    --             function(fidget) fidget.setup { window = { blend = 0, border = "double", }, } end)
+    --     end }
 
     -- use { "ray-x/lsp_signature.nvim", config = function()
     --     import("lsp_signature", function(sig)
@@ -294,7 +400,7 @@ local function init()
 
     -- Lua
 
-    use "euclidianAce/BetterLua.vim"
+    -- use "euclidianAce/BetterLua.vim"
 
     -- Elixir
 
@@ -339,30 +445,61 @@ local function init()
     use "nvim-telescope/telescope-media-files.nvim"
     use { "nvim-telescope/telescope-fzf-native.nvim", run = "make" }
 
-    use { "kyazdani42/nvim-tree.lua", config = function() import("plugins/nvimTree") end }
+    use "tpope/vim-eunuch"
+    use { "nvim-tree/nvim-tree.lua", config = function() import("plugins/nvimTree") end }
     -- use {'ms-jpq/chadtree', branch = 'chad', run = 'python3 -m chadtree deps', config = require 'plugins/chadtree'}
 
     -- Navigation
 
+    -- use {
+    --     "numToStr/Navigator.nvim",
+    --     config = function() import("Navigator", function(nav) nav.setup() end) end
+    -- }
     use {
-        "numToStr/Navigator.nvim",
-        config = function() import("Navigator", function(nav) nav.setup() end) end
+        "mrjones2014/smart-splits.nvim",
+        config = function()
+            import("smart-splits", function(smart_split)
+                local map = vim.keymap.set
+
+                smart_split.setup {}
+
+                map("n", "<C-h>", smart_split.move_cursor_left)
+                map("n", "<C-k>", smart_split.move_cursor_up)
+                map("n", "<C-l>", smart_split.move_cursor_right)
+                map("n", "<C-j>", smart_split.move_cursor_down)
+
+                map("n", "<A-h>", smart_split.resize_left)
+                map("n", "<A-k>", smart_split.resize_up)
+                map("n", "<A-l>", smart_split.resize_right)
+                map("n", "<A-j>", smart_split.resize_down)
+
+                map("n", "<A-r>", smart_split.start_resize_mode)
+            end)
+        end
+
     }
-    use "terryma/vim-expand-region"
+    -- use "terryma/vim-expand-region"
+    -- use "olambo/vi-viz"
     use "kana/vim-textobj-user"
-    use "kana/vim-textobj-line"
-    use "kana/vim-textobj-entire"
+    -- use "kana/vim-textobj-line"
+    -- use "kana/vim-textobj-entire"
     use "sgur/vim-textobj-parameter"
 
     use "wellle/targets.vim"
 
     -- use "justinmk/vim-sneak"
+    -- use {'mrjones2014/legendary.nvim', config = function ()
+    --     import("plugins/legandary")
+    -- end}
+
     use { "ggandor/leap.nvim", config = function()
         import('leap', function(leap)
             leap.setup {
-                highlight_unlabeled = true
+                highlight_unlabeled_phase_one_targets = true
             }
-            leap.set_default_keymaps()
+            leap.add_default_mappings()
+            vim.keymap.set('o', 'z', '<Plug>(leap-forward-to)')
+            vim.keymap.set('o', 'Z', '<Plug>(leap-backward-to)')
         end)
     end }
 
@@ -410,7 +547,19 @@ local function init()
         end)
     end }
     use "antoinemadec/FixCursorHold.nvim"
-    use { "vim-test/vim-test", config = function() import("plugins/vim-test") end }
+    use {
+        "nvim-neotest/neotest",
+        requires = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+            -- "vim-test/vim-test",
+            "jfpedroza/neotest-elixir",
+            "haydenmeade/neotest-jest",
+        },
+        config = function()
+            import("plugins/neotest")
+        end
+    }
 
     use "andymass/vim-matchup"
     use "tpope/vim-surround"
@@ -430,13 +579,7 @@ local function init()
     use {
         "windwp/nvim-autopairs",
         config = function()
-            import("nvim-autopairs", function(p)
-
-                p.setup {}
-                import('nvim-autopairs.rules.endwise-elixir', function(e) p.add_rules(e) end)
-                import('nvim-autopairs.rules.endwise-lua', function(e) p.add_rules(e) end)
-                import('nvim-autopairs.rules.endwise-ruby', function(e) p.add_rules(e) end)
-            end)
+            import("nvim-autopairs", function(p) p.setup {} end)
         end
     }
 

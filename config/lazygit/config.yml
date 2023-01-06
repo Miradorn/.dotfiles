@@ -1,10 +1,20 @@
 gui:
   showIcons: true
+  theme:
+    selectedLineBgColor:
+      - reverse
+    selectedRangeBgColor:
+      - reverse
 git:
   paging:
     colorArg: always
     pager: delta --dark --paging=never
 keybinding:
   universal:
-    quit: '<c-c>'
-    return-alt1: 'q'
+    # quit: '<c-c>'
+    # return-alt1: 'q'
+    prevBlock: '<c-k>'
+    nextBlock: '<c-j>'
+  commits:
+    moveDownCommit: '<c-d>'
+    moveUpCommit: '<c-u>'

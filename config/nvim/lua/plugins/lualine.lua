@@ -13,7 +13,17 @@ local lsp_names = function()
 end
 
 
-import('lualine', function(lualine) lualine.setup {
+import({ 'lualine', 'nvim-navic' }, function(modules)
+    local lualine = modules.lualine
+    local navic = modules["nvim-navic"]
+
+    local get_location = function()
+        local l = navic.get_location()
+        if l == "" then return "/" else return l end
+    end
+
+
+    lualine.setup {
         options = {
             globalstatus = true,
             icons_enabled = true,
@@ -40,7 +50,7 @@ import('lualine', function(lualine) lualine.setup {
             lualine_a = { 'mode' },
             lualine_b = { { 'filetype', fmt = string.upper } },
             lualine_c = {
-                "filename"
+                { "filename", path = 1 }
             },
             lualine_x = {
                 { "filesize", icon = "", },
@@ -62,12 +72,14 @@ import('lualine', function(lualine) lualine.setup {
             lualine_y = {},
             lualine_z = {}
         },
-        -- winbar = {
-        --     lualine_c = { { winbar.get_location, cond = winbar.enabled } },
-        -- },
-        -- inactive_winbar = {
-        --     lualine_c = { { winbar.get_location, cond = winbar.enabled } },
-        -- },
+        winbar = {
+            lualine_b = { { get_location, cond = navic.is_available } },
+            lualine_y = { "diagnostics" }
+        },
+        inactive_winbar = {
+            lualine_b = { { "filename", path = 1 } },
+            lualine_y = { "diagnostics" }
+        },
         tabline = {},
         extensions = { 'nvim-tree', 'fugitive', 'fzf', 'quickfix', 'symbols-outline', 'aerial' }
     }

@@ -22,8 +22,6 @@ export LANG=en_US.UTF-8
 
 export ERL_AFLAGS="-kernel shell_history enabled"
 
-export BAT_THEME=Nord
-
 
 # autojump #Duh
 [ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
@@ -36,7 +34,7 @@ plugins=(brew git github kubectl git-open terraform npm bundler macos gem rails 
 
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
-source $(brew --prefix asdf)/asdf.sh
+source $(brew --prefix asdf)/libexec/asdf.sh
 
 if type brew &>/dev/null; then
     FPATH="$(brew --prefix)/share/zsh-completions:$(brew --prefix)/share/zsh/site-functions:$FPATH"
@@ -115,9 +113,9 @@ export FZF_DEFAULT_OPTS="
 --height 40% --border
 --info=inline
 --color=dark
---color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
---color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
---color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
+--color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 \
+--color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
+--color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796"
 
 export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 
@@ -138,8 +136,28 @@ source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 source /Users/$(whoami)/.config/broot/launcher/bash/br
 
+# erlang stuff
+export KERL_BUILD_DOCS=yes
+export KERL_CONFIGURE_OPTIONS="
+      --disable-debug \
+      --disable-silent-rules \
+      --enable-dynamic-ssl-lib \
+      --enable-hipe \
+      --enable-shared-zlib \
+      --enable-smp-support \
+      --enable-threads \
+      --enable-wx \
+      --with-ssl=$(brew --prefix openssl@1.1) \
+      --without-javac
+      --enable-darwin-64bit \
+      --enable-kernel-poll \
+      --with-dynamic-trace=dtrace \
+     "
+
+
+
 # remotectl
-source <(remotectl completion zsh)
-compdef _remotectl remotectl
+# source <(remotectl completion zsh)
+# compdef _remotectl remotectl
 #
 # zprof

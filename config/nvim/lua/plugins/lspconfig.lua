@@ -1,11 +1,22 @@
-local servers = {
-    "bashls", "cssls", "dockerls", "elixirls", "ember", "erlangls", "gopls",
-    "graphql", "html", "jsonls", "sumneko_lua", "solargraph", "svelte",
-    "tailwindcss", "terraformls", "tsserver", "vimls", "volar", "yamlls"
+import("neodev", function(neodev)
+    neodev.setup {
+        override = function(_, library)
+            library.enabled = true
+            library.plugins = true
+        end
+    }
+end)
+
+import('lspconfig.ui.windows', function(ui) ui.default_options.border = 'single' end)
+
+local non_navic_servers = {
+    "graphql", "tailwindcss"
 }
 
-import("nvim-lsp-installer",
-    function(installer) installer.setup({ ensure_installed = servers, automatic_installation = true }) end)
+local servers = vim.tbl_extend("keep", {
+    "bashls", "cssls", "dockerls", "elixirls", "erlangls", "gopls", "html", "jsonls", "sumneko_lua",
+    "solargraph", "terraformls", "tsserver", "vimls", "yamlls",
+}, non_navic_servers)
 
 import("nlspsettings", function(nlsp)
     nlsp.setup({
@@ -20,78 +31,70 @@ import("nlspsettings", function(nlsp)
     })
 end)
 
-
-local function make_config(server)
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    import("cmp_nvim_lsp", function(cmp) capabilities = cmp.update_capabilities(capabilities) end)
-    capabilities.textDocument.colorProvider = { dynamicRegistration = false }
-
-    if server == "jsonls" then
-        capabilities.textDocument.completion.completionItem.snippetSupport = true
-    end
-
-    return {
-        -- enable snippet support
-        capabilities = capabilities,
-        -- map buffer local keybindings when the language server attaches
-        on_attach = function(client, bufnr)
-            if server == "yamlls" then
-                client.server_capabilities.documentFormattingProvider = true
-            end
-
-            -- if server == "tsserver" then
-            --     client.server_capabilities.documentFormattingProvider = false
-            --     client.server_capabilities.documentRangeFormattingProvider = false
-            -- end
-
-
-            if not vim.tbl_contains({ "null-ls", "tailwindcss", "ember" }, server) then
-                require('aerial').on_attach(client, bufnr)
-
-                -- vim.pretty_print(server)
-                -- require'nvim-navic'.attach(client, bufnr)
-            end
-        end
-    }
-end
-
-local function setup_server(server)
-    local config = make_config(server)
-
-    -- language specific config
-    if server == "sumneko_lua" then
+local overrides = {
+    ["sumneko_lua"] = function(config)
         -- Configure lua language server for neovim development
-
         config.settings = {
             Lua = {
-                runtime = {
-                    -- LuaJIT in the case of Neovim
-                    version = "LuaJIT",
-                    path = vim.split(package.path, ";")
+                completion = {
+                    callSnippet = "Both",
                 },
-                diagnostics = {
-                    -- Get the language server to recognize the `vim` global
-                    globals = { "vim" },
-                    disable = { "lowercase-global", "need-check-nil" }
-                },
-                workspace = {
-                    -- Make the server aware of Neovim runtime files
-                    library = vim.api.nvim_get_runtime_file("", true),
+                format = {
+                    enabled = true,
+                    defaultConfig = {
+                        indent_style = "space",
+                        indent_size = "2",
+                    }
                 }
+                -- runtime = {
+                --     -- LuaJIT in the case of Neovim
+                --     version = "LuaJIT",
+                --     path = vim.split(package.path, ";")
+                -- },
+                -- diagnostics = {
+                --     -- Get the language server to recognize the `vim` global
+                --     globals = { "vim" },
+                --     disable = { "lowercase-global", "need-check-nil" }
+                -- },
+                -- workspace = {
+                --     -- Make the server aware of Neovim runtime files
+                --     library = {
+                --         [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+                --         [vim.fn.stdpath('config') .. '/lua'] = true,
+                --     },
+                -- }
             }
         }
-    end
 
-    if server == "solargraph" then
+        return config
+    end,
+    ["solargraph"] = function(config)
         config.settings = {
             solargraph = {
                 diagnostics = false
             }
         }
-    end
 
-    if server == "yamlls" then
-        -- Configure yaml with CFN support
+        return config
+    end,
+    ["jsonls"] = function(config)
+        local schemas
+        import("schemastore", function(s) schemas = s.json.schemas() end)
+        assert(schemas)
+
+        config.settings = {
+            json = {
+                schemas = schemas,
+                validate = {
+                    enable = true
+                }
+            }
+        }
+        config.capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+        return config
+    end,
+    ["yamlls"] = function(config)
         config.settings = {
             yaml = {
                 customTags = {
@@ -110,37 +113,69 @@ local function setup_server(server)
                     "!ImportValue sequence", "!Select scalar", "!Select mapping",
                     "!Select sequence", "!Split scalar", "!Split mapping",
                     "!Split sequence", "!Join scalar", "!Join mapping",
-                    "!Join sequence", "!reference sequence"
+                    "!Join sequence", "!reference sequence", "!reference scalar"
                 },
                 format = { enable = true }
             }
         }
-    end
-    --[[ if server.name == "efm" then
-            config = vim.tbl_extend("force", config, require "lsp/efm")
-        end ]]
-    if server == "vimls" then config.init_options = { isNeovim = true } end
-    if server == "gopls" then config.settings = { gopls = { gofumpt = true } } end
-    if server == "jsonls" then
-        local schemas
-        import("schemastore", function(s) schemas = s.json.schemas() end)
-        assert(schemas)
 
-        config.settings = {
-            json = {
-                schemas = schemas,
-                validate = {
-                    enable = true
-                }
-            }
-        }
+        local prev_attach = config.on_attach
+        config.on_attach = function(client, bufnr)
+            client.server_capabilities.documentFormattingProvider = true
+            prev_attach(client, bufnr)
+        end
+
+        return config
+    end,
+    ["vimls"] = function(config)
+        config.init_options = { isNeovim = true }
+
+        return config
+    end,
+    ["gopls"] = function(config)
+        config.settings = { gopls = { gofumpt = true } }
+
+        return config
+    end
+}
+
+local function make_config(server_name)
+    local capabilities = nil
+    import("cmp_nvim_lsp", function(cmp) capabilities = cmp.default_capabilities() end)
+    capabilities.textDocument.colorProvider = { dynamicRegistration = false }
+
+    local on_attach = function(client, bufnr)
+        if client.server_capabilities.documentSymbolProvider and not vim.tbl_contains(non_navic_servers, server_name) then
+            import("nvim-navic", function(navic)
+                navic.attach(client, bufnr)
+            end)
+        end
     end
 
-    return config
+    return {
+        capabilities = capabilities,
+        on_attach = on_attach,
+    }
 end
 
-import("lspconfig", function(c)
-    for _, lsp in pairs(servers) do
-        c[lsp].setup(setup_server(lsp))
-    end
+import("mason", function(mason) mason.setup() end)
+import({ "mason-lspconfig", "lspconfig" }, function(modules)
+    local mason_config = modules["mason-lspconfig"]
+    local lspconfig = modules.lspconfig
+
+    mason_config.setup {
+        ensure_installed = servers,
+    }
+
+    mason_config.setup_handlers {
+        function(server_name)
+            local base_config = make_config(server_name)
+
+            if overrides[server_name] then
+                lspconfig[server_name].setup(overrides[server_name](base_config))
+            else
+                lspconfig[server_name].setup(base_config)
+            end
+        end,
+    }
 end)
