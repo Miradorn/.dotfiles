@@ -30,7 +30,8 @@ export ERL_AFLAGS="-kernel shell_history enabled"
 
 export EDITOR='nvim'
 
-plugins=(brew git github kubectl git-open terraform npm bundler macos gem rails mix extract)
+plugins=(brew git git-open npm macos mix extract)
+# github kubectl terraform bundler rails gem
 
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
@@ -86,7 +87,7 @@ zstyle :bracketed-paste-magic paste-finish pastefinish
 
 eval $(thefuck --alias)
 eval "$(direnv hook zsh)"
-eval "$(hub alias -s)"
+# eval "$(hub alias -s)"
 eval "$(starship init zsh)"
 eval "$(gh completion -s zsh)"
 

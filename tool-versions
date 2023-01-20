@@ -1,6 +1,6 @@
-erlang 25.1.1
+erlang 25.2
 helm 3.8.1
-elixir 1.13.4-otp-25
+elixir 1.14.3-otp-25
 ruby 3.1.1
 nodejs 18.7.0
 rebar 3.19.0
