@@ -1,20 +1,22 @@
 gui:
-  showIcons: true
+  nerdFontsVersion: "3"
   theme:
     selectedLineBgColor:
       - reverse
-    selectedRangeBgColor:
-      - reverse
 git:
+  log:
+    order: default
   paging:
     colorArg: always
     pager: delta --dark --paging=never
 keybinding:
   universal:
-    # quit: '<c-c>'
-    # return-alt1: 'q'
-    prevBlock: '<c-k>'
-    nextBlock: '<c-j>'
+    quit: '<c-c>'
+    quit-alt1: '<c-c>'
+    prevBlock: 'K'
+    nextBlock: 'J'
   commits:
     moveDownCommit: '<c-d>'
     moveUpCommit: '<c-u>'
+os:
+  openLink: open "$(echo "{{link}}" | sed 's/%2F/\//g')"

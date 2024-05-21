@@ -1,0 +1,49 @@
+return {
+  -- catppuccin
+  -- {
+  --   "catppuccin/nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   name = "catppuccin",
+  --   -- build = "CatppuccinCompile",
+  --   config = function()
+  --     require("catppuccin").setup({
+  --       flavour = "mocha",
+  --       styles = {
+  --         comments = { "italic" },
+  --       },
+  --       custom_highlights = function(c)
+  --         return {
+  --           Comment = { fg = c.subtext0 },
+  --           ["@module"] = { fg = c.yellow }
+  --         }
+  --       end,
+  --       integrations = {
+  --         aerial = true,
+  --         cmp = true,
+  --         gitsigns = true,
+  --         leap = true,
+  --         lsp_trouble = true,
+  --         markdown = true,
+  --         mason = true,
+  --         mini = true,
+  --         neotest = true,
+  --         neotree = true,
+  --         noice = true,
+  --         notify = true,
+  --         telescope = true,
+  --         treesitter = true,
+  --         indent_blankline = {
+  --           enabled = true,
+  --           colored_indent_levels = false,
+  --         },
+  --         native_lsp = {
+  --           enabled = true,
+  --         },
+  --       },
+  --     })
+  --
+  --     vim.cmd.colorscheme("catppuccin")
+  --   end,
+  -- },
+}

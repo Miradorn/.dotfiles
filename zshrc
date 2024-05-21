@@ -1,4 +1,5 @@
  # zmodload zsh/zprof
+export SHELL=/opt/homebrew/bin/zsh
 
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
@@ -22,6 +23,7 @@ export LANG=en_US.UTF-8
 
 export ERL_AFLAGS="-kernel shell_history enabled"
 
+export DIRENV_LOG_FORMAT=
 
 # autojump #Duh
 [ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
@@ -29,28 +31,14 @@ export ERL_AFLAGS="-kernel shell_history enabled"
 # Other
 
 export EDITOR='nvim'
+export MISE_ASDF_COMPAT=1
 
-plugins=(brew git git-open npm macos mix extract)
-# github kubectl terraform bundler rails gem
+plugins=(brew git git-open npm macos mix extract kubectl mise gh)
 
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
-source $(brew --prefix asdf)/libexec/asdf.sh
 
-if type brew &>/dev/null; then
-    FPATH="$(brew --prefix)/share/zsh-completions:$(brew --prefix)/share/zsh/site-functions:$FPATH"
-
-    # autoload -Uz compinit
-    # compinit
-  fi
-
-# krew
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-# gnu coreutils
 export PATH="$PATH:$(yarn global bin)"
-
-# # dircolors
-# eval "$(dircolors ~/.dir_colors)"
 
 bindkey -e
 
@@ -63,14 +51,6 @@ bindkey "^[e" end-of-line
 # make ctrl p work like up arrow
 bindkey "^p" up-line-or-search
 bindkey "^n" down-line-or-search
-
-# tmux
-# Fix reattach for tmux
-# setopt HUP
-
-# if [ ${TMUX} ]; then # fixes paste fuckup in some cases
-#   unset zle_bracketed_paste
-# fi
 
 # This speeds up pasting w/ autosuggest
 # https://github.com/zsh-users/zsh-autosuggestions/issues/238
@@ -87,14 +67,19 @@ zstyle :bracketed-paste-magic paste-finish pastefinish
 
 eval $(thefuck --alias)
 eval "$(direnv hook zsh)"
-# eval "$(hub alias -s)"
 eval "$(starship init zsh)"
-eval "$(gh completion -s zsh)"
 
 # Created by `userpath` on 2020-02-22 15:02:05
 export PATH="$PATH:/Users/$(whoami)/.local/bin"
 
 source $ZSH/oh-my-zsh.sh
+
+if type brew &>/dev/null; then
+    FPATH="$(brew --prefix)/share/zsh-completions:$(brew --prefix)/share/zsh/site-functions:$FPATH"
+
+    # autoload -Uz compinit
+    compinit
+  fi
 
 # FZF (has to come after oh-my-zsh)
 
@@ -114,9 +99,15 @@ export FZF_DEFAULT_OPTS="
 --height 40% --border
 --info=inline
 --color=dark
---color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 \
---color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
---color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796"
+--color=fg:#c8d3f5,bg:#222436,hl:#ff966c \
+--color=fg+:#c8d3f5,bg+:#2f334d,hl+:#ff966c \
+--color=info:#82aaff,prompt:#86e1fc,pointer:#86e1fc \
+--color=marker:#c3e88d,spinner:#c3e88d,header:#c3e88d"
+
+# catpuccin
+# --color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 \
+# --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
+# --color=marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796"
 
 export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 
@@ -156,9 +147,13 @@ export KERL_CONFIGURE_OPTIONS="
      "
 
 
+export POSTGRES_EXTRA_CONFIGURE_OPTIONS="--with-lz4 --with-uuid=e2fs"
 
 # remotectl
-# source <(remotectl completion zsh)
-# compdef _remotectl remotectl
+compdef remotectl
+compdef _remotectl remotectl
+source <(remotectl completion zsh)
 #
 # zprof
+
+source /Users/alexander/.config/broot/launcher/bash/br

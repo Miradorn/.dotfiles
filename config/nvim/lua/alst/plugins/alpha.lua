@@ -1,0 +1,40 @@
+return {
+  -- {
+  --   'goolord/alpha-nvim',
+  --   lazy = false,
+  --   dependencies = { 'nvim-tree/nvim-web-devicons' },
+  --   config = function()
+  --     local alpha = require("alpha")
+  --     local startify = require("alpha.themes.startify")
+  --     startify.section.header.opts.position = "center"
+  --     startify.section.mru_cwd.val[3].inherit = { position = "center" }
+  --
+  --     local config = {
+  --       layout = {
+  --         { type = "padding", val = 2 },
+  --         startify.section.header,
+  --         { type = "padding", val = 2 },
+  --         startify.section.mru_cwd,
+  --         { type = "padding", val = 2 },
+  --         { type = "text",    val = require 'alpha.fortune' (), opts = { position = "center", hl = "Type" } }
+  --       },
+  --       opts = {
+  --         margin = 5,
+  --         setup = function()
+  --           vim.api.nvim_create_autocmd('DirChanged', {
+  --             pattern = '*',
+  --             group = "alpha_temp",
+  --             callback = function()
+  --               require('alpha').redraw()
+  --               vim.cmd('AlphaRemap')
+  --             end,
+  --           })
+  --         end,
+  --       },
+  --     }
+  --
+  --     -- Send config to alpha
+  --     alpha.setup(config)
+  --   end
+  -- },
+}

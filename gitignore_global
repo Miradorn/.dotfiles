@@ -15,8 +15,10 @@ packs
 packs-test
 /.vscode
 .elixir_ls
+.elixir-tools
 /bin
 .projections.json
 .envrc.private
 .envrc
 .nlsp-settings/
+.neoconf.json

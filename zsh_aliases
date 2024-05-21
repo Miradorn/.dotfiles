@@ -9,11 +9,6 @@ alias t=lt
 alias cat=bat
 alias ping=prettyping
 
-krak () {
-    dir="$(cd "$(dirname "$1")"; pwd -P)/$(basename "$1")"
-    open gitkraken://repo/$dir
-    }
-
 # ----------------
 # hugo
 # ----------------
@@ -119,6 +114,7 @@ function kplog {
 alias kctx=kubectx
 alias kx=kubectx
 alias kns=kubens
+alias k=kubectl
 
 function krename {
   kubectl config rename-context $(kubectl config current-context) $1
@@ -191,9 +187,17 @@ alias icat='kitty +kitten icat'
 alias d="kitty +kitten diff"
 
 # ----------------
+# remote
+# ----------------
+alias rctl=remotectl
+alias r-prod="remotectl k8s shell tiger-api -lc -e production -r devops -- tiger/bin/tiger start_iex"
+alias r-sandbox="remotectl k8s shell tiger-api -lc -e sandbox -r devops -- tiger/bin/tiger start_iex"
+alias r-staging="remotectl k8s shell tiger-api -lc -e staging -r engineer -- tiger/bin/tiger start_iex"
+alias tiger-up="mix deps.get --force && mix compile && MIX_ENV=test mix compile && mix ecto.migrate && MIX_ENV=test mix ecto.migrate"
+
+# ----------------
 # other
 # ----------------
-alias r=remotectl
 alias wetter="curl wttr.in/hamburg"
 alias drops=ds
 alias ag="ag --hidden"
@@ -215,11 +219,11 @@ function cdk-diff() {
 function update {
   brew update && brew outdated && brew upgrade && brew cleanup
   brew upgrade --cask
-  omz update
-  asdf plugin-update --all
+  $ZSH/tools/upgrade.sh
+  mise plugins update
   gem update --system
   gem update neovim coderay pry awesome-print byebug pry-byebug rubocop haml_lint scss_lint
-  pip3 install --upgrade pynvim Pygments tmuxp
+  # pip3 install --upgrade pynvim Pygments tmuxp
   yarn global upgrade
   # gcloud components update --quiet
   tldr --update

@@ -1,19 +1,22 @@
-command_timeout = 1000
+command_timeout = 2000
 [aws]
 
 disabled = false
-symbol = "☁ "
+symbol = "󰸏 "
 
 [kubernetes]
 disabled = false
 
-[kubernetes.context_aliases]
-"arn:aws:eks:.*:cluster/(?P<var_cluster>.*)" = "$var_cluster"
+[[kubernetes.contexts]]
+
+context_pattern = "arn:aws:eks:.*:cluster/(?P<var_cluster>.*)"
+context_alias = "$var_cluster"
 
 [battery]
-full_symbol = ""
-charging_symbol = ""
-discharging_symbol = ""
+# disabled = false
+# full_symbol = "󰁹"
+# charging_symbol = "󰂄"
+# discharging_symbol = "󰂌"
 
 [conda]
 symbol = " "
@@ -40,7 +43,7 @@ symbol = " "
 symbol = " "
 
 [package]
-symbol = " "
+symbol = " "
 
 [php]
 symbol = " "
