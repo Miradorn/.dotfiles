@@ -2,6 +2,7 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
+      "folke/trouble.nvim",
       { "nvim-lua/plenary.nvim" },
       { "nvim-telescope/telescope-media-files.nvim" },
       -- { "nvim-telescope/telescope-frecency.nvim" },
@@ -182,7 +183,7 @@ return {
 
       {
         "<leader>gu",
-        function ()
+        function()
           require("telescope").extensions.undo.undo()
         end,
         desc = "UndoTree",
@@ -192,14 +193,19 @@ return {
     config = function()
       local telescope = require("telescope")
       local actions = require("telescope.actions")
+      local open_with_trouble = require("trouble.sources.telescope").open
+
 
       telescope.setup({
         defaults = {
           mappings = {
-            -- i = { ["<C-b>"] = { "<esc>", type = "command" } },
+            i = {
+              ["<C-t>"] = open_with_trouble,
+            },
             n = {
               ["<C-c>"] = actions.close,
-              ["<C-q>"] = actions.smart_send_to_qflist,
+              ["<C-q>"] = open_with_trouble,
+              ["<C-t>"] = open_with_trouble,
             },
           },
           path_display = {

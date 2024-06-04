@@ -116,12 +116,6 @@ return {
             description = "Line down",
           },
           {
-            "<leader>co",
-            ":copen<Cr>",
-            description = "Quickfix open",
-            opts = { silent = true },
-          },
-          {
             "<A-b>",
             "<S-Left>",
             mode = { "i", "c" },

@@ -1,15 +1,57 @@
+local has_words_before = function()
+  unpack = unpack or table.unpack
+  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
+end
+
 return {
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
-    lazy = false,
+    event = "InsertEnter",
     config = function()
       require("copilot").setup({
-        suggestion = { enabled = false },
-        panel = { enabled = false },
+        panel = {
+          enabled = false,
+          auto_refresh = true,
+          keymap = {
+            jump_prev = "[[",
+            jump_next = "]]",
+            accept = "<CR>",
+            refresh = "gr",
+            open = "<M-P>"
+          },
+          layout = {
+            position = "bottom", -- | top | left | right
+            ratio = 0.4
+          },
+        },
+        suggestion = {
+          enabled = true,
+          auto_trigger = true,
+          debounce = 75,
+          keymap = {
+            accept = "<M-CR>",
+            accept_word = false,
+            accept_line = false,
+            next = "<M-]>",
+            prev = "<M-[>",
+            dismiss = "<C-]>",
+          },
+        },
         filetypes = {
-          markdown = true
-        }
+          yaml = false,
+          markdown = true,
+          help = false,
+          gitcommit = false,
+          gitrebase = false,
+          hgcommit = false,
+          svn = false,
+          cvs = false,
+          ["."] = false,
+        },
+        copilot_node_command = 'node', -- Node.js version must be > 18.x
+        server_opts_overrides = {},
       })
     end,
   },
@@ -30,7 +72,7 @@ return {
       { "nvim-lua/plenary.nvim" },  -- for curl, log wrapper
     },
     opts = {
-      debug = true, -- Enable debugging
+      debug = false, -- Enable debugging
       window = {
         layout = "float",
         relative = "win"
@@ -66,12 +108,12 @@ return {
       "hrsh7th/cmp-cmdline",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-path",
-      "saadparwaiz1/cmp_luasnip",
+      -- "saadparwaiz1/cmp_luasnip",
       "onsails/lspkind.nvim",
     },
     opts = function()
       local cmp = require("cmp")
-      local luasnip = require("luasnip")
+      -- local luasnip = require("luasnip")
       local t = function(str)
         return vim.api.nvim_replace_termcodes(str, true, true, true)
       end
@@ -85,81 +127,83 @@ return {
           completeopt = "menu,menuone,noselect",
         },
         preselect = cmp.PreselectMode.None,
-        snippet = {
-          expand = function(args)
-            luasnip.lsp_expand(args.body)
-          end,
-        },
+        -- snippet = {
+        --   expand = function(args)
+        --     -- luasnip.lsp_expand(args.body)
+        --     -- vim.snippet.expand(args.body)         -- For native neovim snippets (Neovim v0.10+)
+        --   end,
+        -- },
         mapping = cmp.mapping.preset.insert({
-          ["<Tab>"] = function(fallback)
+          ['<Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
+            elseif vim.snippet.active({ direction = 1 }) then
+              vim.snippet.jump(1)
             else
               fallback()
             end
-          end,
-          ["<S-Tab>"] = function(fallback)
+          end, { "i", "s" }),
+
+          ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-              luasnip.jump(-1)
+            elseif vim.snippet.active({direction = -1}) then
+              vim.snippet.jump(-1)
             else
               fallback()
             end
-          end,
+          end, { "i", "s" }),
+
           ["<C-j>"] = function(fallback)
-            if luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
+            if vim.snippet.active() then
+              vim.snippet.jump(1)
             else
               fallback()
             end
           end,
-          ["<C-y>"] = cmp.config.disable,
-          ["<C-n>"] = cmp.mapping({
-            c = function()
-              if cmp.visible() then
-                cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-              else
-                vim.api.nvim_feedkeys(t("<Down>"), "n", true)
-              end
-            end,
-            i = function(fallback)
-              if cmp.visible() then
-                cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-              else
-                fallback()
-              end
-            end,
-          }),
-          ["<C-p>"] = cmp.mapping({
-            c = function()
-              if cmp.visible() then
-                cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
-              else
-                vim.api.nvim_feedkeys(t("<Up>"), "n", true)
-              end
-            end,
-            i = function(fallback)
-              if cmp.visible() then
-                cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
-              else
-                fallback()
-              end
-            end,
-          }),
+          -- ["<C-y>"] = cmp.config.disable,
+          -- ["<C-n>"] = cmp.mapping({
+          --   c = function()
+          --     if cmp.visible() then
+          --       cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+          --     else
+          --       vim.api.nvim_feedkeys(t("<Down>"), "n", true)
+          --     end
+          --   end,
+          --   i = function(fallback)
+          --     if cmp.visible() then
+          --       cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+          --     else
+          --       fallback()
+          --     end
+          --   end,
+          -- }),
+          -- ["<C-p>"] = cmp.mapping({
+          --   c = function()
+          --     if cmp.visible() then
+          --       cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+          --     else
+          --       vim.api.nvim_feedkeys(t("<Up>"), "n", true)
+          --     end
+          --   end,
+          --   i = function(fallback)
+          --     if cmp.visible() then
+          --       cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+          --     else
+          --       fallback()
+          --     end
+          --   end,
+          -- }),
           ["<C-d>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-Space>"] = cmp.mapping.confirm({ select = true }),
-          ["<CR>"] = cmp.mapping.confirm({ select = false }),
+          -- ["<CR>"] = cmp.mapping.confirm({ select = false }),
           ["<C-e>"] = cmp.mapping.close(),
-          -- ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
+          ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = false }),
         }),
         sources = cmp.config.sources({
           { name = "nvim_lsp", priority = 10 },
           { name = "copilot",  priority = 2 },
-          { name = "luasnip",  priority = 5 },
+          -- { name = "luasnip",  priority = 5 },
           {
             name = "buffer",
             priority = 3,
@@ -185,7 +229,7 @@ return {
             before = function(entry, vim_item)
               -- vim_item.kind = lspkind.presets.default[vim_item.kind] .. " " .. vim_item.kind
               vim_item.menu = ({
-                luasnip = "[Snip]",
+                -- luasnip = "[Snip]",
                 buffer = "[Buf]",
                 nvim_lsp = "[LSP]",
                 tmux = "[tmux]",
@@ -206,14 +250,6 @@ return {
     config = function(plugin, opts)
       local cmp = require("cmp")
       cmp.setup(opts)
-
-      -- `/` cmdline setup.
-      cmp.setup.cmdline("/", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = "buffer" },
-        },
-      })
       -- `:` cmdline setup.
       cmp.setup.cmdline(":", {
         mapping = cmp.mapping.preset.cmdline(),

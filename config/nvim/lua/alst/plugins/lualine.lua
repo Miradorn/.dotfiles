@@ -3,40 +3,41 @@ return {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
     dependencies = {
-      {
-        "stevearc/aerial.nvim",
-        keys = {
-          { "<Leader>go", ":AerialToggle right<CR>",  silent = true, desc = "Aerial" },
-          { "<Leader>gO", ":AerialToggle! right<CR>", silent = true, desc = "Aerial" },
-        },
-        cmd = {
-          "AerialToggle",
-          "AerialOpen",
-          "AerialOpenAll",
-          "AerialClose",
-          "AerialCloseAll",
-          "AerialInfo",
-          "AerialNavToggle",
-          "AerialNavOpen",
-          "AerialNavClose",
-        },
-        opts = {
-          layout = {
-            placement = "edge",
-            min_width = 45,
-            default_direction = "right",
-          },
-          attach_mode = "global",
-          update_events = "TextChanged,InsertLeave,WinEnter,WinLeave",
-          filter_kind = false,
-        },
-      },
+      "folke/trouble.nvim",
+      -- {
+      --   "stevearc/aerial.nvim",
+      --   keys = {
+      --     { "<Leader>go", ":AerialToggle right<CR>",  silent = true, desc = "Aerial" },
+      --     { "<Leader>gO", ":AerialToggle! right<CR>", silent = true, desc = "Aerial" },
+      --   },
+      --   cmd = {
+      --     "AerialToggle",
+      --     "AerialOpen",
+      --     "AerialOpenAll",
+      --     "AerialClose",
+      --     "AerialCloseAll",
+      --     "AerialInfo",
+      --     "AerialNavToggle",
+      --     "AerialNavOpen",
+      --     "AerialNavClose",
+      --   },
+      --   opts = {
+      --     layout = {
+      --       placement = "edge",
+      --       min_width = 45,
+      --       default_direction = "right",
+      --     },
+      --     attach_mode = "global",
+      --     update_events = "TextChanged,InsertLeave,WinEnter,WinLeave",
+      --     filter_kind = false,
+      --   },
+      -- },
     },
     opts = function()
       local lsp_names = function()
         local clients = {}
 
-        for _, client in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+        for _, client in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
           clients[#clients + 1] = client.name
         end
 
@@ -52,11 +53,16 @@ return {
         end
       end
 
-      local fugitiveblame = {
-        winbar = { lualine_a = { "filetype" } },
-        sections = { lualine_a = { "filetype" } },
-        filetypes = { "fugitiveblame" },
-      }
+      local symbols = require 'trouble'.statusline({
+        mode = "lsp_document_symbols",
+        groups = {},
+        title = false,
+        filter = { range = true },
+        format = "{kind_icon}{symbol.name:Normal} >",
+        -- The following line is needed to fix the background color
+        -- Set it to the lualine section you want to use
+        -- hl_group = "lualine_a_normal",
+      })
 
       return {
         options = {
@@ -68,7 +74,7 @@ return {
           disabled_filetypes = {
             winbar = {
               "alpha",
-              "blame",
+              -- "blame",
               "dashboard",
               "help",
               "packer",
@@ -114,7 +120,7 @@ return {
         --   lualine_z = {},
         -- },
         winbar = {
-          lualine_b = { { "aerial", draw_empty = true } },
+          lualine_a = { { symbols.get, cond = symbols.has, draw_empty = true } },
           lualine_y = { "diagnostics" },
         },
         inactive_winbar = {

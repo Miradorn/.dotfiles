@@ -43,7 +43,7 @@ return {
         }
       end
 
-      lspconfig.lexical.setup({})
+      -- lspconfig.lexical.setup({})
     end,
   },
   {

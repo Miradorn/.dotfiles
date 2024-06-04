@@ -69,6 +69,6 @@ return {
     end,
   },
   { "tpope/vim-projectionist", lazy = false },
-  { "kevinhwang91/nvim-bqf",   ft = "qf" },
+  -- { "kevinhwang91/nvim-bqf",   ft = "qf" },
   -- { "yorickpeterse/nvim-pqf",  ft = "qf",   config = function() require "pqf".setup() end }
 }
