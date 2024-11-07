@@ -32,6 +32,11 @@ return {
   --   end,
   -- },
   {
+    'echasnovski/mini.ai',
+    event = "VeryLazy",
+    config = true,
+  },
+  {
     "echasnovski/mini.surround",
     keys = function(plugin, keys)
       -- Populate the keys based on the user's options

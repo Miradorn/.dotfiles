@@ -8,7 +8,7 @@ return {
     end,
   },
   { "mhinz/vim-startify",      lazy = false },
-  { "wellle/targets.vim",      event = "VeryLazy" },
+  -- { "wellle/targets.vim",      event = "VeryLazy" },
   { "MunifTanjim/nui.nvim",    event = "VeryLazy" },
   {
     "nvim-tree/nvim-web-devicons",

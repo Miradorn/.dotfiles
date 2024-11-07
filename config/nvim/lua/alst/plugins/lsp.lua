@@ -3,7 +3,7 @@ return {
     "neovim/nvim-lspconfig",
     event = "BufReadPre",
     dependencies = {
-      { "folke/neoconf.nvim", cmd = "Neoconf",                                config = true },
+      { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
       { "folke/neodev.nvim",  opts = { experimental = { pathStrict = true } } },
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
@@ -32,7 +32,7 @@ return {
       if not configs.lexical then
         configs.lexical = {
           default_config = {
-            filetypes = { "elixir", "eelixir", "heex"},
+            filetypes = { "elixir", "eelixir", "heex" },
             cmd = { vim.fn.expand("~/projects/lexical/_build/dev/package/lexical/bin/start_lexical.sh") },
             root_dir = function(fname)
               return lspconfig.util.root_pattern("mix.exs", ".git")(fname) or vim.loop.os_homedir()

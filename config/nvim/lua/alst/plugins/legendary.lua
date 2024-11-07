@@ -168,12 +168,6 @@ return {
             description = "Move up",
             mode = "v",
           },
-          -- git
-          {
-            "<leader>gb",
-            ":BlameToggle<cr>",
-            description = "Show blame information"
-          },
         },
         commands = {
           {

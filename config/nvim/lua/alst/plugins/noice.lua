@@ -3,53 +3,54 @@ return {
     {
       "folke/noice.nvim",
       event = "VeryLazy",
-      opts = {
-        routes = {
-          {
-            filter = {
-              event = 'msg_show',
-              kind = 'emsg',
-              find = 'Pattern not found:',
-            },
-            opts = { skip = true },
-          },
-        },
-        views = {
-          cmdline_popup = {
-            position = {
-              row = "15"
+      config = function()
+        require("noice").setup {
+          routes = {
+            {
+              filter = {
+                event = 'msg_show',
+                kind = 'emsg',
+                find = 'Pattern not found:',
+              },
+              opts = { skip = true },
             },
           },
-          cmdline_popupmenu = {
-            position = {
-              row = "18"
+          views = {
+            cmdline_popup = {
+              position = {
+                row = "15"
+              },
+            },
+            cmdline_popupmenu = {
+              position = {
+                row = "18"
+              },
+            },
+            mini = {
+              position = {
+                row = 3,
+              },
+              border = {
+                style = "double",
+              },
+              win_options = {
+                winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+              },
             },
           },
-          mini = {
-            position = {
-              row = 3,
-            },
-            border = {
-              style = "double",
-            },
-            win_options = {
-              winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+          lsp = {
+            override = {
+              ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+              ["vim.lsp.util.stylize_markdown"] = true,
+              ["cmp.entry.get_documentation"] = true,
             },
           },
-        },
-        lsp = {
-          override = {
-            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-            ["vim.lsp.util.stylize_markdown"] = true,
-            ["cmp.entry.get_documentation"] = true,
+          presets = {
+            command_palette = true,
+            long_message_to_split = true,
+            lsp_doc_border = true,
           },
-        },
-        presets = {
-          command_palette = true,
-          long_message_to_split = true,
-          lsp_doc_border = true,
-        },
-        --[[
+          --[[
         markdown = {
         hover = {
         ["|(%S-)|"] = vim.cmd.help, -- vim help links
@@ -64,8 +65,10 @@ return {
         ["{%S-}"] = "@parameter",
         },
         } ]]
-        --
-      },
+          --
+        }
+      require'telescope'.load_extension("noice")
+      end,
       -- stylua: ignore
       keys = {
         { "<leader>snl", function() require("noice").cmd("last") end,    desc = "Noice Last Message" },

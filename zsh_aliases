@@ -1,7 +1,7 @@
 # ----------------
 # common
 # ----------------
-alias ls='lsd'
+alias ls='eza'
 alias l='ls -al'
 alias la='ls -l'
 alias lt='ls --tree'

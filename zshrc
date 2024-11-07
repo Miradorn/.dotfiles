@@ -33,7 +33,9 @@ export DIRENV_LOG_FORMAT=
 export EDITOR='nvim'
 export MISE_ASDF_COMPAT=1
 
-plugins=(brew git git-open npm macos mix extract kubectl mise gh)
+eval "$(mise activate zsh)"
+
+plugins=(brew git git-open npm macos mix extract kubectl gh)
 
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
@@ -130,21 +132,20 @@ source /Users/$(whoami)/.config/broot/launcher/bash/br
 
 # erlang stuff
 export KERL_BUILD_DOCS=yes
-export KERL_CONFIGURE_OPTIONS="
-      --disable-debug \
-      --disable-silent-rules \
-      --enable-dynamic-ssl-lib \
-      --enable-hipe \
-      --enable-shared-zlib \
-      --enable-smp-support \
-      --enable-threads \
-      --enable-wx \
-      --with-ssl=$(brew --prefix openssl@1.1) \
-      --without-javac
-      --enable-darwin-64bit \
-      --enable-kernel-poll \
-      --with-dynamic-trace=dtrace \
-     "
+# export KERL_CONFIGURE_OPTIONS="
+#       --disable-silent-rules \
+#       --enable-dynamic-ssl-lib \
+#       --enable-hipe \
+#       --enable-shared-zlib \
+#       --enable-smp-support \
+#       --enable-threads \
+#       --enable-wx \
+#       --with-ssl=$(brew --prefix openssl@1.1) \
+#       --without-javac
+#       --enable-darwin-64bit \
+#       --enable-kernel-poll \
+#       --with-dynamic-trace=dtrace \
+#      "
 
 
 export POSTGRES_EXTRA_CONFIGURE_OPTIONS="--with-lz4 --with-uuid=e2fs"

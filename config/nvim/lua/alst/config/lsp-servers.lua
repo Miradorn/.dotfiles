@@ -22,7 +22,7 @@ return {
   -- stylua = {},
   -- tailwindcss = {},
   terraformls = {},
-  tsserver = {},
+  ts_ls = {},
   jsonls = {
     settings = {
       json = {

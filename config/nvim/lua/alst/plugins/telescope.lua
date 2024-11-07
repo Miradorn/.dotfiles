@@ -4,12 +4,62 @@ return {
     dependencies = {
       "folke/trouble.nvim",
       { "nvim-lua/plenary.nvim" },
-      { "nvim-telescope/telescope-media-files.nvim" },
-      -- { "nvim-telescope/telescope-frecency.nvim" },
-      { "dinocosta/telescope-phx-routes.nvim" },
-      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-      "debugloop/telescope-undo.nvim",
-
+      {
+        "nvim-telescope/telescope-media-files.nvim",
+        config = function()
+          require 'telescope'.load_extension("media_files")
+        end
+      },
+      {
+        "danielfalk/smart-open.nvim",
+        config = function()
+          require("telescope").load_extension("smart_open")
+        end,
+        dependencies = {
+          "kkharji/sqlite.lua",
+          -- Only required if using match_algorithm fzf
+          { "nvim-telescope/telescope-fzf-native.nvim" },
+          -- Optional.  If installed, native fzy will be used when match_algorithm is fzy
+          -- { "nvim-telescope/telescope-fzy-native.nvim" },
+        },
+        keys = {
+          {
+            "<C-p>",
+            function()
+              require('telescope').extensions.smart_open.smart_open {
+                cwd_only = true,
+                filename_first = true,
+              }
+              -- require("telescope.builtin").find_files({ hidden = false, no_ignore = false })
+              -- require("telescope").extensions.frecency.frecency()
+            end,
+            desc = "Telescope files",
+          },
+        }
+      },
+      -- { "dinocosta/telescope-phx-routes.nvim" },
+      {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        build = "make",
+        config = function()
+          require('telescope').load_extension('fzf')
+        end
+      },
+      {
+        "debugloop/telescope-undo.nvim",
+        config = function()
+          require("telescope").load_extension("undo")
+        end,
+        keys = {
+          {
+            "<leader>gu",
+            function()
+              require("telescope").extensions.undo.undo()
+            end,
+            desc = "UndoTree",
+          },
+        }
+      },
       {
         "AckslD/nvim-neoclip.lua",
         dependencies = {
@@ -60,14 +110,6 @@ return {
         desc = "Neovim config picker",
       },
       {
-        "<C-p>",
-        function()
-          require("telescope.builtin").find_files({ hidden = false, no_ignore = false })
-          -- require("telescope").extensions.frecency.frecency()
-        end,
-        desc = "Telescope files",
-      },
-      {
         "<C-A-p>",
         function()
           require("telescope.builtin").find_files({ hidden = true, no_ignore = true })
@@ -114,22 +156,15 @@ return {
         function()
           require("telescope.builtin").git_status()
         end,
-        desc = "Telescope git_branches",
+        desc = "Telescope git_status",
       },
-      {
-        "<Leader>tr",
-        function()
-          require("telescope").extensions["phx-routes"].routes()
-        end,
-        desc = "Telescope phoenix routes",
-      },
-      {
-        "<Leader>tm",
-        function()
-          require("telescope").extensions.notify.notify()
-        end,
-        desc = "Telescope notify",
-      },
+      -- {
+      --   "<Leader>tr",
+      --   function()
+      --     require("telescope").extensions["phx-routes"].routes()
+      --   end,
+      --   desc = "Telescope phoenix routes",
+      -- },
       {
         "<Leader>tk",
         function()
@@ -166,28 +201,7 @@ return {
         desc = "Find word under cursor",
         mode = { "n", "v" },
       },
-      {
-        "<Leader>ty",
-        function()
-          require("telescope").extensions.neoclip.default()
-        end,
-        desc = "Telescope neoclip",
-      },
-      {
-        "<C-y>",
-        function()
-          require("telescope").extensions.neoclip.default()
-        end,
-        desc = "Telescope neoclip",
-      },
 
-      {
-        "<leader>gu",
-        function()
-          require("telescope").extensions.undo.undo()
-        end,
-        desc = "UndoTree",
-      },
     },
 
     config = function()
@@ -223,6 +237,9 @@ return {
           -- frecency = {
           --   default_workspace = "CWD",
           -- },
+          smart_open = {
+            match_algorithm = "fzf",
+          },
           fzf = {
             fuzzy = true,                   -- false will only do exact matching
             override_generic_sorter = true, -- override the generic sorter
@@ -233,13 +250,13 @@ return {
         },
       })
 
-      telescope.load_extension("fzf")
+      -- telescope.load_extension("fzf")
       -- telescope.load_extension("frecency")
-      telescope.load_extension("media_files")
-      telescope.load_extension("notify")
-      telescope.load_extension("noice")
-      telescope.load_extension("phx-routes")
-      telescope.load_extension("undo")
+      -- telescope.load_extension("media_files")
+      -- telescope.load_extension("notify")
+      -- telescope.load_extension("noice")
+      -- telescope.load_extension("phx-routes")
+      -- telescope.load_extension("undo")
 
 
       -- telescope.load_extension("smart_open")
