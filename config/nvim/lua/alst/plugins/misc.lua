@@ -7,16 +7,23 @@ return {
       vim.g.bullets_outline_levels = {}
     end,
   },
-  { "mhinz/vim-startify",      lazy = false },
-  -- { "wellle/targets.vim",      event = "VeryLazy" },
-  { "MunifTanjim/nui.nvim",    event = "VeryLazy" },
   {
-    "nvim-tree/nvim-web-devicons",
-    opts = {
-      default = true,
-    },
+    'MeanderingProgrammer/render-markdown.nvim',
+    ft = "markdown",
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+    opts = {},
   },
-  { "tpope/vim-repeat",          event = "VeryLazy" },
+  {
+    "OXY2DEV/helpview.nvim",
+    lazy = false, -- Recommended
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter"
+    }
+  },
+  { "mhinz/vim-startify", lazy = false },
+  -- { "wellle/targets.vim",      event = "VeryLazy" },
+  -- { "MunifTanjim/nui.nvim", event = "VeryLazy" },
+  { "tpope/vim-repeat",   event = "VeryLazy" },
   {
     "andymass/vim-matchup",
     event = "VeryLazy",
@@ -25,7 +32,7 @@ return {
       vim.g.matchup_matchparen_offscreen = {}
     end,
   },
-  { "AndrewRadev/splitjoin.vim", event = "VeryLazy" },
+  -- { "AndrewRadev/splitjoin.vim", event = "VeryLazy" },
   { "elixir-editors/vim-elixir", event = "VeryLazy" },
   -- {
   --   "mbbill/undotree",
@@ -68,7 +75,7 @@ return {
       require("project_nvim").setup()
     end,
   },
-  { "tpope/vim-projectionist", lazy = false },
+  { "tpope/vim-projectionist",   lazy = false },
   -- { "kevinhwang91/nvim-bqf",   ft = "qf" },
   -- { "yorickpeterse/nvim-pqf",  ft = "qf",   config = function() require "pqf".setup() end }
 }

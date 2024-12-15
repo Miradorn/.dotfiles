@@ -33,7 +33,6 @@ return {
     opts = {
       highlight = { enable = true },
       indent = { enable = true },
-      context_commentstring = { enable = true, enable_autocmd = false },
       ensure_installed = {
         "bash",
         "c",
@@ -91,31 +90,31 @@ return {
       },
       matchup = { enable = true },
       endwise = { enable = true },
-      textobjects = {
-        select = {
-          enable = true,
-
-          -- Automatically jump forward to textobj, similar to targets.vim
-          lookahead = true,
-
-          keymaps = {
-            ["aa"] = { query = "@parameter.outer", desc = "Select outer part of a parameter/argument" },
-            ["ia"] = { query = "@parameter.inner", desc = "Select inner part of a parameter/argument" },
-
-            ["ae"] = { query = "@block.outer", desc = "Select outer part of scope" },
-            ["ie"] = { query = "@block.inner", desc = "Select inner part of scope" },
-
-            ["ai"] = { query = "@conditional.outer", desc = "Select outer part of a conditional" },
-            ["ii"] = { query = "@conditional.inner", desc = "Select inner part of a conditional" },
-
-            ["am"] = { query = "@function.outer", desc = "Select outer part of a method/function definition" },
-            ["im"] = { query = "@function.inner", desc = "Select inner part of a method/function definition" },
-
-            ["ac"] = { query = "@class.outer", desc = "Select outer part of a class" },
-            ["ic"] = { query = "@class.inner", desc = "Select inner part of a class" },
-          },
-        },
-      },
+      -- textobjects = {
+      --   select = {
+      --     enable = true,
+      --
+      --     -- Automatically jump forward to textobj, similar to targets.vim
+      --     lookahead = true,
+      --
+      --     keymaps = {
+      --       ["aa"] = { query = "@parameter.outer", desc = "Select outer part of a parameter/argument" },
+      --       ["ia"] = { query = "@parameter.inner", desc = "Select inner part of a parameter/argument" },
+      --
+      --       ["ae"] = { query = "@block.outer", desc = "Select outer part of scope" },
+      --       ["ie"] = { query = "@block.inner", desc = "Select inner part of scope" },
+      --
+      --       ["ai"] = { query = "@conditional.outer", desc = "Select outer part of a conditional" },
+      --       ["ii"] = { query = "@conditional.inner", desc = "Select inner part of a conditional" },
+      --
+      --       ["am"] = { query = "@function.outer", desc = "Select outer part of a method/function definition" },
+      --       ["im"] = { query = "@function.inner", desc = "Select inner part of a method/function definition" },
+      --
+      --       ["ac"] = { query = "@class.outer", desc = "Select outer part of a class" },
+      --       ["ic"] = { query = "@class.inner", desc = "Select inner part of a class" },
+      --     },
+      --   },
+      -- },
     },
     config = function(plugin, opts)
       require("nvim-treesitter.configs").setup(opts)
@@ -132,11 +131,11 @@ return {
   --   },
   --   event = { "BufReadPost", "BufNewFile" },
   -- },
-  {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-    },
-    event = { "BufReadPost", "BufNewFile" },
-  },
+  -- {
+  --   "nvim-treesitter/nvim-treesitter-textobjects",
+  --   dependencies = {
+  --     "nvim-treesitter/nvim-treesitter",
+  --   },
+  --   event = { "BufReadPost", "BufNewFile" },
+  -- },
 }

@@ -49,7 +49,7 @@ return {
         end,
       },
       elixirls = {
-        enable = true,
+        enable = false,
         tag = "v0.24.1", -- defaults to nil, mutually exclusive with the `branch` option
         -- -- cmd = "/Users/alexander/.local/bin/elixir-ls/language_server.sh",
         settings = elixirls.settings({

@@ -1,7 +1,5 @@
 vim.g.mapleader = " "
 
-vim.g.skip_ts_context_commentstring_module = true
-
 local opts = {
   mouse = "a",
   -- textwidth = 120,

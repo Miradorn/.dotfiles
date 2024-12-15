@@ -1,0 +1,11 @@
+[tools]
+node = "18.18.2"
+yarn = "1.22.19"
+postgres = "14.9"
+erlang = "26.2.5.5"
+elixir = "1.17.3-otp-26"
+remotectl = "4.4.3"
+rust = "latest"
+
+[settings]
+experimental = true

@@ -31,9 +31,12 @@ export DIRENV_LOG_FORMAT=
 # Other
 
 export EDITOR='nvim'
-export MISE_ASDF_COMPAT=1
+# export MISE_ASDF_COMPAT=1
 
 eval "$(mise activate zsh)"
+
+# see https://github.com/jdx/mise/issues/3099
+export MISE_LIBGIT2=false
 
 plugins=(brew git git-open npm macos mix extract kubectl gh)
 

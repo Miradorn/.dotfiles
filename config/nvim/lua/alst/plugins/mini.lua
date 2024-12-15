@@ -37,6 +37,12 @@ return {
     config = true,
   },
   {
+    "echasnovski/mini.tabline",
+    event = "VeryLazy",
+    config = true,
+    dependencies = { "echasnovski/mini.icons" },
+  },
+  {
     "echasnovski/mini.surround",
     keys = function(plugin, keys)
       -- Populate the keys based on the user's options
@@ -64,6 +70,15 @@ return {
     event = "VeryLazy",
     config = true,
   },
+  {
+    "echasnovski/mini.icons",
+    event = "VeryLazy",
+    config = function()
+      require("mini.icons").setup {}
+
+      MiniIcons.mock_nvim_web_devicons()
+    end,
+  },
   -- {
   --   "echasnovski/mini.animate",
   --   event = "VeryLazy",
@@ -76,25 +91,18 @@ return {
   --   end,
   -- },
 
-  -- {
-  --   "echasnovski/mini.comment",
-  --   event = "VeryLazy",
-  --   dependencies = {
-  --     {
-  --       "JoosepAlviste/nvim-ts-context-commentstring",
-  --       opts = { enable_autocmd = false }
-  --     },
-  --   },
-  --   opts = {
-  --     hooks = {
-  --       pre = function()
-  --         require("ts_context_commentstring.internal").update_commentstring({})
-  --       end,
-  --     },
-  --   },
-  -- },
+  {
+    "echasnovski/mini.comment",
+    event = "VeryLazy",
+    opts = true
+  },
   {
     "echasnovski/mini.cursorword",
+    event = "VeryLazy",
+    config = true,
+  },
+  {
+    "echasnovski/mini.splitjoin",
     event = "VeryLazy",
     config = true,
   },

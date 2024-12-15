@@ -40,6 +40,10 @@ return {
         completion = {
           callSnippet = "Replace",
         },
+        telemetry = { enable = false },
+        diagnostics = {
+          disable = { "missing-fields" },
+        },
         format = {
           enabled = true,
           defaultConfig = {

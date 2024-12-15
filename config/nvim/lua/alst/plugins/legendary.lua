@@ -138,8 +138,18 @@ return {
           { "<leader>ek", ":vsplit ~/.config/kitty/kitty.conf<cr>", description = "edit kitty config" },
 
           -- Lazy
-          { "<leader>l",  ":Lazy<Cr>",                              description = "Open Lazy" },
-          { "<leader>lu", ":Lazy update<Cr>",                       description = "Lazy update" },
+          {
+            "<leader>l",
+            ":Lazy<Cr>",
+            description = "Open Lazy",
+            opts = { silent = true },
+          },
+          {
+            "<leader>lu",
+            ":Lazy update<Cr>",
+            description = "Lazy update",
+            opts = { silent = true },
+          },
 
           -- Move Lines
           { "<A-S-j>",    "<cmd>m .+1<cr>==",                       description = "Move down" },
@@ -172,8 +182,10 @@ return {
         commands = {
           {
             ":Gbrowse",
-            ":GitLink! current_branch",
-            description = "Open current file in browser"
+            function ()
+              Snacks.gitbrowse()
+            end,
+            description = "Open current git file in browser"
           },
           {
             ":Gblame",

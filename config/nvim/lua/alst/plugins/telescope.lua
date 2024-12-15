@@ -3,85 +3,19 @@ return {
     "nvim-telescope/telescope.nvim",
     dependencies = {
       "folke/trouble.nvim",
-      { "nvim-lua/plenary.nvim" },
-      {
-        "nvim-telescope/telescope-media-files.nvim",
-        config = function()
-          require 'telescope'.load_extension("media_files")
-        end
-      },
-      {
-        "danielfalk/smart-open.nvim",
-        config = function()
-          require("telescope").load_extension("smart_open")
-        end,
-        dependencies = {
-          "kkharji/sqlite.lua",
-          -- Only required if using match_algorithm fzf
-          { "nvim-telescope/telescope-fzf-native.nvim" },
-          -- Optional.  If installed, native fzy will be used when match_algorithm is fzy
-          -- { "nvim-telescope/telescope-fzy-native.nvim" },
-        },
-        keys = {
-          {
-            "<C-p>",
-            function()
-              require('telescope').extensions.smart_open.smart_open {
-                cwd_only = true,
-                filename_first = true,
-              }
-              -- require("telescope.builtin").find_files({ hidden = false, no_ignore = false })
-              -- require("telescope").extensions.frecency.frecency()
-            end,
-            desc = "Telescope files",
-          },
-        }
-      },
-      -- { "dinocosta/telescope-phx-routes.nvim" },
+      'nvim-telescope/telescope-ui-select.nvim',
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope-media-files.nvim",
+      "nvim-telescope/telescope-frecency.nvim",
       {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
-        config = function()
-          require('telescope').load_extension('fzf')
-        end
       },
-      {
-        "debugloop/telescope-undo.nvim",
-        config = function()
-          require("telescope").load_extension("undo")
-        end,
-        keys = {
-          {
-            "<leader>gu",
-            function()
-              require("telescope").extensions.undo.undo()
-            end,
-            desc = "UndoTree",
-          },
-        }
-      },
+      "debugloop/telescope-undo.nvim",
       {
         "AckslD/nvim-neoclip.lua",
         dependencies = {
           { "kkharji/sqlite.lua" },
-        },
-        event = "VeryLazy",
-        keys = {
-          {
-            "<Leader>ty",
-            function()
-              require("telescope").extensions.neoclip.default()
-            end,
-            desc = "Telescope neoclip",
-          },
-          {
-            "<C-y>",
-            function()
-              require("telescope").extensions.neoclip.default()
-            end,
-            desc = "Telescope neoclip",
-            mode = { "i", "v" },
-          },
         },
         opts = {
           keys = {
@@ -101,7 +35,30 @@ return {
       },
     },
     cmd = { "Telescope" },
+    event = "VeryLazy",
     keys = {
+      {
+        "<leader>gu",
+        function()
+          require("telescope").extensions.undo.undo()
+        end,
+        desc = "UndoTree",
+      },
+      {
+        "<Leader>ty",
+        function()
+          require("telescope").extensions.neoclip.default()
+        end,
+        desc = "Telescope neoclip",
+      },
+      {
+        "<C-y>",
+        function()
+          require("telescope").extensions.neoclip.default()
+        end,
+        desc = "Telescope neoclip",
+        mode = { "i", "v" },
+      },
       {
         "<leader>evv",
         function()
@@ -201,6 +158,17 @@ return {
         desc = "Find word under cursor",
         mode = { "n", "v" },
       },
+      {
+        "<C-p>",
+        function()
+          require("telescope").extensions.frecency.frecency {
+            filename_first = true,
+            __locations_input = true
+          }
+          -- require("telescope.builtin").find_files({ hidden = false, no_ignore = false })
+        end,
+        desc = "Telescope recency",
+      },
 
     },
 
@@ -234,11 +202,19 @@ return {
           find_files = { no_ignore = true, hidden = true },
         },
         extensions = {
-          -- frecency = {
-          --   default_workspace = "CWD",
+          ---@type FrecencyOpts
+          frecency = {
+            default_workspace = "CWD",
+            db_safe_mode = false,
+            matcher = "fuzzy" -- acceptable: "default" / "fuzzy"
+          },
+          -- smart_open = {
+          --   match_algorithm = "fzf",
           -- },
-          smart_open = {
-            match_algorithm = "fzf",
+          ["ui-select"] = {
+            require("telescope.themes").get_dropdown {
+              -- even more opts
+            },
           },
           fzf = {
             fuzzy = true,                   -- false will only do exact matching
@@ -250,16 +226,14 @@ return {
         },
       })
 
-      -- telescope.load_extension("fzf")
-      -- telescope.load_extension("frecency")
-      -- telescope.load_extension("media_files")
-      -- telescope.load_extension("notify")
-      -- telescope.load_extension("noice")
-      -- telescope.load_extension("phx-routes")
-      -- telescope.load_extension("undo")
+      telescope.load_extension("fzf")
+      telescope.load_extension("frecency")
+      telescope.load_extension("ui-select")
+
+      telescope.load_extension("media_files")
+      telescope.load_extension("undo")
 
 
-      -- telescope.load_extension("smart_open")
       -- telescope.load_extension("dash")
     end,
   },
