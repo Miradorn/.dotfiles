@@ -17,12 +17,38 @@ return {
   erlangls = {},
   graphql = {},
   html = {},
+  marksman = {},
   -- shellcheck = {},
   -- shfmt = {},
   -- stylua = {},
   -- tailwindcss = {},
   terraformls = {},
-  ts_ls = {},
+  ts_ls = {
+    settings = {
+      javascript = {
+        inlayHints = {
+          includeInlayEnumMemberValueHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayVariableTypeHints = true,
+        },
+      },
+      typescript = {
+        inlayHints = {
+          includeInlayEnumMemberValueHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayVariableTypeHints = true,
+        },
+      },
+    },
+  },
   jsonls = {
     settings = {
       json = {
@@ -40,6 +66,7 @@ return {
         completion = {
           callSnippet = "Replace",
         },
+        hint = { enable = true },
         telemetry = { enable = false },
         diagnostics = {
           disable = { "missing-fields" },
@@ -119,5 +146,20 @@ return {
   vimls = {
     init_options = { isNeovim = true },
   },
-  gopls = { settings = { { gopls = { gofumpt = true } } } },
+  gopls = {
+    settings = {
+      gopls = {
+        hints = {
+          assignVariableTypes = true,
+          compositeLiteralFields = true,
+          compositeLiteralTypes = true,
+          constantValues = true,
+          functionTypeParameters = true,
+          parameterNames = true,
+          rangeVariableTypes = true,
+        },
+        gofumpt = true
+      }
+    }
+  },
 }

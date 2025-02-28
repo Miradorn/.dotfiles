@@ -8,19 +8,19 @@ function M.on_attach(args)
   local self = M.new(client, buffer)
 
   self:map("<leader>dd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
-  self:map("gd", "Telescope lsp_definitions jump_type=never fname_width=70", { desc = "Goto Definition" })
-  self:map("gr", "Telescope lsp_references jump_type=never fname_width=70", { desc = "References" })
-  self:map("gD", vim.lsp.buf.declaration, { desc = "Goto Declaration" })
-  self:map("gI", "Telescope lsp_implementation jump_type=nevers fname_width=90", { desc = "Goto Implementation" })
-  self:map("gt", "Telescope lsp_type_definitions jump_type=never fname_width=90", { desc = "Goto Type Definition" })
+  self:map("gd", function() Snacks.picker.lsp_definitions { auto_confirm = false } end, { desc = "Goto Definition" })
+  self:map("gr", function() Snacks.picker.lsp_references() end, { desc = "Get References" })
+  self:map("gD", function() Snacks.picker.lsp_declarations() end, { desc = "Goto Declaration" })
+  self:map("gI", function() Snacks.picker.lsp_implementations() end, { desc = "Get Implementation" })
+  self:map("gt", function() Snacks.picker.lsp_type_definitions() end, { desc = "Goto Type definition" })
   self:map("gK", vim.lsp.buf.signature_help, { desc = "Signature Help", has = "signatureHelp" })
   self:map("<c-k>", vim.lsp.buf.signature_help, { mode = "i", desc = "Signature Help", has = "signatureHelp" })
   -- self:map("]d", M.diagnostic_goto(true), { desc = "Next Diagnostic" })
   -- self:map("[d", M.diagnostic_goto(false), { desc = "Prev Diagnostic" })
-  self:map("]e", M.diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
-  self:map("[e", M.diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
-  self:map("]w", M.diagnostic_goto(true, "WARNING"), { desc = "Next Warning" })
-  self:map("[w", M.diagnostic_goto(false, "WARNING"), { desc = "Prev Warning" })
+  -- self:map("]e", M.diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
+  -- self:map("[e", M.diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
+  -- self:map("]w", M.diagnostic_goto(true, "WARNING"), { desc = "Next Warning" })
+  -- self:map("[w", M.diagnostic_goto(false, "WARNING"), { desc = "Prev Warning" })
   self:map("<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action", mode = { "n", "v" }, has = "codeAction" })
 
   local format = function()
@@ -30,6 +30,13 @@ function M.on_attach(args)
   self:map("<leader>ff", format, { desc = "Format Document", has = "documentFormatting" })
   self:map("<leader>ff", format, { desc = "Format Range", mode = "v", has = "documentRangeFormatting" })
   self:map("<leader>rn", vim.lsp.buf.rename, { desc = "Rename", has = "rename" })
+
+  if self:has("inlayHint") then
+    vim.lsp.inlay_hint.enable(true, { bufnr = 0 })
+    self:map("<leader>I",
+      function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 }) end,
+      { desc = "Toggle Inlay Hints" })
+  end
 end
 
 function M.new(client, buffer)
@@ -55,12 +62,12 @@ function M:map(lhs, rhs, opts)
   })
 end
 
-function M.diagnostic_goto(next, severity)
-  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-  severity = severity and vim.diagnostic.severity[severity] or nil
-  return function()
-    go({ severity = severity })
-  end
-end
+-- function M.diagnostic_goto(next, severity)
+--   local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+--   severity = severity and vim.diagnostic.severity[severity] or nil
+--   return function()
+--     go({ severity = severity })
+--   end
+-- end
 
 return M

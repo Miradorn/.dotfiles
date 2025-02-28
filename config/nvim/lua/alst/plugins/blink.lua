@@ -1,7 +1,7 @@
 return {
   {
     'saghen/blink.cmp',
-    build = "cargo +nightly build --release",
+    -- build = "cargo +nightly build --release",
     lazy = false, -- lazy loading handled internally
     -- optional: provides snippets for the snippet source
     dependencies = {
@@ -13,7 +13,7 @@ return {
     -- use a release tag to download pre-built binaries
     -- version = 'v0.*',
     -- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-    -- build = 'cargo build --release',
+    build = 'cargo build --release',
     -- If you use nix, you can build from source using latest nightly rust with:
     -- build = 'nix run .#build-plugin',
 
@@ -29,13 +29,34 @@ return {
         preset = 'enter',
         ['<Tab>'] = { 'select_next', 'fallback' },
         ['<S-Tab>'] = { 'select_prev', 'fallback' },
-        ['<ESC>'] = { 'cancel', 'fallback' },
         ['<C-c>'] = { 'cancel', 'fallback' },
       },
+      enabled = function()
+        return not vim.tbl_contains({ "prompt", "telescopeprompt" }, vim.bo.buftype)
+      end,
 
+      cmdline = {
+        keymap = {
+          preset = 'enter',
+          ['<Tab>'] = { 'select_next', 'fallback' },
+          ['<CR>'] = { 'accept_and_enter', 'fallback' },
+          ['<S-Tab>'] = { 'select_prev', 'fallback' },
+          ['<C-c>'] = { 'cancel', 'fallback' },
+        },
+        completion = {
+          menu = {
+            auto_show = true,
+          }
+        },
+        -- optionally disable cmdline completions
+        -- sources = {},
+      },
+      term = {
+        sources = { 'path' },
+      },
       completion = {
         list = {
-          selection = "auto_insert"
+          selection = { preselect = false, auto_insert = true }
         },
         accept = {
           -- experimental auto-brackets support
@@ -47,15 +68,21 @@ return {
           border = "rounded",
           draw = {
             treesitter = { "lsp" },
-            -- components = {
-            --   kind_icon = {
-            --     ellipsis = false,
-            --     text = function(ctx)
-            --       local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
-            --       return kind_icon
-            --     end,
-            --   },
-            -- }
+            columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
+            components = {
+              kind_icon = {
+                ellipsis = false,
+                text = function(ctx)
+                  local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
+                  return kind_icon
+                end,
+                -- Optionally, you may also use the highlights from mini.icons
+                highlight = function(ctx)
+                  local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+                  return hl
+                end,
+              }
+            }
           }
         },
         documentation = {
@@ -86,15 +113,22 @@ return {
         default = { 'lsp', 'path', 'buffer' },
         -- default = { 'lsp', 'path', 'snippets', 'buffer' },
         per_filetype = {
-          lua = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev' },
-          markdown = { 'lsp', 'path', 'snippets', 'buffer', 'markdown' },
+          lua = { 'lazydev', 'lsp', 'path', 'buffer' },
+          markdown = { 'markdown', 'lsp', 'path', 'buffer' },
         },
         providers = {
-          markdown = { name = 'RenderMarkdown', module = 'render-markdown.integ.blink' },
-          lazydev = { name = "LazyDev", module = "lazydev.integrations.blink", fallbacks = { 'lsp' } },
+          markdown = {
+            name = 'RenderMarkdown',
+            module = 'render-markdown.integ.blink',
+            fallbacks = { 'lsp' },
+
+          },
+          lazydev = {
+            name = "LazyDev",
+            module = "lazydev.integrations.blink",
+            score_offset = 100,
+          },
         },
-        -- optionally disable cmdline completions
-        -- cmdline = {},
       },
 
       -- experimental signature help support

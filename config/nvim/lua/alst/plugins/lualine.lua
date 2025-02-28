@@ -4,6 +4,7 @@ return {
     event = "VeryLazy",
     dependencies = {
       "folke/trouble.nvim",
+      "folke/noice.nvim",
       -- {
       --   "stevearc/aerial.nvim",
       --   keys = {
@@ -74,7 +75,7 @@ return {
           disabled_filetypes = {
             winbar = {
               "alpha",
-              -- "blame",
+              "blame",
               "dashboard",
               "help",
               "packer",
@@ -120,7 +121,8 @@ return {
         --   lualine_z = {},
         -- },
         winbar = {
-          lualine_a = { { symbols.get, cond = symbols.has, draw_empty = true } },
+          lualine_a = { { symbols.get, draw_empty = true } },
+          -- lualine_a = { { symbols.get, cond = symbols.has, draw_empty = true } },
           lualine_y = { "diagnostics" },
         },
         inactive_winbar = {

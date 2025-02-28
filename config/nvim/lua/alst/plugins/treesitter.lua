@@ -3,7 +3,7 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
-      "RRethy/nvim-treesitter-endwise",
+      "metiulekm/nvim-treesitter-endwise",
     },
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },

@@ -136,6 +136,7 @@ return {
           { "<leader>et", ":vsplit ~/.tmux.conf<cr>",               description = "Edit tmux config" },
           { "<leader>ez", ":vsplit ~/.zshrc<cr>",                   description = "Edit zshrc" },
           { "<leader>ek", ":vsplit ~/.config/kitty/kitty.conf<cr>", description = "edit kitty config" },
+          { "<leader>eg", ":vsplit ~/.config/ghostty/config<cr>",   description = "edit ghostty config" },
 
           -- Lazy
           {
@@ -152,8 +153,8 @@ return {
           },
 
           -- Move Lines
-          { "<A-S-j>",    "<cmd>m .+1<cr>==",                       description = "Move down" },
-          { "<A-S-k>",    "<cmd>m .-2<cr>==",                       description = "Move up" },
+          { "<A-S-j>", "<cmd>m .+1<cr>==", description = "Move down" },
+          { "<A-S-k>", "<cmd>m .-2<cr>==", description = "Move up" },
           {
             "<A-J>",
             "<esc><cmd>m .+1<cr>==gi",
@@ -182,7 +183,7 @@ return {
         commands = {
           {
             ":Gbrowse",
-            function ()
+            function()
               Snacks.gitbrowse()
             end,
             description = "Open current git file in browser"
@@ -197,7 +198,7 @@ return {
             function(input)
               local text = input.fargs and input.fargs[1] or nil
 
-              require("telescope.builtin").grep_string({ search = text })
+              Snacks.picker.grep({ search = text, live = false })
             end,
             description = "Search string",
             unfinished = true,

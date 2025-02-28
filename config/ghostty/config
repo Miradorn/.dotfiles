@@ -1,0 +1,9 @@
+font-family = Victor Mono
+font-size = 14
+theme = tokyonight_moon
+
+macos-option-as-alt = true
+macos-titlebar-style = tabs
+
+window-inherit-working-directory = false
+window-save-state = always

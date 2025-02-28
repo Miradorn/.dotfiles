@@ -41,7 +41,7 @@ return {
       },
       {
         "<leader>co",
-        "<cmd>Trouble quickfix toggle",
+        "<cmd>Trouble quickfix toggle<cr>",
         desc = "Trouble Quickfix",
       },
     },

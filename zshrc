@@ -11,6 +11,8 @@ export TERM_ITALICS=true
 export DOCKER_BUILDKIT=true
 export ZSH_DISABLE_COMPFIX=true
 
+export GPG_TTY=$(tty)
+
 # export EVENT_NOKQUEUE=1
 
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"

@@ -56,14 +56,14 @@ return {
         }
       end
 
-      lspconfig.lexical.setup({})
+      -- lspconfig.lexical.setup({})
     end,
   },
   {
     "mhanberg/output-panel.nvim",
     event = "VeryLazy",
     config = function()
-      require("output_panel").setup()
+      require("output_panel").setup{}
     end
   }
 }

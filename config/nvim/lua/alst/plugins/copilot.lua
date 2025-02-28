@@ -63,6 +63,16 @@ return {
         relative = "win"
       }
     },
+    keys = {
+      {
+        "<leader>sc",
+        function()
+          local actions = require("CopilotChat.actions")
+          require("CopilotChat.integrations.snacks").pick(actions.prompt_actions())
+        end,
+        desc = "CopilotChat - Prompt actions",
+      },
+    },
     cmd = {
       "CopilotChat",
       "CopilotChatOpen",

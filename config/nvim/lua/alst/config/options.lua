@@ -34,7 +34,7 @@ local opts = {
   },
   conceallevel = 2,
   history = 5000,
-  signcolumn = "number",
+  -- signcolumn = "number",
   colorcolumn = { "120" },
   splitbelow = true,
   splitright = true,
@@ -66,6 +66,7 @@ vim.diagnostic.config {
   underline = true,
   update_in_insert = false,
   virtual_text = { spacing = 4, prefix = "●" },
+  -- virtual_lines = true,
   severity_sort = true,
   float = { border = "single" },
 }

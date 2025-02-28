@@ -1,5 +1,13 @@
 return {
   {
+    "AckslD/nvim-neoclip.lua",
+    lazy = false,
+    dependencies = {
+      { "kkharji/sqlite.lua" },
+    },
+    config = true
+  },
+  {
     "bullets-vim/bullets.vim",
     ft = { "markdown", "text", "gitcommit", "scratch" },
     init = function()
@@ -11,7 +19,7 @@ return {
     'MeanderingProgrammer/render-markdown.nvim',
     ft = "markdown",
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-    opts = {},
+    opts = { latex = { enabled = false } },
   },
   {
     "OXY2DEV/helpview.nvim",
