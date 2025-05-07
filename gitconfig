@@ -6,12 +6,16 @@
 	reflog = delta
 	show = delta
   # pager = diff-so-fancy | less --tabs=4 -RFX
+[column]
+  ui = auto
 [user]
 	name = Alexander Steppke
 	email = alexander@remote.com
 	signingkey = 18C740F63953F199A0085AFB2B591E707DDD9CE2
 [push]
-	default = current
+	default = simple
+	autoSetupRemote = true
+	followTags = true
 [alias]
 	llog = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
 	br = branch
@@ -48,6 +52,7 @@
 [commit]
 	template = ~/.gitCommitMsg
 	gpgsign = true
+	verbose = true
 [color "diff-highlight"]
 	oldNormal = red bold
 	oldHighlight = red bold 52
@@ -64,7 +69,7 @@
 	diffFilter = delta --color-only  --features=interactive
 [merge]
 	ff = only
-	conflictstyle = diff3
+	conflictstyle = zdiff3
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
@@ -73,15 +78,19 @@
 	trustExitCode = true
 [tag]
 	forceSignAnnotated = true
+	sort = version:refname
 [gpg]
 	program = /usr/local/MacGPG2/bin/gpg
 [pull]
 	rebase = true
 [fetch]
 	prune = true
+	pruneTags = true
+	all = true
 [branch]
 	autoSetupMerge = true
 	autoSetupRebase = always
+	sort = -committerdate
 [filter "lfs"]
 	required = true
 	clean = git-lfs clean -- %f
@@ -107,3 +116,17 @@
 
 [delta "interactive"]
 	keep-plus-minus-markers = false
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
+[help]
+	autocorrect = prompt
+[rerere]
+	enabled = true
+	autoupdate = true
+[rebase]
+	autoSquash = true
+	autoStash = true
+	updateRefs = true

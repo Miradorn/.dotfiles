@@ -24,6 +24,7 @@ local opts = {
   swapfile = false,
   showbreak = "↪\\",
   list = true,
+  winborder = "rounded",
   listchars = {
     tab = "» ",
     extends = "›",
@@ -65,13 +66,22 @@ vim.opt.shortmess:append("s")
 vim.diagnostic.config {
   underline = true,
   update_in_insert = false,
-  virtual_text = { spacing = 4, prefix = "●" },
-  -- virtual_lines = true,
+  virtual_text = true,
+  virtual_lines = false,
   severity_sort = true,
-  float = { border = "single" },
+  -- float = { border = "single" },
+  signs = {
+    text = {
+      [vim.diagnostic.severity.HINT] = '',
+      [vim.diagnostic.severity.INFO] = '',
+      [vim.diagnostic.severity.WARN] = '',
+      [vim.diagnostic.severity.ERROR] = '',
+    },
+    -- texthl = {
+    --   [vim.diagnostic.severity.HINT] = 'DiagnosticSignHint',
+    --   [vim.diagnostic.severity.INFO] = 'DiagnosticSignInfo',
+    --   [vim.diagnostic.severity.WARN] = 'DiagnosticSignWarn',
+    --   [vim.diagnostic.severity.ERROR] = 'DiagnosticSignError',
+    -- }
+  }
 }
-
-vim.fn.sign_define("DiagnosticSignError", { text = "", texthl = "DiagnosticSignError" })
-vim.fn.sign_define("DiagnosticSignWarn", { text = "", texthl = "DiagnosticSignWarn" })
-vim.fn.sign_define("DiagnosticSignInformation", { text = "", texthl = "DiagnosticSignInfo" })
-vim.fn.sign_define("DiagnosticSignHint", { text = "", texthl = "DiagnosticSignHint" })

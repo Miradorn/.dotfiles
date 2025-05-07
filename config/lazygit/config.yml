@@ -18,5 +18,3 @@ keybinding:
   commits:
     moveDownCommit: '<c-d>'
     moveUpCommit: '<c-u>'
-os:
-  openLink: open "$(echo "{{link}}" | sed 's/%2F/\//g')"

@@ -1,4 +1,5 @@
 local schemas = require("schemastore").json.schemas()
+local util = require 'lspconfig.util'
 
 return {
   bashls = {},
@@ -15,6 +16,7 @@ return {
   --   }
   -- },
   erlangls = {},
+  lexical = { cmd = { "lexical" } },
   graphql = {},
   html = {},
   marksman = {},
@@ -24,6 +26,7 @@ return {
   -- tailwindcss = {},
   terraformls = {},
   ts_ls = {
+    root_markers = { '.git' },
     settings = {
       javascript = {
         inlayHints = {

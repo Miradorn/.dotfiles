@@ -40,7 +40,7 @@ eval "$(mise activate zsh)"
 # see https://github.com/jdx/mise/issues/3099
 export MISE_LIBGIT2=false
 
-plugins=(brew git git-open npm macos mix extract kubectl gh)
+plugins=(brew git git-open npm macos mix mix-fast extract kubectl gh)
 
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'

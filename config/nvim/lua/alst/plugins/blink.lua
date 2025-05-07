@@ -46,7 +46,10 @@ return {
         completion = {
           menu = {
             auto_show = true,
-          }
+          },
+          list = {
+            selection = { preselect = false, auto_insert = true }
+          },
         },
         -- optionally disable cmdline completions
         -- sources = {},
@@ -55,6 +58,9 @@ return {
         sources = { 'path' },
       },
       completion = {
+        keyword = {
+          range = "full"
+        },
         list = {
           selection = { preselect = false, auto_insert = true }
         },
@@ -65,10 +71,10 @@ return {
           },
         },
         menu = {
-          border = "rounded",
+          -- border = "rounded",
           draw = {
             treesitter = { "lsp" },
-            columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind", gap = 1 } },
+            columns = { { "label", "label_description", gap = 3 }, { "kind_icon", "kind", gap = 1 } },
             components = {
               kind_icon = {
                 ellipsis = false,
@@ -94,6 +100,8 @@ return {
         },
         ghost_text = {
           enabled = false,
+          show_without_selection = true,
+
         },
       },
 
@@ -114,15 +122,8 @@ return {
         -- default = { 'lsp', 'path', 'snippets', 'buffer' },
         per_filetype = {
           lua = { 'lazydev', 'lsp', 'path', 'buffer' },
-          markdown = { 'markdown', 'lsp', 'path', 'buffer' },
         },
         providers = {
-          markdown = {
-            name = 'RenderMarkdown',
-            module = 'render-markdown.integ.blink',
-            fallbacks = { 'lsp' },
-
-          },
           lazydev = {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
@@ -133,10 +134,10 @@ return {
 
       -- experimental signature help support
       signature = {
-        enabled = false,
-        window = {
-          border = "rounded"
-        }
+        enabled = true,
+        -- window = {
+        --   border = "rounded"
+        -- }
       },
     },
     -- allows extending the providers array elsewhere in your config

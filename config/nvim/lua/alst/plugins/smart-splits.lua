@@ -1,5 +1,6 @@
 return {
   {
+    lazy = false,
     "mrjones2014/smart-splits.nvim",
     keys = {
       {

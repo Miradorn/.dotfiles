@@ -5,46 +5,8 @@ return {
     dependencies = {
       "folke/trouble.nvim",
       "folke/noice.nvim",
-      -- {
-      --   "stevearc/aerial.nvim",
-      --   keys = {
-      --     { "<Leader>go", ":AerialToggle right<CR>",  silent = true, desc = "Aerial" },
-      --     { "<Leader>gO", ":AerialToggle! right<CR>", silent = true, desc = "Aerial" },
-      --   },
-      --   cmd = {
-      --     "AerialToggle",
-      --     "AerialOpen",
-      --     "AerialOpenAll",
-      --     "AerialClose",
-      --     "AerialCloseAll",
-      --     "AerialInfo",
-      --     "AerialNavToggle",
-      --     "AerialNavOpen",
-      --     "AerialNavClose",
-      --   },
-      --   opts = {
-      --     layout = {
-      --       placement = "edge",
-      --       min_width = 45,
-      --       default_direction = "right",
-      --     },
-      --     attach_mode = "global",
-      --     update_events = "TextChanged,InsertLeave,WinEnter,WinLeave",
-      --     filter_kind = false,
-      --   },
-      -- },
     },
     opts = function()
-      local lsp_names = function()
-        local clients = {}
-
-        for _, client in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
-          clients[#clients + 1] = client.name
-        end
-
-        return table.concat(clients, " "), " "
-      end
-
       local function show_macro_recording()
         local recording_register = vim.fn.reg_recording()
         if recording_register == "" then
@@ -80,6 +42,7 @@ return {
               "help",
               "packer",
               "startify",
+              "snacks_picker_list"
             },
           },
           always_divide_middle = true,
@@ -107,7 +70,8 @@ return {
             "progress",
             "encoding",
             "fileformat",
-            { lsp_names, icon = "󰀴" },
+            { "lsp_status", icon = "󰀴" },
+
           },
           lualine_y = { "b:gitsigns_status" },
           lualine_z = { "branch" },

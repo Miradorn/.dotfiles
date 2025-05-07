@@ -58,6 +58,7 @@ return {
     },
     opts = {
       debug = false, -- Enable debugging
+      model = "claude-3.7-sonnet",
       window = {
         layout = "float",
         relative = "win"
@@ -65,7 +66,7 @@ return {
     },
     keys = {
       {
-        "<leader>sc",
+        "<leader>cc",
         function()
           local actions = require("CopilotChat.actions")
           require("CopilotChat.integrations.snacks").pick(actions.prompt_actions())
@@ -81,7 +82,6 @@ return {
       "CopilotChatReset",
       "CopilotChatSave",
       "CopilotChatLoad",
-      "CopilotChatDebugInfo",
       "CopilotChatModels",
       "CopilotChatModel",
       "CopilotChatExplain",

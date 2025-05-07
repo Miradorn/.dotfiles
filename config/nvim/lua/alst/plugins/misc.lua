@@ -1,11 +1,25 @@
 return {
+  -- {
+  --   "AckslD/nvim-neoclip.lua",
+  --   lazy = false,
+  --   dependencies = {
+  --     { "kkharji/sqlite.lua" },
+  --   },
+  --   config = true
+  -- },
   {
-    "AckslD/nvim-neoclip.lua",
-    lazy = false,
-    dependencies = {
-      { "kkharji/sqlite.lua" },
+    "gbprod/yanky.nvim",
+    dependencies = { "kkharji/sqlite.lua", "folke/snacks.nvim" },
+    event = "VeryLazy",
+
+    opts = {
+      history_length = 1000,
+      storage = "sqlite",
+
     },
-    config = true
+    keys = {
+      { "<Leader>ty", function() Snacks.picker.yanky() end, desc = "yank history" },
+    }
   },
   {
     "bullets-vim/bullets.vim",
@@ -19,7 +33,10 @@ return {
     'MeanderingProgrammer/render-markdown.nvim',
     ft = "markdown",
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-    opts = { latex = { enabled = false } },
+    opts = {
+      latex = { enabled = false },
+      completions = { lsp = { enabled = true } },
+    },
   },
   {
     "OXY2DEV/helpview.nvim",
@@ -28,7 +45,14 @@ return {
       "nvim-treesitter/nvim-treesitter"
     }
   },
-  { "mhinz/vim-startify", lazy = false },
+  {
+    "mhinz/vim-startify",
+    lazy = false,
+    init = function()
+      -- may set any options here
+      vim.g.startify_change_to_dir = 0
+    end,
+  },
   -- { "wellle/targets.vim",      event = "VeryLazy" },
   -- { "MunifTanjim/nui.nvim", event = "VeryLazy" },
   { "tpope/vim-repeat",   event = "VeryLazy" },
@@ -76,13 +100,13 @@ return {
     "tpope/vim-sleuth",
     event = "VeryLazy",
   },
-  {
-    "ahmedkhalf/project.nvim",
-    lazy = false,
-    config = function()
-      require("project_nvim").setup()
-    end,
-  },
+  -- {
+  --   "ahmedkhalf/project.nvim",
+  --   lazy = false,
+  --   config = function()
+  --     require("project_nvim").setup()
+  --   end,
+  -- },
   { "tpope/vim-projectionist",   lazy = false },
   -- { "kevinhwang91/nvim-bqf",   ft = "qf" },
   -- { "yorickpeterse/nvim-pqf",  ft = "qf",   config = function() require "pqf".setup() end }

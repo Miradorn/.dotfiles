@@ -22,3 +22,4 @@ packs-test
 .envrc
 .nlsp-settings/
 .neoconf.json
+.mix_tasks

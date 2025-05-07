@@ -1,13 +1,13 @@
 [tools]
-node = "18.18.2"
+node = "22.14.0"
 yarn = "1.22.19"
 postgres = "14.9"
-erlang = "27.2"
+erlang = "27.2.4"
 elixir = "1.18.2-otp-27"
 remotectl = "latest"
 rust = "nightly"
 ruby = "3.4.1"
-neovim = "nightly"
+neovim = "0.11"
 rebar = "3.24.0"
 
 [settings]

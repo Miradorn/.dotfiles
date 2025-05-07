@@ -1,6 +1,6 @@
 return {
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonLog", "MasonUpdate", "MasonUninstallAll" },
     keys = { { "<leader>mu", "<cmd>Mason<cr>", desc = "Mason" } },
     opts = {

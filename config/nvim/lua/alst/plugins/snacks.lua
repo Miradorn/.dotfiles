@@ -10,11 +10,15 @@ return {
       explorer = {
         replace_netrw = true, -- Replace netrw with the snacks explorer
       },
+      styles = {
+        input = {
+          row = false
+        }
+      },
       bigfile = { enabled = true },
       image = { enabled = true },
       picker = {
-        enabled = true,
-        layout = "telescope",
+        enabled = true, layout = "telescope",
         matcher = {
           frecency = true
         },
@@ -30,9 +34,26 @@ return {
         actions = require("trouble.sources.snacks").actions,
         sources = {
           explorer = {
-            layout = { preset = "default", preview = false },
             auto_close = true,
-            jump = { close = true }
+            win = {
+              list = {
+                keys = {
+                  ['/'] = false,
+                },
+              },
+            },
+            layout = {
+              cycle = false,
+              layout = {
+                box = 'horizontal',
+                position = 'float',
+                height = 0.9,
+                width = 0.9,
+                border = 'rounded',
+                { win = 'list' },
+                { win = 'preview', width = 0, border = 'left' },
+              },
+            },
           }
         },
         win = {
@@ -59,7 +80,7 @@ return {
         left = { "mark", "sign" }, -- priority of signs on the left (high to low)
         right = { "fold", "git" }, -- priority of signs on the right (high to low)
         folds = {
-open = true,             -- show open fold icons
+          open = true,             -- show open fold icons
           git_hl = true,           -- use Git Signs hl for fold icons
         },
         git = {
@@ -74,6 +95,7 @@ open = true,             -- show open fold icons
       { "<leader>tt",  function() Snacks.terminal() end,                        desc = "ToggleTerm" },
       { "<leader>tm",  function() Snacks.picker.notifications() end,            desc = "Show notification history" },
       { "<leader>ss",  function() Snacks.picker() end,                          desc = "Snacks pickers" },
+      { "<leader>sr",  function() Snacks.picker.recent() end,                   desc = "Snacks most recent picker" },
       { "<C-p>",       function() Snacks.picker.files { follow = true } end,    desc = "Show File Picker" },
       { "<Leader>td",  function() Snacks.picker.diagnostics() end,              desc = "Diagnostics picker" },
       { "<Leader>bf",  function() Snacks.picker.buffers() end,                  desc = "Buffer picker" },
@@ -81,7 +103,7 @@ open = true,             -- show open fold icons
       { "<Leader>gbr", function() Snacks.picker.git_branches() end,             desc = "Git Commits picker" },
       { "<Leader>gbc", function() Snacks.picker.git_log_file() end,             desc = "Git Buffer Commits picker" },
       { "<Leader>gs",  function() Snacks.picker.git_status() end,               desc = "Git status picker" },
-      { "<Leader>ty",  function() Snacks.picker.registers() end,                desc = "Registers" },
+      -- { "<Leader>ty",  function() Snacks.picker.registers() end,                desc = "Registers" },
       { "<Leader>tk",  function() Snacks.picker.keymaps() end,                  desc = "Keymap picker" },
       { "<C-f>",       function() Snacks.picker.grep { live = false } end,      desc = "Live Grep picker" },
       { "<leader>tg",  function() Snacks.picker.grep { live = false } end,      desc = "Live Grep picker" },

@@ -33,7 +33,7 @@ return {
               row = 3,
             },
             border = {
-              style = "double",
+              style = "none",
             },
             win_options = {
               winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
@@ -41,6 +41,9 @@ return {
           },
         },
         lsp = {
+          progress = {
+            enabled = false,
+          },
           override = {
             ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
             ["vim.lsp.util.stylize_markdown"] = true,
