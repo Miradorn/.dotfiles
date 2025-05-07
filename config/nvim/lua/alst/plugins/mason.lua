@@ -11,6 +11,7 @@ return {
         "flake8",
       },
     },
+    lazy = false,
     config = function(plugin, opts)
       require("mason").setup(opts)
 
