@@ -1,5 +1,3 @@
-erqrqreqr.asd()
-
 return {
     settings = {
       elixirls = {

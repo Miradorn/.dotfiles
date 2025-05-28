@@ -1,12 +1,4 @@
 return {
-  -- {
-  --   "AckslD/nvim-neoclip.lua",
-  --   lazy = false,
-  --   dependencies = {
-  --     { "kkharji/sqlite.lua" },
-  --   },
-  --   config = true
-  -- },
   {
     "gbprod/yanky.nvim",
     dependencies = { "kkharji/sqlite.lua", "folke/snacks.nvim" },
@@ -19,7 +11,18 @@ return {
     },
     keys = {
       { "<Leader>ty", function() Snacks.picker.yanky() end, desc = "yank history" },
+      { "<A-y>",      function() Snacks.picker.yanky() end, desc = "yank history", mode = { "i" } },
     }
+  },
+  {
+    "chrisgrieser/nvim-origami",
+    event = "VeryLazy",
+    opts = {
+      foldKeymaps = {
+        setup = false, -- modifies `h` and `l`
+        hOnlyOpensOnFirstColumn = false,
+      },
+    },
   },
   {
     "bullets-vim/bullets.vim",
@@ -55,7 +58,7 @@ return {
   },
   -- { "wellle/targets.vim",      event = "VeryLazy" },
   -- { "MunifTanjim/nui.nvim", event = "VeryLazy" },
-  { "tpope/vim-repeat",   event = "VeryLazy" },
+  { "tpope/vim-repeat",          event = "VeryLazy" },
   {
     "andymass/vim-matchup",
     event = "VeryLazy",
@@ -107,7 +110,7 @@ return {
   --     require("project_nvim").setup()
   --   end,
   -- },
-  { "tpope/vim-projectionist",   lazy = false },
+  { "tpope/vim-projectionist", lazy = false },
   -- { "kevinhwang91/nvim-bqf",   ft = "qf" },
   -- { "yorickpeterse/nvim-pqf",  ft = "qf",   config = function() require "pqf".setup() end }
 }

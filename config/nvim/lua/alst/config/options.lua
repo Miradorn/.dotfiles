@@ -51,8 +51,9 @@ local opts = {
   -- folds
   foldenable = true,
   foldmethod = "expr",
-  foldexpr = "nvim_treesitter#foldexpr()",
+  foldexpr = "v:lua.vim.treesitter.foldexpr()",
   foldlevel = 99,
+  foldlevelstart = 99,
   foldcolumn = "0",
 }
 

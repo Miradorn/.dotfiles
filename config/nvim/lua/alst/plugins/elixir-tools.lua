@@ -49,8 +49,8 @@ return {
         end,
       },
       elixirls = {
-        enable = false,
-        tag = "v0.27.2", -- defaults to nil, mutually exclusive with the `branch` option
+        enable = true,
+        tag = "v0.28.0", -- defaults to nil, mutually exclusive with the `branch` option
         -- -- cmd = "/Users/alexander/.local/bin/elixir-ls/language_server.sh",
         settings = elixirls.settings({
           dialyzerEnabled = false,

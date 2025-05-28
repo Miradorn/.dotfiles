@@ -61,13 +61,6 @@ return {
         desc = "Resize split down",
       },
 
-      {
-        "<A-w>",
-        function()
-          require("smart-splits").start_resize_mode()
-        end,
-        desc = "Start resize mode",
-      },
       -- {
       --   "<A-H>",
       --   function()

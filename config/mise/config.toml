@@ -1,7 +1,7 @@
 [tools]
 node = "22.14.0"
 yarn = "1.22.19"
-postgres = "14.9"
+postgres = "14.15"
 erlang = "27.2.4"
 elixir = "1.18.2-otp-27"
 remotectl = "latest"

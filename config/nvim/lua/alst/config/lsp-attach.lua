@@ -12,7 +12,7 @@ function M.on_attach(args)
     if vim.diagnostic.config().virtual_lines then
       vim.diagnostic.config { virtual_lines = false, virtual_text = true }
     else
-      vim.diagnostic.config { virtual_lines = {current_line = true}, virtual_text = false }
+      vim.diagnostic.config { virtual_lines = { current_line = true }, virtual_text = false }
     end
   end, { desc = "Line Diagnostics" })
   self:map("gd", function() Snacks.picker.lsp_definitions { auto_confirm = false } end, { desc = "Goto Definition" })
@@ -30,13 +30,13 @@ function M.on_attach(args)
 
   self:map("<leader>ff", format, { desc = "Format Document", has = "documentFormatting" })
   self:map("<leader>ff", format, { desc = "Format Range", mode = "v", has = "documentRangeFormatting" })
-  self:map("<leader>rn", vim.lsp.buf.rename, { desc = "Rename", has = "rename", has = false })
+  self:map("<leader>rn", vim.lsp.buf.rename, { desc = "Rename", has = "rename" })
 
   if self:has("inlayHint") then
     -- vim.lsp.inlay_hint.enable(true, { bufnr = 0 })
     self:map("<leader>I",
       function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 }) end,
-      { desc = "Toggle Inlay Hints", desc = "aaa" })
+      { desc = "Toggle Inlay Hints" })
   end
 end
 
