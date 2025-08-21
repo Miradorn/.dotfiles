@@ -1,0 +1,25 @@
+layout {
+  default_tab_template hide_floating_panes=true {
+    // the default zellij tab-bar and status bar plugins
+    pane size=1 borderless=true {
+      plugin location="tab-bar"
+    }
+    children
+
+    pane size=1 borderless=true {
+      plugin location="status-bar"
+    }
+  }
+
+  cwd "/Users/alexander/projects/remote/employ/dragon/"
+
+  tab  name="vi" hide_floating_panes=true {
+    pane command="nvim" borderless=true
+  }
+
+  tab name="dev"  hide_floating_panes=true {
+    // children
+    pane
+    pane
+  }
+}

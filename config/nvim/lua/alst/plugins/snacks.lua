@@ -18,7 +18,8 @@ return {
       bigfile = { enabled = true },
       image = { enabled = true },
       picker = {
-        enabled = true, layout = "telescope",
+        enabled = true,
+        layout = "telescope",
         matcher = {
           frecency = true
         },
@@ -92,31 +93,46 @@ return {
       notifier = { enabled = true }
     },
     keys = {
-      { "<leader>tt",  function() Snacks.terminal() end,                        desc = "ToggleTerm" },
-      { "<leader>tm",  function() Snacks.picker.notifications() end,            desc = "Show notification history" },
-      { "<leader>ss",  function() Snacks.picker() end,                          desc = "Snacks pickers" },
-      { "<leader>sr",  function() Snacks.picker.recent() end,                   desc = "Snacks most recent picker" },
-      { "<C-p>",       function() Snacks.picker.files { follow = true } end,    desc = "Show File Picker" },
-      { "<Leader>td",  function() Snacks.picker.diagnostics() end,              desc = "Diagnostics picker" },
-      { "<Leader>bf",  function() Snacks.picker.buffers() end,                  desc = "Buffer picker" },
-      { "<Leader>gc",  function() Snacks.picker.git_log() end,                  desc = "Git Commits picker" },
-      { "<Leader>gbr", function() Snacks.picker.git_branches() end,             desc = "Git Commits picker" },
-      { "<Leader>gbc", function() Snacks.picker.git_log_file() end,             desc = "Git Buffer Commits picker" },
-      { "<Leader>gs",  function() Snacks.picker.git_status() end,               desc = "Git status picker" },
+      -- { "<leader>tt",  function() Snacks.terminal() end,                                    desc = "ToggleTerm" },
+      { "<leader>tt",  function() Snacks.terminal(nil, { win = { position = "float", border = 'rounded' } }) end, desc = "ToggleTerm" },
+      { "<leader>tm",  function() Snacks.picker.notifications() end,                                               desc = "Show notification history" },
+      { "<leader>ss",  function() Snacks.picker() end,                                                             desc = "Snacks pickers" },
+      { "<leader>sr",  function() Snacks.picker.recent() end,                                                      desc = "Snacks most recent picker" },
+      { "<C-p>",       function() Snacks.picker.smart { follow = true } end,                                       desc = "Show File Picker" },
+      { "<Leader>td",  function() Snacks.picker.diagnostics() end,                                                 desc = "Diagnostics picker" },
+      { "<Leader>bf",  function() Snacks.picker.buffers() end,                                                     desc = "Buffer picker" },
+      { "<Leader>gc",  function() Snacks.picker.git_log() end,                                                     desc = "Git Commits picker" },
+      { "<Leader>gbr", function() Snacks.picker.git_branches() end,                                                desc = "Git Commits picker" },
+      { "<Leader>gbc", function() Snacks.picker.git_log_file() end,                                                desc = "Git Buffer Commits picker" },
+      { "<Leader>gs",  function() Snacks.picker.git_status() end,                                                  desc = "Git status picker" },
       -- { "<Leader>ty",  function() Snacks.picker.registers() end,                desc = "Registers" },
-      { "<Leader>tk",  function() Snacks.picker.keymaps() end,                  desc = "Keymap picker" },
-      { "<C-f>",       function() Snacks.picker.grep { live = false } end,      desc = "Live Grep picker" },
-      { "<leader>tg",  function() Snacks.picker.grep { live = false } end,      desc = "Live Grep picker" },
-      { "<leader>*",   function() Snacks.picker.grep_word { live = false } end, desc = "Grep word under cursor",   mode = { "n", "v" } },
-      { "<leader>gu",  function() Snacks.picker.undo() end,                     desc = "Grep word under cursor",   mode = { "n", "v" } },
-      { "<leader>n",   function() Snacks.explorer() end,                        desc = "explorer" },
-      { "<leader>N",   function() Snacks.explorer.reveal() end,                 desc = "reveal in explorer" },
+      { "<Leader>tk",  function() Snacks.picker.keymaps() end,                                                     desc = "Keymap picker" },
+      { "<C-f>",       function() Snacks.picker.grep { live = false } end,                                         desc = "Live Grep picker" },
+      { "<leader>tg",  function() Snacks.picker.grep { live = false } end,                                         desc = "Live Grep picker" },
+      { "<leader>*",   function() Snacks.picker.grep_word { live = false } end,                                    desc = "Grep word under cursor",   mode = { "n", "v" } },
+      { "<leader>gu",  function() Snacks.picker.undo() end,                                                        desc = "Grep word under cursor",   mode = { "n", "v" } },
+      { "<leader>n",   function() Snacks.explorer() end,                                                           desc = "explorer" },
+      { "<leader>N",   function() Snacks.explorer.reveal() end,                                                    desc = "reveal in explorer" },
       {
         "<leader>evv",
         function()
           Snacks.picker.files { cwd = "~/.dotfiles/config/nvim/", follow = true }
         end,
         desc = "Neovim config picker",
+      },
+      {
+        "<leader>ezz",
+        function()
+          Snacks.picker.files { cwd = "~/.dotfiles/config/zellij/", follow = true }
+        end,
+        desc = "zellij config picker",
+      },
+      {
+        "<leader>ecc",
+        function()
+          Snacks.picker.files { cwd = "~/.dotfiles/", follow = true }
+        end,
+        desc = "Config picker",
       },
       -- { "<esc>",      "<C-\\><C-n>",      desc = "Escape terminal insert mode", mode = { "t" } },
     },

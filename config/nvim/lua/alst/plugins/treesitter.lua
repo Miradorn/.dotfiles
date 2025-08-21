@@ -49,6 +49,7 @@ return {
         "graphql",
         "hcl",
         "heex",
+        "helm",
         -- "help",
         "hjson",
         "html",

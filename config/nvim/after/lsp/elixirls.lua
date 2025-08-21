@@ -1,10 +1,10 @@
 return {
     settings = {
-      elixirls = {
+      elixirLS = {
         dialyzerEnabled = false,
         enableTestLenses = false,
         suggestSpecs = true,
-        fetchDeps = true,
+        fetchDeps = false,
       }
     }
 }

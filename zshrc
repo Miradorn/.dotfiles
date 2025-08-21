@@ -40,7 +40,8 @@ eval "$(mise activate zsh)"
 # see https://github.com/jdx/mise/issues/3099
 export MISE_LIBGIT2=false
 
-plugins=(brew git git-open npm macos mix mix-fast extract kubectl gh)
+eval "$(/opt/homebrew/bin/brew shellenv)"
+plugins=(git git-open npm macos mix mix-fast extract kubectl gh)
 
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
@@ -83,9 +84,6 @@ source $ZSH/oh-my-zsh.sh
 
 if type brew &>/dev/null; then
     FPATH="$(brew --prefix)/share/zsh-completions:$(brew --prefix)/share/zsh/site-functions:$FPATH"
-
-    # autoload -Uz compinit
-    compinit
   fi
 
 # FZF (has to come after oh-my-zsh)

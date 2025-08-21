@@ -60,19 +60,16 @@ return {
       debug = false, -- Enable debugging
       model = "claude-3.7-sonnet",
       window = {
-        layout = "float",
-        relative = "win"
-      }
+        layout = "vertical",
+      },
+      mappings = {
+        complete = {
+          insert = "<Tab>",
+        },
+      },
     },
     keys = {
-      {
-        "<leader>cc",
-        function()
-          local actions = require("CopilotChat.actions")
-          require("CopilotChat.integrations.snacks").pick(actions.prompt_actions())
-        end,
-        desc = "CopilotChat - Prompt actions",
-      },
+      { "<leader>cc", "<CMD>CopilotChatToggle<CR>", desc = "CopilotChat - Prompt actions", },
     },
     cmd = {
       "CopilotChat",

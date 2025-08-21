@@ -18,6 +18,9 @@ return {
     "chrisgrieser/nvim-origami",
     event = "VeryLazy",
     opts = {
+      autoFold = {
+        enabled = false
+      },
       foldKeymaps = {
         setup = false, -- modifies `h` and `l`
         hOnlyOpensOnFirstColumn = false,
@@ -61,11 +64,16 @@ return {
   { "tpope/vim-repeat",          event = "VeryLazy" },
   {
     "andymass/vim-matchup",
-    event = "VeryLazy",
-    init = function()
+    lazy = false,
+    opts = {
       -- may set any options here
-      vim.g.matchup_matchparen_offscreen = {}
-    end,
+      treesitter = {
+        -- enabled = false,
+        disabled = { "elixir", "eex" },
+        include_match_words = true
+      },
+      matchparen_offscreen = {},
+    }
   },
   -- { "AndrewRadev/splitjoin.vim", event = "VeryLazy" },
   { "elixir-editors/vim-elixir", event = "VeryLazy" },
@@ -81,6 +89,22 @@ return {
   -- },
   {
     "monaqa/dial.nvim",
+    config = function()
+      local augend = require("dial.augend")
+
+      require("dial.config").augends:register_group {
+        default = {
+          augend.integer.alias.decimal,
+          augend.integer.alias.hex,
+          augend.date.alias["%Y/%m/%d"],
+          augend.date.alias["%Y-%m-%d"],
+          augend.date.alias["%m/%d"],
+          augend.date.alias["%H:%M"],
+          augend.constant.alias.bool,
+          augend.semver.alias.semver
+        },
+      }
+    end,
     keys = {
       { "<C-a>", "<Plug>(dial-increment)" },
       { "<C-x>", "<Plug>(dial-decrement)" },
@@ -113,4 +137,55 @@ return {
   { "tpope/vim-projectionist", lazy = false },
   -- { "kevinhwang91/nvim-bqf",   ft = "qf" },
   -- { "yorickpeterse/nvim-pqf",  ft = "qf",   config = function() require "pqf".setup() end }
+  {
+    "qvalentin/helm-ls.nvim",
+    ft = "helm",
+    opts = {
+      conceal_templates = {
+        -- enable the replacement of templates with virtual text of their current values
+        enabled = false, -- this might change to false in the future
+      },
+      indent_hints = {
+        -- enable hints for indent and nindent functions
+        enabled = false,
+        -- show the hints only for the line the cursor is on
+        only_for_current_line = false,
+      },
+    },
+  },
+  {
+    "swaits/zellij-nav.nvim",
+    event = "VeryLazy", -- Lazy load plugin for improved startup times
+    keys = {
+      {
+        "<C-h>",
+        function()
+          require("zellij-nav").left()
+        end,
+        desc = "Move one split left",
+      },
+      {
+        "<C-k>",
+        function()
+          require("zellij-nav").up()
+        end,
+        desc = "Move one split up",
+      },
+      {
+        "<C-l>",
+        function()
+          require("zellij-nav").right()
+        end,
+        desc = "Move one split right",
+      },
+      {
+        "<C-j>",
+        function()
+          require("zellij-nav").down()
+        end,
+        desc = "Move one split down",
+      },
+
+    },
+  }
 }

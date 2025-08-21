@@ -1,0 +1,51 @@
+layout {
+  default_tab_template hide_floating_panes=true {
+    // the default zellij tab-bar and status bar plugins
+    pane size=1 borderless=true {
+      plugin location="tab-bar"
+    }
+    children
+
+    pane size=1 borderless=true {
+      plugin location="status-bar"
+    }
+  }
+
+  swap_floating_layout {
+    floating_panes exact_panes=1 {
+      pane {
+        command "lazygit"
+        close_on_exit true
+        x "5%"
+        y "5%"
+        width "90%"
+        height "90%"
+      }
+    }
+    }
+
+  cwd "/Users/alexander/projects/remote/employ/tiger/"
+
+
+  tab  name="vi" hide_floating_panes=true {
+    // children
+    pane command="nvim" borderless=true
+  }
+
+  tab name="dev" hide_floating_panes=true {
+    pane split_direction="vertical" {
+      pane {
+        command "pg_ctl"
+        args "start"
+      }
+      pane {
+        command "zsh"
+        args "-c"  "iex -S mix phx.server"
+      }
+    }
+    pane split_direction="vertical" {
+      pane
+      pane
+    }
+  }
+}

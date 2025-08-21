@@ -39,9 +39,19 @@ return {
           hl.Comment = {
             fg = c.fg_dark,
           }
+          hl.BlinkCmpGhostText = {
+            fg = c.fg_dark
+          }
+          hl.CopilotSuggestion = {
+            fg = c.fg_dark
+          }
+          hl.SnacksPickerDir = {
+            fg = c.fg_dark,
+          }
           hl.DiagnosticUnnecessary = {
             fg = c.fg_dark,
           }
+          hl.Search = { bg = c.bg_visual }
         end,
       })
 

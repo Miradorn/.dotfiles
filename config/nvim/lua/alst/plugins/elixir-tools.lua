@@ -49,14 +49,14 @@ return {
         end,
       },
       elixirls = {
-        enable = true,
-        tag = "v0.28.0", -- defaults to nil, mutually exclusive with the `branch` option
+        enable = false,
+        tag = "v0.28.1", -- defaults to nil, mutually exclusive with the `branch` option
         -- -- cmd = "/Users/alexander/.local/bin/elixir-ls/language_server.sh",
         settings = elixirls.settings({
           dialyzerEnabled = false,
           enableTestLenses = false,
           suggestSpecs = true,
-          fetchDeps = true,
+          fetchDeps = false,
         }),
         on_attach = function(client, bufnr)
           local keymap = require("legendary").keymap

@@ -133,7 +133,7 @@ return {
           { "k",          "gk" },
 
           -- edit configs
-          { "<leader>et", ":vsplit ~/.tmux.conf<cr>",               description = "Edit tmux config" },
+          { "<leader>et", ":vsplit ~/.config/zellij/config.kdl<cr>",               description = "Edit zellij config" },
           { "<leader>ez", ":vsplit ~/.zshrc<cr>",                   description = "Edit zshrc" },
           { "<leader>ek", ":vsplit ~/.config/kitty/kitty.conf<cr>", description = "edit kitty config" },
           { "<leader>eg", ":vsplit ~/.config/ghostty/config<cr>",   description = "edit ghostty config" },

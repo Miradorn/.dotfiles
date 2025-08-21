@@ -32,7 +32,7 @@ return {
         ['<C-c>'] = { 'cancel', 'fallback' },
       },
       enabled = function()
-        return not vim.tbl_contains({ "prompt", "telescopeprompt" }, vim.bo.buftype)
+        return not vim.tbl_contains({ "copilot-chat" }, vim.bo.filetype)
       end,
 
       cmdline = {
@@ -124,6 +124,8 @@ return {
           lua = { 'lazydev', 'lsp', 'path', 'buffer' },
         },
         providers = {
+          lsp = { timeout_ms = 1000, fallbacks = {}, async  = true, score_offset = 50 },
+          buffer = { score_offset = -5 },
           lazydev = {
             name = "LazyDev",
             module = "lazydev.integrations.blink",

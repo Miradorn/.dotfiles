@@ -37,7 +37,7 @@ return {
           disabled_filetypes = {
             winbar = {
               "alpha",
-              "blame",
+              -- "blame",
               "dashboard",
               "help",
               "packer",

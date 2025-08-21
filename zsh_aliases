@@ -20,15 +20,26 @@ function blogpost() {
 # ----------------
 # tmux
 # ----------------
-alias tmux="tmux -2 -u"
-alias ta="tmux attach -d -t"
-alias tp='tmuxp load'
-alias ta='tmux attach -t'
-alias tad='tmux attach -d -t'
-alias ts='tmux new-session -s'
-alias tl='tmux list-sessions'
-alias tksv='tmux kill-server'
-alias tkss='tmux kill-session -t'
+# alias tmux="tmux -2 -u"
+# alias tp='tmuxp load'
+# alias ta='tmux attach -t'
+# alias ts='tmux new-session -s'
+# alias tl='tmux list-sessions'
+# alias tksv='tmux kill-server'
+# alias tkss='tmux kill-session -t'
+
+# ----------------
+# zellij
+# ----------------
+alias z="zellij"
+alias tiger="zellij --new-session-with-layout=tiger --session=tiger"
+alias dragon="zellij --new-session-with-layout=dragon --session=dragon"
+alias za="zellij attach"
+alias zs='zellij --session'
+alias zl='zellij list-sessions'
+alias zdd='zellij delete-all-sessions --yes --force'
+alias zdss='zellij delete-session'
+alias zkss='zellij kill-session'
 
 # ----------------
 # vi
@@ -204,7 +215,6 @@ alias ag="ag --hidden"
 alias tower=gittower
 
 alias pj='npx projen'
-alias dig=dog
 
 function cdk-diff() {
   if ! [ -d "cdk.out" ]; then

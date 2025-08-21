@@ -9,6 +9,7 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
     lazy = false,
+    commit = "52fca6717ef972113ddd6ca223e30ad0abb2800c",
     opts = function()
       return {
         adapters = {
