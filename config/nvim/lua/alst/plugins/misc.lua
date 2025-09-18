@@ -69,7 +69,7 @@ return {
       -- may set any options here
       treesitter = {
         -- enabled = false,
-        disabled = { "elixir", "eex" },
+        -- disabled = { "elixir", "eex" },
         include_match_words = true
       },
       matchparen_offscreen = {},

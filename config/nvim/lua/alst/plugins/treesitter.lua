@@ -1,29 +1,19 @@
 return {
-  { "nvim-treesitter/playground", event = "BufReadPost" },
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    lazy = false,
     dependencies = {
-      "metiulekm/nvim-treesitter-endwise",
+      "RRethy/nvim-treesitter-endwise",
     },
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
-    cmd = {
-      "TSInstall",
-      "TSInstallSync",
-      "TSInstallInfo",
-      "TSUpdate",
-      "TSUpdateSync",
-      "TSUninstall",
-      "TSBufEnable",
-      "TSBufDisable",
-      "TSBufToggle",
-      "TSEnable",
-      "TSDisable",
-      "TSToggle",
-      "TSModuleInfo",
-      "TSEditQuery",
-      "TSEditQueryUserAfter",
-    },
+    cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
+  },
+  {
+    'MeanderingProgrammer/treesitter-modules.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    lazy = false,
     keys = {
       { "<A-v>", desc = "Start TS Selection" },
       { "<v>",   desc = "Increment Selection Node",  mode = "x" },
@@ -31,8 +21,6 @@ return {
       { "<V>",   desc = "Schrink selection",         mode = "x" },
     },
     opts = {
-      highlight = { enable = true },
-      indent = { enable = true },
       ensure_installed = {
         "bash",
         "c",
@@ -80,6 +68,9 @@ return {
         "vue",
         "yaml",
       },
+      fold = { enable = true },
+      highlight = { enable = true },
+      indent = { enable = true },
       incremental_selection = {
         enable = true,
         keymaps = {
@@ -89,54 +80,54 @@ return {
           node_decremental = "V",
         },
       },
-      matchup = { enable = true },
-      endwise = { enable = true },
-      -- textobjects = {
-      --   select = {
-      --     enable = true,
-      --
-      --     -- Automatically jump forward to textobj, similar to targets.vim
-      --     lookahead = true,
-      --
-      --     keymaps = {
-      --       ["aa"] = { query = "@parameter.outer", desc = "Select outer part of a parameter/argument" },
-      --       ["ia"] = { query = "@parameter.inner", desc = "Select inner part of a parameter/argument" },
-      --
-      --       ["ae"] = { query = "@block.outer", desc = "Select outer part of scope" },
-      --       ["ie"] = { query = "@block.inner", desc = "Select inner part of scope" },
-      --
-      --       ["ai"] = { query = "@conditional.outer", desc = "Select outer part of a conditional" },
-      --       ["ii"] = { query = "@conditional.inner", desc = "Select inner part of a conditional" },
-      --
-      --       ["am"] = { query = "@function.outer", desc = "Select outer part of a method/function definition" },
-      --       ["im"] = { query = "@function.inner", desc = "Select inner part of a method/function definition" },
-      --
-      --       ["ac"] = { query = "@class.outer", desc = "Select outer part of a class" },
-      --       ["ic"] = { query = "@class.inner", desc = "Select inner part of a class" },
-      --     },
-      --   },
-      -- },
     },
-    config = function(plugin, opts)
-      require("nvim-treesitter.configs").setup(opts)
-    end,
   },
-
-  -- {
-  --   "nvim-treesitter/nvim-treesitter-context",
-  --   dependencies = {
-  --     "nvim-treesitter/nvim-treesitter",
-  --   },
-  --   opts = {
-  --     mode = "topline"
-  --   },
-  --   event = { "BufReadPost", "BufNewFile" },
-  -- },
-  -- {
-  --   "nvim-treesitter/nvim-treesitter-textobjects",
-  --   dependencies = {
-  --     "nvim-treesitter/nvim-treesitter",
-  --   },
-  --   event = { "BufReadPost", "BufNewFile" },
-  -- },
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    branch = "main",
+    keys = {
+      {
+        "af",
+        function()
+          require("nvim-treesitter-textobjects.select").select_textobject("@function.outer", "textobjects")
+        end,
+        desc = "Select outer function",
+        mode = { "x", "o" },
+      },
+      {
+        "if",
+        function()
+          require("nvim-treesitter-textobjects.select").select_textobject("@function.inner", "textobjects")
+        end,
+        desc = "Select inner function",
+        mode = { "x", "o" },
+      },
+      {
+        "ac",
+        function()
+          require("nvim-treesitter-textobjects.select").select_textobject("@class.outer", "textobjects")
+        end,
+        desc = "Select outer class",
+        mode = { "x", "o" },
+      },
+      {
+        "ic",
+        function()
+          require("nvim-treesitter-textobjects.select").select_textobject("@class.inner", "textobjects")
+        end,
+        desc = "Select inner class",
+        mode = { "x", "o" },
+      },
+      {
+        "as",
+        function()
+          require("nvim-treesitter-textobjects.select").select_textobject("@local.scope", "locals")
+        end,
+        desc = "Select local scope",
+        mode = { "x", "o" },
+      },
+    },
+    ---@module "nvim-treesitter-textobjects"
+    opts = { multiwindow = true },
+  },
 }
