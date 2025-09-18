@@ -41,13 +41,13 @@ return {
       },
     },
   },
-  {
-    "folke/neoconf.nvim",
-    cmd = "Neoconf",
-    opts = {
-      import = { vscode = false }
-    }
-  },
+  -- {
+  --   "folke/neoconf.nvim",
+  --   cmd = "Neoconf",
+  --   opts = {
+  --     import = { vscode = false }
+  --   }
+  -- },
   {
     "mhanberg/output-panel.nvim",
     event = "VeryLazy",

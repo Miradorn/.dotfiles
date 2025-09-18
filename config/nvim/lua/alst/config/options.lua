@@ -55,6 +55,7 @@ local opts = {
   foldlevel = 99,
   foldlevelstart = 99,
   foldcolumn = "0",
+  exrc = true
 }
 
 for k, v in pairs(opts) do

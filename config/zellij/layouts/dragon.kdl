@@ -10,6 +10,18 @@ layout {
       plugin location="status-bar"
     }
   }
+  swap_floating_layout {
+    floating_panes exact_panes=1 {
+      pane {
+        command "lazygit"
+        close_on_exit true
+        x "5%"
+        y "5%"
+        width "90%"
+        height "90%"
+      }
+    }
+  }
 
   cwd "/Users/alexander/projects/remote/employ/dragon/"
 

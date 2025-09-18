@@ -1,6 +1,6 @@
 return {
   -- {
-  --   "echasnovski/mini.starter",
+  --   "nvim-mini/mini.starter",
   --   lazy = false,
   --   config = function()
   --     local header_art = [[
@@ -32,18 +32,28 @@ return {
   --   end,
   -- },
   {
-    'echasnovski/mini.ai',
+    'nvim-mini/mini.ai',
     event = "VeryLazy",
     config = true,
   },
   {
-    "echasnovski/mini.tabline",
-    event = "VeryLazy",
-    config = true,
-    dependencies = { "echasnovski/mini.icons" },
+    "nvim-mini/mini.diff",
+    config = function()
+      local diff = require("mini.diff")
+      diff.setup({
+        -- Disabled by default
+        source = diff.gen_source.none(),
+      })
+    end,
   },
   {
-    "echasnovski/mini.surround",
+    "nvim-mini/mini.tabline",
+    event = "VeryLazy",
+    config = true,
+    dependencies = { "nvim-mini/mini.icons" },
+  },
+  {
+    "nvim-mini/mini.surround",
     keys = function(plugin, keys)
       -- Populate the keys based on the user's options
       local opts = require("lazy.core.plugin").values(plugin, "opts", false)
@@ -66,12 +76,12 @@ return {
   },
 
   {
-    "echasnovski/mini.pairs",
+    "nvim-mini/mini.pairs",
     event = "VeryLazy",
     config = true,
   },
   {
-    "echasnovski/mini.icons",
+    "nvim-mini/mini.icons",
     event = "VeryLazy",
     config = function()
       require("mini.icons").setup {}
@@ -80,7 +90,7 @@ return {
     end,
   },
   -- {
-  --   "echasnovski/mini.animate",
+  --   "nvim-mini/mini.animate",
   --   event = "VeryLazy",
   --   config = function(_, _)
   --     require("mini.animate").setup({
@@ -92,22 +102,22 @@ return {
   -- },
 
   {
-    "echasnovski/mini.comment",
+    "nvim-mini/mini.comment",
     event = "VeryLazy",
     opts = true
   },
   {
-    "echasnovski/mini.cursorword",
+    "nvim-mini/mini.cursorword",
     event = "VeryLazy",
     config = true,
   },
   {
-    "echasnovski/mini.splitjoin",
+    "nvim-mini/mini.splitjoin",
     event = "VeryLazy",
     config = true,
   },
   {
-    "echasnovski/mini.bracketed",
+    "nvim-mini/mini.bracketed",
     event = "VeryLazy",
     opts = {
       window = { suffix = "" },
@@ -115,7 +125,7 @@ return {
   },
   {
     {
-      "echasnovski/mini.indentscope",
+      "nvim-mini/mini.indentscope",
       version = false, -- wait till new 0.7.0 release to put it back on semver
       event = "BufReadPre",
       opts = function()

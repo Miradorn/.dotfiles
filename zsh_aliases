@@ -8,6 +8,7 @@ alias lt='ls --tree'
 alias t=lt
 alias cat=bat
 alias ping=prettyping
+alias vi=nvim
 
 # ----------------
 # hugo

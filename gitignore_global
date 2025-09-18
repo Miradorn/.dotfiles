@@ -23,3 +23,6 @@ packs-test
 .nlsp-settings/
 .neoconf.json
 .mix_tasks
+.codecompanion-workspace.json
+.nvim.lua
+.mcp.json
