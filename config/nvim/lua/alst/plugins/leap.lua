@@ -1,17 +1,12 @@
 return {
   "ggandor/leap.nvim",
-  event = "VeryLazy",
-  opts = {
-    highlight_unlabeled_phase_one_targets = true,
-  },
-  keys = {
-    { "z", "<Plug>(leap-forward-till)", mode = "o" },
-    { "Z", "<Plug>(leap-backward-till)", mode = "o" },
-  },
+  lazy = false,
   config = function(plugin, opts)
     local leap = require("leap")
+    leap.opts.highlight_unlabeled_phase_one_targets = true
 
-    leap.setup(opts)
-    leap.add_default_mappings(true)
+    local keymap = require("legendary").keymap
+    keymap({ "z", "<Plug>(leap-forward-till)", description = "Leap forward", mode = { "n", "x", "o" } })
+    keymap({ "Z", "<Plug>(leap-backward-till)", description = "Leap backward", mode = { "n", "x", "o" } })
   end,
 }

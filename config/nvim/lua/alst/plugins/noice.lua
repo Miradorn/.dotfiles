@@ -32,9 +32,6 @@ return {
             position = {
               row = 3,
             },
-            border = {
-              style = "none",
-            },
             win_options = {
               winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
             },

@@ -48,7 +48,8 @@ return {
     config = true,
     cmd = { "BlameToggle" },
     keys = {
-      { "<leader>gb", "<cmd>BlameToggle<cr>", desc = "Blame", silent = true }
+      { "<leader>gb", "<cmd>BlameToggle<cr>", desc = "Blame", silent = true },
+      { "<leader>gbb", "<cmd>BlameToggle<cr>", desc = "Blame", silent = true }
     }
   },
   -- {
