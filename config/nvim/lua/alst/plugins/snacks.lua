@@ -27,7 +27,6 @@ return {
           file = {
             filename_first = true, -- display filename before the file path
             truncate = 200,        -- truncate the file path to (roughly) this length
-
           },
         },
         auto_confirm = false,
@@ -36,6 +35,8 @@ return {
         sources = {
           explorer = {
             auto_close = true,
+            hidden = true,
+            ignored = true,
             win = {
               list = {
                 keys = {
@@ -107,8 +108,8 @@ return {
       { "<Leader>gs",  function() Snacks.picker.git_status() end,                                                 desc = "Git status picker" },
       -- { "<Leader>ty",  function() Snacks.picker.registers() end,                desc = "Registers" },
       { "<Leader>tk",  function() Snacks.picker.keymaps() end,                                                    desc = "Keymap picker" },
-      { "<C-f>",       function() Snacks.picker.grep { live = false } end,                                        desc = "Live Grep picker" },
-      { "<leader>tg",  function() Snacks.picker.grep { live = false } end,                                        desc = "Live Grep picker" },
+      -- { "<C-f>",       function() Snacks.picker.grep { live = false } end,                                        desc = "Live Grep picker" },
+      -- { "<leader>tg",  function() Snacks.picker.grep { live = false } end,                                        desc = "Live Grep picker" },
       { "<leader>*",   function() Snacks.picker.grep_word { live = false } end,                                   desc = "Grep word under cursor",   mode = { "n", "v" } },
       { "<leader>gu",  function() Snacks.picker.undo() end,                                                       desc = "Grep word under cursor",   mode = { "n", "v" } },
       { "<leader>n",   function() Snacks.explorer() end,                                                          desc = "explorer" },

@@ -32,7 +32,7 @@ return {
   --   end,
   -- },
   {
-    'nvim-mini/mini.ai',
+    "nvim-mini/mini.ai",
     event = "VeryLazy",
     config = true,
   },
@@ -84,7 +84,7 @@ return {
     "nvim-mini/mini.icons",
     event = "VeryLazy",
     config = function()
-      require("mini.icons").setup {}
+      require("mini.icons").setup({})
 
       MiniIcons.mock_nvim_web_devicons()
     end,
@@ -104,7 +104,7 @@ return {
   {
     "nvim-mini/mini.comment",
     event = "VeryLazy",
-    opts = true
+    opts = true,
   },
   {
     "nvim-mini/mini.cursorword",
@@ -141,7 +141,17 @@ return {
       end,
       config = function(_, opts)
         vim.api.nvim_create_autocmd("FileType", {
-          pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },
+          pattern = {
+            "help",
+            "alpha",
+            "dashboard",
+            "neo-tree",
+            "Trouble",
+            "lazy",
+            "mason",
+            "sidekick_terminal",
+            "snacks_terminal",
+          },
           callback = function()
             vim.b.miniindentscope_disable = true
           end,

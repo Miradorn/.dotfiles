@@ -37,6 +37,8 @@ return {
           disabled_filetypes = {
             winbar = {
               "alpha",
+              "snacks_terminal",
+              "sidekick_terminal",
               -- "blame",
               "dashboard",
               "help",
@@ -66,12 +68,37 @@ return {
               cond = require("noice").api.status.search.has,
               color = { fg = "#ff9e64" },
             },
-            { "location", icon = "" },
             "progress",
             "encoding",
             "fileformat",
             { "lsp_status", icon = "󰀴" },
-
+            {
+              function()
+                return " "
+              end,
+              color = function()
+                local status = require("sidekick.status").get()
+                if status then
+                  return status.kind == "Error" and "DiagnosticError" or status.busy and "DiagnosticWarn" or "Special"
+                end
+              end,
+              cond = function()
+                local status = require("sidekick.status")
+                return status.get() ~= nil
+              end,
+            },
+            {
+              function()
+                local status = require("sidekick.status").cli()
+                return " " .. (#status > 1 and #status or "")
+              end,
+              cond = function()
+                return #require("sidekick.status").cli() > 0
+              end,
+              color = function()
+                return "Special"
+              end,
+            }
           },
           lualine_y = { "b:gitsigns_status" },
           lualine_z = { "branch" },
@@ -87,23 +114,23 @@ return {
         winbar = {
           lualine_a = { { symbols.get, draw_empty = true } },
           -- lualine_a = { { symbols.get, cond = symbols.has, draw_empty = true } },
-          lualine_y = { "diagnostics" },
+          lualine_y = { { "diagnostics", draw_empty = true } },
         },
         inactive_winbar = {
-          lualine_b = { { "filename", path = 1 } },
-          lualine_y = { "diagnostics" },
+          lualine_b = { { "filename", path = 1, draw_empty = true } },
+          lualine_y = { { "diagnostics", draw_empty = true } },
         },
         tabline = {},
         extensions = {
-          "aerial",
-          "fzf",
+          -- "aerial",
+          -- "fzf",
           "lazy",
           "man",
           "mason",
-          "nvim-tree",
+          -- "nvim-tree",
           "quickfix",
-          "symbols-outline",
-          "toggleterm",
+          -- "symbols-outline",
+          -- "toggleterm",
           "trouble",
         },
       }

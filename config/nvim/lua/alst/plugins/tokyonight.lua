@@ -48,6 +48,12 @@ return {
           hl.SnacksPickerDir = {
             fg = c.fg_dark,
           }
+          hl.SnacksPickerPathHidden = {
+            fg = c.fg_dark,
+          }
+          hl.SnacksPickerPathIgnored = {
+            fg = c.fg_dark,
+          }
           hl.DiagnosticUnnecessary = {
             fg = c.fg_dark,
           }

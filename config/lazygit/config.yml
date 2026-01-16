@@ -6,9 +6,9 @@ gui:
 git:
   log:
     order: default
-  paging:
-    colorArg: always
-    pager: delta --dark --paging=never
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never
 keybinding:
   universal:
     quit: '<c-c>'

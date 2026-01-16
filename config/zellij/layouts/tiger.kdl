@@ -40,6 +40,10 @@ layout {
       }
       pane {
         command "zsh"
+        args "-c" "MIX_ENV=test iex --sname test_server -S mix"
+      }
+      pane {
+        command "zsh"
         args "-c"  "iex -S mix phx.server"
       }
     }

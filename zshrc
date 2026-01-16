@@ -1,3 +1,6 @@
+eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(/opt/workbrew/bin/brew shellenv)"
+
  # zmodload zsh/zprof
 export SHELL=/opt/homebrew/bin/zsh
 
@@ -13,9 +16,7 @@ export ZSH_DISABLE_COMPFIX=true
 
 export GPG_TTY=$(tty)
 
-# export EVENT_NOKQUEUE=1
 
-export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
 
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
@@ -35,18 +36,13 @@ export DIRENV_LOG_FORMAT=
 export EDITOR='nvim'
 # export MISE_ASDF_COMPAT=1
 
-eval "$(mise activate zsh)"
+export PATH="$PATH:/Users/$(whoami)/.local/bin"
 
-# see https://github.com/jdx/mise/issues/3099
-export MISE_LIBGIT2=false
-
-eval "$(/opt/homebrew/bin/brew shellenv)"
 plugins=(git git-open npm macos mix mix-fast extract kubectl gh)
 
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=030'
 
-export PATH="$PATH:$(yarn global bin)"
 
 bindkey -e
 
@@ -78,7 +74,6 @@ eval "$(direnv hook zsh)"
 eval "$(starship init zsh)"
 
 # Created by `userpath` on 2020-02-22 15:02:05
-export PATH="$PATH:/Users/$(whoami)/.local/bin"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -153,11 +148,13 @@ export KERL_BUILD_DOCS=yes
 
 export POSTGRES_EXTRA_CONFIGURE_OPTIONS="--with-lz4 --with-uuid=e2fs"
 
+eval "$(mise activate zsh)"
+
+# see https://github.com/jdx/mise/issues/3099
+export MISE_LIBGIT2=false
+
 # remotectl
 compdef remotectl
 compdef _remotectl remotectl
 source <(remotectl completion zsh)
-#
-# zprof
 
-source /Users/alexander/.config/broot/launcher/bash/br

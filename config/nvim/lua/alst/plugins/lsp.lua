@@ -6,9 +6,16 @@ return {
     lazy = false,
     dependencies = { "neovim/nvim-lspconfig", "mason-org/mason.nvim" },
     opts = {
-    ensure_installed = {
+      automatic_enable = {
+        exclude = {
+          "elixirls",
+          -- "expert",
+        },
+      },
+      ensure_installed = {
         "bashls",
         "cssls",
+        -- "copilot",
         "dockerls",
         "erlangls",
         "elixirls",
@@ -17,15 +24,15 @@ return {
         "helm_ls",
         "html",
         "jsonls",
-        -- "lexical",
+        "expert",
         "lua_ls",
         "marksman",
         "terraformls",
         "ts_ls",
         "vimls",
         "yamlls",
-      }
-    }
+      },
+    },
   },
   {
     "folke/lazydev.nvim",
@@ -52,7 +59,7 @@ return {
     "mhanberg/output-panel.nvim",
     event = "VeryLazy",
     config = function()
-      require("output_panel").setup {}
-    end
-  }
+      require("output_panel").setup({})
+    end,
+  },
 }

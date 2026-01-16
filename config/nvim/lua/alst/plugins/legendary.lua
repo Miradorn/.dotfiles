@@ -17,17 +17,17 @@ return {
           {
             "<C-w>f",
             "<C-w>vgf",
-            description = "GoTo File in vSplit"
+            description = "GoTo File in vSplit",
           },
           {
             "<C-w>F",
             "<C-w>vgf",
-            description = "GoTo File:Line in vSplit"
+            description = "GoTo File:Line in vSplit",
           },
           {
             "<BS>",
             "<C-6>",
-            description = "goto previous buffer"
+            description = "goto previous buffer",
           },
           {
             "<leader><leader>",
@@ -179,6 +179,12 @@ return {
             description = "Move up",
             mode = "v",
           },
+
+          -- Resize splits
+          { "<A-l>", "<C-w>>", description = "Resize split right" },
+          { "<A-h>", "<C-w><", description = "Resize split left" },
+          { "<A-j>", "<C-w>+", description = "Resize split down" },
+          { "<A-k>", "<C-w>-", description = "Resize split up" },
         },
         commands = {
           {
@@ -186,12 +192,12 @@ return {
             function()
               Snacks.gitbrowse()
             end,
-            description = "Open current git file in browser"
+            description = "Open current git file in browser",
           },
           {
             ":Gblame",
             ":BlameToggle",
-            description = "Show blame information"
+            description = "Show blame information",
           },
           {
             ":Ag {text}<CR>",
@@ -213,7 +219,8 @@ return {
           {
             name = "LspAttach",
             {
-              "LspAttach", require("alst.config.lsp-attach").on_attach,
+              "LspAttach",
+              require("alst.config.lsp-attach").on_attach,
             },
           },
           {
@@ -222,9 +229,9 @@ return {
               "FileType",
               "if (getwininfo(win_getid())[0].loclist != 1) | wincmd J | endif",
               opts = {
-                pattern = { "qf" }
-              }
-            }
+                pattern = { "qf" },
+              },
+            },
           },
           -- {
           --   name = "CodeCompanionRules",
