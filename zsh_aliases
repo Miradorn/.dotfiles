@@ -10,6 +10,8 @@ alias cat=bat
 alias ping=prettyping
 alias vi=nvim
 
+alias claude="claude --allow-dangerously-skip-permissions"
+
 # ----------------
 # hugo
 # ----------------
@@ -35,6 +37,7 @@ function blogpost() {
 alias z="zellij"
 alias tiger="zellij --new-session-with-layout=tiger --session=tiger"
 alias dragon="zellij --new-session-with-layout=dragon --session=dragon"
+alias employ="zellij --new-session-with-layout=employ --session=employ"
 alias za="zellij attach"
 alias zs='zellij --session'
 alias zl='zellij list-sessions'
@@ -197,15 +200,6 @@ alias tg="terragrunt"
 alias kssh=kitty +kitten ssh
 alias icat='kitty +kitten icat'
 alias d="kitty +kitten diff"
-
-# ----------------
-# remote
-# ----------------
-alias rctl=remotectl
-alias r-prod="remotectl k8s shell tiger-api -lc -e production -r devops -- tiger/bin/tiger start_iex"
-alias r-sandbox="remotectl k8s shell tiger-api -lc -e sandbox -r devops -- tiger/bin/tiger start_iex"
-alias r-staging="remotectl k8s shell tiger-api -lc -e staging -r engineer -- tiger/bin/tiger start_iex"
-alias tiger-up="mix deps.get --force && mix compile && MIX_ENV=test mix compile && mix ecto.migrate && MIX_ENV=test mix ecto.migrate"
 
 # ----------------
 # other

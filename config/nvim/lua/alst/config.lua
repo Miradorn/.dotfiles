@@ -7,4 +7,5 @@ end
 vim.print = _G.dd
 
 require("alst.config.options")
+require("alst.config.lsp")
 require("alst.config.lazy")

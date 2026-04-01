@@ -17,7 +17,7 @@ export ZSH_DISABLE_COMPFIX=true
 export GPG_TTY=$(tty)
 
 
-export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
+# export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
 
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 

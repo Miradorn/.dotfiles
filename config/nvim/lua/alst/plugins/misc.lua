@@ -77,16 +77,6 @@ return {
   },
   -- { "AndrewRadev/splitjoin.vim", event = "VeryLazy" },
   { "elixir-editors/vim-elixir", event = "VeryLazy" },
-  -- {
-  --   "mbbill/undotree",
-  --   event = "VeryLazy",
-  --   keys = {
-  --     { "<leader>gu", ":UndotreeToggle<CR>", desc = "UndoTree", silent = true },
-  --   },
-  --   init = function()
-  --     vim.g.undotree_SetFocusWhenToggle = 1
-  --   end,
-  -- },
   {
     "monaqa/dial.nvim",
     config = function()

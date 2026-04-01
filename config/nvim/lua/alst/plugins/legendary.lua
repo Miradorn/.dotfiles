@@ -181,10 +181,10 @@ return {
           },
 
           -- Resize splits
-          { "<A-l>", "<C-w>>", description = "Resize split right" },
-          { "<A-h>", "<C-w><", description = "Resize split left" },
-          { "<A-j>", "<C-w>+", description = "Resize split down" },
-          { "<A-k>", "<C-w>-", description = "Resize split up" },
+          { "<A-l>", "<cmd>vertical resize +2<cr>", description = "Increase window width" },
+          { "<A-h>", "<cmd>vertical resize -2<cr>", description = "Decrease window width" },
+          { "<A-j>", "<cmd>resize +2<cr>", description = "Increase window height" },
+          { "<A-k>", "<cmd>resize -2<cr>", description = "Decrease window height" },
         },
         commands = {
           {

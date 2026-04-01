@@ -24,15 +24,18 @@ layout {
     }
   }
 
-  cwd "/Users/alexander/projects/remote/employ/tiger/apps/tiger"
-
-
-  tab  name="vi" hide_floating_panes=true {
-    // children
+  // Editor — opens at workspace root
+  tab name="vi" cwd="/Users/alexander/projects/remote/employ" hide_floating_panes=true {
     pane command="nvim" borderless=true
   }
 
-  tab name="dev" hide_floating_panes=true {
+  tab name="employ" cwd="/Users/alexander/projects/remote/employ" hide_floating_panes=true {
+    pane command="claude"
+    pane
+  }
+
+  // Tiger
+  tab name="tiger:dev" cwd="/Users/alexander/projects/remote/employ/tiger/apps/tiger" hide_floating_panes=true {
     pane split_direction="vertical" {
       pane {
         command "pg_ctl"
@@ -51,5 +54,11 @@ layout {
       pane
       pane
     }
+  }
+
+  // Dragon
+  tab name="dragon:dev" cwd="/Users/alexander/projects/remote/employ/dragon" hide_floating_panes=true {
+    pane
+    pane
   }
 }

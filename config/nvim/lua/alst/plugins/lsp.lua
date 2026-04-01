@@ -20,7 +20,7 @@ return {
         "erlangls",
         "elixirls",
         "gopls",
-        "graphql",
+        -- "graphql",
         "helm_ls",
         "html",
         "jsonls",

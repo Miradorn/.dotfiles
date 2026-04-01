@@ -41,6 +41,7 @@ return {
               list = {
                 keys = {
                   ['/'] = false,
+                  ['<c-c>'] = 'cancel',
                 },
               },
             },
@@ -111,7 +112,7 @@ return {
       -- { "<C-f>",       function() Snacks.picker.grep { live = false } end,                                        desc = "Live Grep picker" },
       -- { "<leader>tg",  function() Snacks.picker.grep { live = false } end,                                        desc = "Live Grep picker" },
       { "<leader>*",   function() Snacks.picker.grep_word { live = false } end,                                   desc = "Grep word under cursor",   mode = { "n", "v" } },
-      { "<leader>gu",  function() Snacks.picker.undo() end,                                                       desc = "Grep word under cursor",   mode = { "n", "v" } },
+      { "<leader>gu",  function() Snacks.picker.undo() end,                                                       desc = "Undotree",   mode = { "n", "v" } },
       { "<leader>n",   function() Snacks.explorer() end,                                                          desc = "explorer" },
       { "<leader>N",   function() Snacks.explorer.reveal() end,                                                   desc = "reveal in explorer" },
       {

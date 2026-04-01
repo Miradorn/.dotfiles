@@ -44,7 +44,8 @@ return {
   --   }
   -- },
   {
-    "FabijanZulj/blame.nvim",
+    "Miradorn/blame.nvim",
+    branch = "fix/nested-repo-cwd",
     config = true,
     cmd = { "BlameToggle" },
     keys = {
