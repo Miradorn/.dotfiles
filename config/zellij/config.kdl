@@ -538,6 +538,7 @@ default_mode "locked"
 // Default: true
 // 
 show_startup_tips false
+mouse_hover_effects false
 
 // Whether to show release notes on first version run
 // Default: true

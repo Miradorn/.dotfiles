@@ -1,15 +1,17 @@
 [tools]
 node = "22.18.0"
 yarn = "1.22.22"
-postgres = "17.5"
+postgres = "17.7"
 erlang = "27.3.3"
 elixir = "1.19.4-otp-27"
 remotectl = "latest"
-rust = "nightly"
+rust = "latest"
 ruby = "3.4.1"
 neovim = "0.12"
 rebar = "3.24.0"
 dexter = "latest"
+# dexter = "latest"
+# claude = "2.1.112"
 
 [settings]
 experimental = true

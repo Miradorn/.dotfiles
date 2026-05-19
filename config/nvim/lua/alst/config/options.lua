@@ -1,10 +1,20 @@
 vim.g.mapleader = " "
 
+-- Disable built-in plugins (matchit/matchparen replaced by vim-matchup)
+local disabled_plugins = {
+  "gzip", "matchit", "matchparen",
+  "tar", "tarPlugin", "tohtml",
+  "tutor", "zip", "zipPlugin",
+}
+for _, plugin in ipairs(disabled_plugins) do
+  vim.g["loaded_" .. plugin] = 1
+end
+
 local opts = {
   mouse = "a",
   -- textwidth = 120,
   scrolloff = 15,
-  -- cmdheight = 0,
+  cmdheight = 0,
   wildmode = "longest,full",
   -- lazyredraw = true,
   showmatch = true,

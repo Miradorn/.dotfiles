@@ -158,3 +158,7 @@ compdef remotectl
 compdef _remotectl remotectl
 source <(remotectl completion zsh)
 
+
+# ICU4C for PostgreSQL builds (keg-only in Homebrew)
+export PKG_CONFIG_PATH="/opt/homebrew/opt/icu4c@78/lib/pkgconfig:$PKG_CONFIG_PATH"
+source ~/.safe-chain/scripts/init-posix.sh # Safe-chain Zsh initialization script

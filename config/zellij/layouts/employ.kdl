@@ -26,12 +26,18 @@ layout {
 
   // Editor — opens at workspace root
   tab name="vi" cwd="/Users/alexander/projects/remote/employ" hide_floating_panes=true {
-    pane command="nvim" borderless=true
+    pane command="nvim"
   }
 
   tab name="employ" cwd="/Users/alexander/projects/remote/employ" hide_floating_panes=true {
-    pane command="claude"
-    pane
+    pane split_direction="vertical" {
+      pane
+      pane
+    }
+    pane split_direction="vertical" {
+      pane
+      pane
+    }
   }
 
   // Tiger

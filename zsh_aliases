@@ -10,7 +10,7 @@ alias cat=bat
 alias ping=prettyping
 alias vi=nvim
 
-alias claude="claude --allow-dangerously-skip-permissions"
+# alias claude="claude --allow-dangerously-skip-permissions"
 
 # ----------------
 # hugo
