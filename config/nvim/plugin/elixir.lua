@@ -1,50 +1,15 @@
--- vim.pack.add({
---   'https://github.com/nvim-lua/plenary.nvim',
---   'https://github.com/elixir-tools/elixir-tools.nvim',
--- })
+-- elixir-tools.nvim purely for its vim-projectionist projections.
+-- elixirls/nextls/credo MUST be set false explicitly: elixirls defaults to
+-- enabled when the key is omitted. vim-projectionist comes from plugin/tools.lua.
+-- Filetype detection for .ex/.exs/.eex/.leex/.heex is handled by nvim 0.12 core.
+vim.pack.add({
+  'https://github.com/nvim-lua/plenary.nvim',
+  'https://github.com/elixir-tools/elixir-tools.nvim',
+})
 
--- local elixir = require("elixir")
--- local elixirls = require("elixir.elixirls")
-
--- elixir.setup({
---   credo = {
---     enable = false,
---   },
---   nextls = {
---     enable = false,
---     init_options = {
---       extensions = {
---         credo = { enable = true }
---       },
---       experimental = {
---         completions = { enable = true }
---       }
---     },
---     on_attach = function(client, bufnr)
---       vim.keymap.set("n", "<leader>fp", ":Elixir nextls from-pipe<cr>",
---         { buffer = bufnr, noremap = true, silent = true, desc = "From Pipe" })
---       vim.keymap.set("n", "<leader>tp", ":Elixir nextls to-pipe<cr>",
---         { buffer = bufnr, noremap = true, silent = true, desc = "To Pipe" })
---       vim.keymap.set("n", "<leader>aa", ":Elixir nextls alias-refactor<cr>",
---         { buffer = bufnr, noremap = true, silent = true, desc = "Alias refactor" })
---     end,
---   },
---   elixirls = {
---     enable = false,
---     tag = "v0.28.1",
---     settings = elixirls.settings({
---       dialyzerEnabled = false,
---       enableTestLenses = false,
---       suggestSpecs = true,
---       fetchDeps = false,
---     }),
---     on_attach = function(client, bufnr)
---       vim.keymap.set("n", "<leader>fp", ":ElixirFromPipe<cr>",
---         { buffer = bufnr, noremap = true, silent = true, desc = "From Pipe" })
---       vim.keymap.set("n", "<leader>tp", ":ElixirToPipe<cr>",
---         { buffer = bufnr, noremap = true, silent = true, desc = "To Pipe" })
---       vim.keymap.set("v", "<leader>em", ":ElixirExpandMacro<cr>",
---         { buffer = bufnr, noremap = true, silent = true, desc = "Expand Macro" })
---     end,
---   },
--- })
+require("elixir").setup({
+  nextls = { enable = false },
+  elixirls = { enable = false },
+  credo = { enable = false },
+  projectionist = { enable = true },
+})
