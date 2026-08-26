@@ -1,0 +1,67 @@
+onboarding = false
+[ui]
+agent_panel_sort = "spaces"
+prompt_new_workspace_name = true
+toast.delivery = "system"
+
+show_agent_labels_on_pane_borders = true
+
+[ui.sidebar.agents]
+rows = [
+  ["state_icon", { token = "workspace", bold = true, dim = false }, { token = "tab", dim = false }],
+  [{ token = "agent", dim = false }],
+]
+
+[ui.sidebar.agents.rows_by_agent]
+claude = [
+  ["state_icon", { token = "workspace", bold = true, dim = false }, { token = "tab", dim = false }],
+  [{ token = "terminal_title_stripped", bold = true, dim = false }],
+]
+
+[theme]
+name = "tokyo-night"
+auto_switch = false
+
+[terminal]
+new_cwd = "current"
+
+[keys]
+prefix = "ctrl+space"
+goto = "prefix+k"
+split_horizontal = "prefix+j"
+split_vertical = "prefix+l"
+switch_tab = "ctrl+1..9"
+switch_workspace = "prefix+1..9"
+
+
+[[keys.command]]
+key = "prefix+g"
+type = "popup"
+command = "lazygit"
+description = "run lazygit"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "smart-splits.nvim.left"
+description = "navigate left (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "smart-splits.nvim.down"
+description = "navigate down (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "smart-splits.nvim.up"
+description = "navigate up (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "smart-splits.nvim.right"
+description = "navigate right (vim/herdr)"
