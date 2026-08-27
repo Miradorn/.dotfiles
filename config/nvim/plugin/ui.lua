@@ -8,7 +8,7 @@ vim.pack.add({
   "https://github.com/nvim-lualine/lualine.nvim",
   -- "https://github.com/MunifTanjim/nui.nvim",
   -- "https://github.com/folke/noice.nvim",
-  "https://github.com/echasnovski/mini.nvim",
+  "https://github.com/nvim-mini/mini.nvim",
   "https://github.com/rachartier/tiny-cmdline.nvim",
 })
 

@@ -11,7 +11,7 @@
 [user]
 	name = Alexander Steppke
 	email = alexander@remote.com
-	signingkey = 18C740F63953F199A0085AFB2B591E707DDD9CE2
+	signingkey = 2B591E707DDD9CE2
 [push]
 	default = simple
 	autoSetupRemote = true
@@ -79,6 +79,7 @@
 [tag]
 	forceSignAnnotated = true
 	sort = version:refname
+	gpgSign = true
 [gpg]
 	program = /usr/local/MacGPG2/bin/gpg
 [pull]

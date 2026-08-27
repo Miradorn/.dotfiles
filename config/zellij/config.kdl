@@ -15,6 +15,7 @@ keybinds clear-defaults=true {
         bind "z" { ToggleFocusFullscreen; SwitchToMode "locked"; }
         bind "g" { ToggleFloatingPanes; SwitchToMode "locked"; }
     }
+
     locked {
         bind "Ctrl space" { SwitchToMode "normal"; }
         bind "Ctrl Alt a" {

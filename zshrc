@@ -73,9 +73,9 @@ eval $(thefuck --alias)
 eval "$(direnv hook zsh)"
 eval "$(starship init zsh)"
 
-# Created by `userpath` on 2020-02-22 15:02:05
-
 source $ZSH/oh-my-zsh.sh
+
+command -v codex &>/dev/null && source <(codex completion zsh)
 
 if type brew &>/dev/null; then
     FPATH="$(brew --prefix)/share/zsh-completions:$(brew --prefix)/share/zsh/site-functions:$FPATH"
@@ -111,14 +111,11 @@ export FZF_DEFAULT_OPTS="
 
 export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 
-source <(stern --completion=zsh)
-
 export AWS_SESSION_TOKEN_TTL=8h
 export AWS_ASSUME_ROLE_TTL=8h
 export AWS_FEDERATION_TOKEN_TTL=8h
 export AWS_PROFILE=sts
 
-eval "$(aws-vault --completion-script-zsh)"
 # aliases
 source "$HOME/.zsh_aliases"
 
@@ -126,7 +123,7 @@ source "$HOME/.zsh_aliases"
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 
-source /Users/$(whoami)/.config/broot/launcher/bash/br
+# source /Users/$(whoami)/.config/broot/launcher/bash/br
 
 # erlang stuff
 export KERL_BUILD_DOCS=yes
@@ -161,4 +158,6 @@ source <(remotectl completion zsh)
 
 # ICU4C for PostgreSQL builds (keg-only in Homebrew)
 export PKG_CONFIG_PATH="/opt/homebrew/opt/icu4c@78/lib/pkgconfig:$PKG_CONFIG_PATH"
+export ICU_CFLAGS="-I$(brew --prefix icu4c)/include"
+export ICU_LIBS="-L$(brew --prefix icu4c)/lib -licui18n -licuuc -licudata"
 source ~/.safe-chain/scripts/init-posix.sh # Safe-chain Zsh initialization script

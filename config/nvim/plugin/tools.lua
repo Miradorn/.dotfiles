@@ -3,7 +3,7 @@ vim.pack.add({
   'https://github.com/nvim-neotest/nvim-nio',
   'https://github.com/nvim-neotest/neotest',
   'https://github.com/jfpedroza/neotest-elixir',
-  'https://github.com/haydenmeade/neotest-jest',
+  'https://github.com/nvim-neotest/neotest-jest',
   'https://github.com/tpope/vim-projectionist',
   'https://github.com/tpope/vim-sleuth',
   'https://github.com/tpope/vim-eunuch',

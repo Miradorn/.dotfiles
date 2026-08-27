@@ -32,7 +32,7 @@ require("treesitter-modules").setup({
     "hcl", "heex", "helm", "hjson", "html", "java", "javascript",
     "jsdoc", "json", "json5", "kitty", "lua", "make", "markdown",
     "markdown_inline", "python", "query", "regex", "ruby", "rust",
-    "scss", "svelte", "terraform", "tmux", "toml", "tsx",
+    "scss", "svelte", "terraform", "toml", "tsx",
     "typescript", "vim", "vimdoc", "vue", "yaml",
   },
   fold = { enable = true },

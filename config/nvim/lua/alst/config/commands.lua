@@ -2,7 +2,7 @@ vim.api.nvim_create_user_command("Gbrowse", function()
   Snacks.gitbrowse()
 end, { desc = "Open current git file in browser" })
 
-vim.api.nvim_create_user_command("Gblame", "BlameToggle", { desc = "Show blame information" })
+vim.api.nvim_create_user_command("Gblame", "Git blame", { desc = "Show blame information" })
 
 -- Capitalised aliases for nvim 0.12's built-in :lsp subcommands. nvim-lspconfig
 -- stopped defining these on 0.12; we keep the names for muscle memory.

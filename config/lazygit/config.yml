@@ -6,15 +6,15 @@ gui:
 git:
   log:
     order: default
-  pagers:
+  diffRenderers:
     - colorArg: always
-      pager: delta --dark --paging=never
+      command: delta --dark --paging=never
 keybinding:
   universal:
-    quit: '<c-c>'
-    quit-alt1: '<c-c>'
+    # quit: '<ctrl+c>'
+    # quit-alt1: '<ctrl+c>'
     prevBlock: 'K'
     nextBlock: 'J'
   commits:
-    moveDownCommit: '<c-d>'
-    moveUpCommit: '<c-u>'
+    moveDownCommit: '<ctrl+d>'
+    moveUpCommit: '<ctrl+u>'

@@ -11,6 +11,8 @@ alias ping=prettyping
 alias vi=nvim
 
 # alias claude="claude --allow-dangerously-skip-permissions"
+alias c=claude
+alias ch=claude-history
 
 # ----------------
 # hugo
@@ -54,23 +56,7 @@ alias vim=nvim
 # ----------------
 # git
 # ----------------
-alias gitsh="gitsh --git $(which hub)"
 alias lg=lazygit
-
-function fco() {
-  local tags branches target
-  branches=$(
-    git --no-pager branch --all \
-      --format="%(if)%(HEAD)%(then)%(else)%(if:equals=HEAD)%(refname:strip=3)%(then)%(else)%1B[0;34;1mbranch%09%1B[m%(refname:short)%(end)%(end)" \
-    | sed '/^$/d') || return
-  tags=$(
-    git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
-  target=$(
-    (echo "$branches"; echo "$tags") |
-    fzf --no-hscroll --no-multi -n 2 \
-        --ansi --preview="git --no-pager log -150 --pretty=format:%s '..{2}'") || return
-  git checkout $(awk '{print $2}' <<<"$target" )
-}
 
 # ----------------
 # docker
@@ -222,7 +208,7 @@ function cdk-diff() {
 }
 
 function update {
-  brew update && brew outdated && brew upgrade && brew cleanup
+  brew update && brew upgrade --yes && brew cleanup
   brew upgrade --cask
   $ZSH/tools/upgrade.sh
   mise plugins update

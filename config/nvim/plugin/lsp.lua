@@ -34,7 +34,7 @@ require("mason-lspconfig").setup({
     -- "dexter",
     "erlangls",
     "elixirls",
-    "gopls",
+    -- "gopls",
     "helm_ls",
     "html",
     "jsonls",

@@ -1,7 +1,7 @@
 vim.pack.add({
   'https://github.com/lewis6991/gitsigns.nvim',
-  'https://github.com/sindrets/diffview.nvim',
-  { src = 'https://github.com/Miradorn/blame.nvim', version = 'fix/nested-repo-cwd' },
+  'https://github.com/dlyongemallo/diffview-plus.nvim'
+  -- { src = 'https://github.com/Miradorn/blame.nvim', version = 'fix/nested-repo-cwd' },
 })
 
 -- Gitsigns
@@ -17,16 +17,17 @@ map("n", "<leader>gtl", function() require('gitsigns').toggle_current_line_blame
 map("n", "<leader>W", function() require('gitsigns').stage_buffer() end, { desc = "Git write", silent = true })
 
 -- Blame
-require("blame").setup()
-map("n", "<leader>gb", "<cmd>BlameToggle<cr>", { desc = "Blame", silent = true })
-map("n", "<leader>gbb", "<cmd>BlameToggle<cr>", { desc = "Blame", silent = true })
+-- require("blame").setup()
+map("n", "<leader>gb", function() require('gitsigns').blame() end, { desc = "Blame", silent = true })
+map("n", "<leader>gbb", function() require('gitsigns').blame() end, { desc = "Blame", silent = true })
 
 -- Diffview
 require("diffview").setup({
   enhanced_diff_hl = true,
+  diffopt = { algorithm = "histogram" },
   view = {
     default = {
-      layout = "diff2_vertical",
+      layout = "diff2_horizontal",
       winbar_info = true,
     },
     merge_tool = {
@@ -36,5 +37,4 @@ require("diffview").setup({
   },
 })
 
-map("n", "<leader>do", function() require("diffview").open() end, { desc = "DiffView Open" })
-map("n", "<leader>dq", function() require("diffview").close() end, { desc = "DiffView Quit" })
+map("n", "<leader>do", function() require("diffview").toggle() end, { desc = "DiffView toggle" })
