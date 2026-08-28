@@ -140,7 +140,7 @@ require("snacks").setup({
     enabled = true,
   },
   statuscolumn = {
-    enabled = true,
+    enabled = false, -- replaced by mini.statuscolumn, see plugin/ui.lua
     left = { "mark", "sign" },
     right = { "fold", "git" },
     folds = {

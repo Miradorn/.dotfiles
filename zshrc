@@ -1,5 +1,4 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
-eval "$(/opt/workbrew/bin/brew shellenv)"
 
  # zmodload zsh/zprof
 export SHELL=/opt/homebrew/bin/zsh
@@ -20,6 +19,7 @@ export GPG_TTY=$(tty)
 # export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
 
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8

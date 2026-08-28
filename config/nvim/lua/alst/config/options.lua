@@ -45,7 +45,7 @@ local opts = {
   },
   conceallevel = 2,
   history = 5000,
-  -- signcolumn = "number",
+  signcolumn = "auto:2",
   colorcolumn = { "120" },
   splitbelow = true,
   splitright = true,

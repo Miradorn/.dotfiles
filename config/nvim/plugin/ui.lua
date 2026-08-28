@@ -65,6 +65,56 @@ indentscope.setup({
 local diff = require("mini.diff")
 diff.setup({ source = diff.gen_source.none() })
 
+-- Mark + sign merge: marks win, otherwise the highest-priority real sign
+-- (gitsigns, diagnostics, mini.diff — anything using the sign/extmark API)
+local function statuscolumn_icon(buf, lnum)
+  for _, m in ipairs(vim.fn.getmarklist(buf)) do
+    if m.pos[1] == buf and m.pos[2] == lnum and m.mark:sub(2):match('%a') then
+      return '%#MiniStatuscolumnMark#' .. m.mark:sub(2) .. ' %*'
+    end
+  end
+
+  local extmarks = vim.api.nvim_buf_get_extmarks(
+    buf, -1, { lnum - 1, 0 }, { lnum - 1, -1 }, { details = true, type = 'sign' }
+  )
+  local best, best_prio = nil, -1
+  for _, mk in ipairs(extmarks) do
+    local d = mk[4]
+    if d and d.sign_text and (d.priority or 0) > best_prio then
+      best, best_prio = d, d.priority or 0
+    end
+  end
+  if not best then return '  ' end
+  return best.sign_hl_group and ('%#' .. best.sign_hl_group .. '#' .. best.sign_text .. '%*') or best.sign_text
+end
+
+_G.MiniStatuscolumnSign = function()
+  if vim.v.virtnum ~= 0 then return '  ' end
+  local win = vim.g.statusline_winid
+  if type(win) ~= 'number' or not vim.api.nvim_win_is_valid(win) then return '  ' end
+  return statuscolumn_icon(vim.api.nvim_win_get_buf(win), vim.v.lnum)
+end
+
+-- Only mark actual fold boundaries, never a nesting-depth number
+_G.MiniStatuscolumnFold = function()
+  if vim.v.virtnum ~= 0 then return ' ' end
+  local lnum = vim.v.lnum
+  if vim.fn.foldclosed(lnum) == lnum then return '▸' end
+  if vim.fn.foldlevel(lnum) > vim.fn.foldlevel(lnum - 1) then return '▾' end
+  return ' '
+end
+
+local statuscolumn = require('mini.statuscolumn')
+local statuscolumn_spec = {
+  { format = '=lfs', sep = '▏' },
+  { sign = "%{%v:lua.MiniStatuscolumnSign()%}" },
+  { fold = "%{%v:lua.MiniStatuscolumnFold()%}" },
+  { ltype = 'virt', lnum = '•' },
+  { ltype = 'wrap', lnum = '↳' },
+  { win = 'inactive', sep = ' ' },
+}
+statuscolumn.setup({ content = statuscolumn.gen_content.main(statuscolumn_spec), dim_inactive = true })
+
 -- Noice
 -- require("noice").setup({
 --   routes = {
